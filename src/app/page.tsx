@@ -1,3 +1,4 @@
+
 import { VideoHero } from '@/components/video-hero';
 import { Navbar } from '@/components/navbar';
 
@@ -10,20 +11,20 @@ export default function Home() {
       <section className="relative z-10 py-24 px-6 md:px-12 max-w-7xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
           <div>
-            <h2 className="text-xl md:text-2xl font-black mb-6 font-headline tracking-tight uppercase">
+            <h2 className="text-2xl md:text-3xl font-black mb-6 font-headline tracking-tight">
               Designed for <br /><span className="text-accent">Precision</span>
             </h2>
-            <p className="text-muted-foreground text-sm leading-relaxed mb-8">
+            <p className="text-muted-foreground text-sm md:text-base leading-relaxed mb-8">
               ScrollPlay offers a unique interaction model where every gesture matters. 
               Our technology synchronizes motion with visual storytelling to create 
               immersive digital environments that respond to user presence.
             </p>
             <div className="flex gap-4">
               <button className="bg-primary hover:bg-primary/80 text-white px-6 py-2.5 rounded-full text-xs font-bold transition-all border border-white/5">
-                Learn More
+                Learn more
               </button>
               <button className="bg-accent hover:bg-accent/90 text-accent-foreground px-6 py-2.5 rounded-full text-xs font-bold transition-all shadow-lg">
-                View Gallery
+                View gallery
               </button>
             </div>
           </div>
@@ -49,7 +50,7 @@ export default function Home() {
 
       <footer className="py-12 px-6 border-t border-white/5 text-center">
         <p className="text-[10px] text-muted-foreground">
-          © {new Date().getFullYear()} ScrollPlay Interactive. All rights reserved.
+          © {new Date().getFullYear()} Morpho lending network. All rights reserved.
         </p>
       </footer>
     </main>
