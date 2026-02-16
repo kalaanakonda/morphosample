@@ -12,6 +12,7 @@ const LOTTIE_URL = "https://raw.githubusercontent.com/kalaanakonda/Video-morpho/
 export function VideoHero() {
   const [hasScrolled, setHasScrolled] = useState(false);
   const [showSection, setShowSection] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
   const [mousePos, setMousePos] = useState({ x: 0.5, y: 0.5 });
   const [animationData, setAnimationData] = useState<any>(null);
   const [activeJolt, setActiveJolt] = useState<{ index: number; time: number } | null>(null);
@@ -20,6 +21,7 @@ export function VideoHero() {
   const video2Ref = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
+    setIsMounted(true);
     fetch(LOTTIE_URL)
       .then(res => {
         if (!res.ok) throw new Error('Network response was not ok');
@@ -81,8 +83,8 @@ export function VideoHero() {
     <div className="relative h-[200vh] bg-background">
       <section className="sticky top-0 w-full h-screen flex flex-col items-center justify-start pt-32 px-6 overflow-hidden">
         <div 
-          className="absolute inset-0 z-0 pointer-events-none transition-transform duration-700 ease-out grayscale"
-          style={{ transform: `translate(${parallaxX}px, ${parallaxY}px) scale(1.15)` }}
+          className="absolute inset-0 z-0 pointer-events-none transition-transform duration-1000 ease-out grayscale"
+          style={{ transform: `translate(${parallaxX}px, ${parallaxY}px) scale(1.1)` }}
         >
           <video
             ref={video1Ref}
@@ -109,10 +111,11 @@ export function VideoHero() {
           />
         </div>
 
-        {/* Network Stats */}
+        {/* Network Stats - Reveal Animation */}
         <div className={cn(
-          "absolute bottom-12 left-12 z-30 flex flex-col gap-6 transition-all duration-700 ease-out pointer-events-none",
-          hasScrolled ? "opacity-0 -translate-x-10" : "opacity-100 translate-x-0"
+          "absolute bottom-12 left-12 z-30 flex flex-col gap-6 transition-all duration-1000 ease-out pointer-events-none",
+          isMounted ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-10",
+          hasScrolled && "opacity-0 -translate-x-10"
         )}>
           <div>
             <p className="text-[10px] font-bold text-primary/15 mb-1 tracking-tight">Deposits</p>
@@ -124,10 +127,11 @@ export function VideoHero() {
           </div>
         </div>
 
-        {/* Scroll Hint */}
+        {/* Scroll Hint - Reveal Animation */}
         <div className={cn(
-          "absolute bottom-12 right-12 z-30 flex items-center gap-4 transition-all duration-700 ease-out pointer-events-none",
-          hasScrolled ? "opacity-0 translate-x-10" : "opacity-100 translate-x-0"
+          "absolute bottom-12 right-12 z-30 flex items-center gap-4 transition-all duration-1000 ease-out pointer-events-none",
+          isMounted ? "opacity-100 translate-x-0" : "opacity-0 translate-x-10",
+          hasScrolled && "opacity-0 translate-x-10"
         )}>
           <span className="text-[10px] font-bold text-primary/15 tracking-tight">Scroll to explore</span>
           <div className="flex flex-col items-center">
@@ -137,18 +141,19 @@ export function VideoHero() {
         </div>
 
         <div className={cn(
-          "relative z-10 text-center max-w-4xl flex flex-col items-center transition-all duration-1000 ease-in-out pointer-events-none mt-12",
-          hasScrolled ? "-translate-y-64 opacity-0 scale-90" : "translate-y-0 opacity-100 scale-100"
+          "relative z-10 text-center max-w-4xl flex flex-col items-center transition-all duration-1000 ease-[cubic-bezier(0.23,1,0.32,1)] mt-12",
+          isMounted ? "translate-y-0 opacity-100 scale-100" : "translate-y-12 opacity-0 scale-95",
+          hasScrolled && "-translate-y-64 opacity-0 scale-90"
         )}>
-          {/* Heading Container with Grid */}
           <div className="relative w-full flex flex-col items-center mb-4">
-            {/* Interactive Viewport-Wide Grid Background */}
+            {/* Viewport-Wide Grid Background */}
             <div 
-              className="absolute left-1/2 -translate-x-1/2 w-screen -top-32 grid pointer-events-none z-[-1] overflow-hidden"
+              className="absolute left-1/2 -translate-x-1/2 w-screen -top-32 grid pointer-events-none z-[-1] overflow-hidden transition-opacity duration-1000 delay-300"
               style={{ 
                 gridTemplateColumns: 'repeat(40, minmax(0, 1fr))',
                 maskImage: 'radial-gradient(circle at center, black 0%, transparent 80%), linear-gradient(to bottom, transparent 0%, black 15%, black 65%, transparent 100%)',
-                WebkitMaskImage: 'radial-gradient(circle at center, black 0%, transparent 80%), linear-gradient(to bottom, transparent 0%, black 15%, black 65%, transparent 100%)'
+                WebkitMaskImage: 'radial-gradient(circle at center, black 0%, transparent 80%), linear-gradient(to bottom, transparent 0%, black 15%, black 65%, transparent 100%)',
+                opacity: isMounted ? 1 : 0
               }}
             >
               {Array.from({ length: 480 }).map((_, i) => {
@@ -158,7 +163,7 @@ export function VideoHero() {
                 const joltRow = activeJolt ? Math.floor(activeJolt.index / 40) : -100;
                 
                 const distance = Math.sqrt(Math.pow(col - joltCol, 2) + Math.pow(row - joltRow, 2));
-                const maxRadius = 5.0; // Increased radius for signal travel
+                const maxRadius = 5.0; 
                 const isJolting = activeJolt && distance < maxRadius;
                 const isDirectlyUnder = distance === 0;
 
@@ -173,7 +178,7 @@ export function VideoHero() {
                     )}
                     style={isJolting && !isDirectlyUnder ? { 
                       animationDelay: `${distance * 40}ms`,
-                      opacity: Math.max(0.1, 1 - (distance / maxRadius)) // Fade signal outwards
+                      opacity: Math.max(0.05, 0.6 - (distance / maxRadius)) 
                     } : {}}
                   />
                 );
@@ -188,7 +193,10 @@ export function VideoHero() {
             </p>
           </div>
           
-          <div className="flex gap-3 pointer-events-auto">
+          <div className={cn(
+            "flex gap-3 pointer-events-auto transition-all duration-1000 delay-500",
+            isMounted ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
+          )}>
             <button className="bg-[#2973FF] text-white px-8 py-3 rounded-none font-bold hover:opacity-90 transition-all text-xs shadow-md animate-shine">
               Launch app
             </button>
