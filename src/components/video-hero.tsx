@@ -181,29 +181,42 @@ export function VideoHero() {
           </div>
 
           <div className="flex flex-col items-center w-full">
-            {/* Heading - Individual Reveal */}
-            <h1 className={cn(
-              "text-3xl md:text-5xl font-bold text-primary tracking-tighter leading-[1.1] mb-6 transition-all duration-1000 ease-[cubic-bezier(0.23,1,0.32,1)] delay-300",
-              isMounted ? "translate-y-0 opacity-100 scale-100" : "translate-y-12 opacity-0 scale-95",
-              hasScrolled && "-translate-y-64 opacity-0 scale-90"
-            )}>
-              Connect to the universal <br className="hidden md:block" /> lending network.
+            {/* Heading - Line by Line Reveal */}
+            <h1 className="text-3xl md:text-5xl font-bold text-primary tracking-tighter leading-[1.1] mb-6 flex flex-col items-center">
+              <div className="overflow-hidden">
+                <span className={cn(
+                  "block transition-all duration-1000 ease-[cubic-bezier(0.23,1,0.32,1)] delay-[300ms]",
+                  isMounted ? "translate-y-0 opacity-100" : "translate-y-full opacity-0",
+                  hasScrolled && "-translate-y-full opacity-0"
+                )}>
+                  Connect to the universal
+                </span>
+              </div>
+              <div className="overflow-hidden">
+                <span className={cn(
+                  "block transition-all duration-1000 ease-[cubic-bezier(0.23,1,0.32,1)] delay-[450ms]",
+                  isMounted ? "translate-y-0 opacity-100" : "translate-y-full opacity-0",
+                  hasScrolled && "-translate-y-full opacity-0"
+                )}>
+                  lending network.
+                </span>
+              </div>
             </h1>
             
             {/* Description - Individual Reveal */}
             <p className={cn(
-              "text-sm md:text-base text-primary/60 max-w-lg mb-10 leading-relaxed font-medium transition-all duration-1000 ease-[cubic-bezier(0.23,1,0.32,1)] delay-400",
-              isMounted ? "translate-y-0 opacity-100 scale-100" : "translate-y-8 opacity-0 scale-95",
-              hasScrolled && "-translate-y-48 opacity-0 scale-90"
+              "text-sm md:text-base text-primary/60 max-w-lg mb-10 leading-relaxed font-medium transition-all duration-1000 ease-[cubic-bezier(0.23,1,0.32,1)] delay-700",
+              isMounted ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0",
+              hasScrolled && "-translate-y-48 opacity-0"
             )}>
               Access global liquidity at the best possible terms powered by open infrastructure.
             </p>
 
             {/* CTA Section - Individual Reveal */}
             <div className={cn(
-              "flex gap-3 pointer-events-auto transition-all duration-1000 ease-[cubic-bezier(0.23,1,0.32,1)] delay-500",
+              "flex gap-3 pointer-events-auto transition-all duration-1000 ease-[cubic-bezier(0.23,1,0.32,1)] delay-900",
               isMounted ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0",
-              hasScrolled && "-translate-y-32 opacity-0 scale-90"
+              hasScrolled && "-translate-y-32 opacity-0"
             )}>
               <button className="bg-[#2973FF] text-white px-8 py-3 rounded-none font-bold hover:opacity-90 transition-all text-xs shadow-md animate-shine">
                 Launch app
