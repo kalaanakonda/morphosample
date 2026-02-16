@@ -76,12 +76,11 @@ export function VideoHero() {
     setActiveJolt({ index, time: Date.now() });
   };
 
-  // Increased parallax and dynamic scale for more video interactivity
-  const parallaxX = (mousePos.x - 0.5) * 35;
-  const parallaxY = (mousePos.y - 0.5) * 35;
-  const videoScale = 1.08 + (Math.abs(mousePos.x - 0.5) + Math.abs(mousePos.y - 0.5)) * 0.04;
-  const videoRotationX = (mousePos.y - 0.5) * 2;
-  const videoRotationY = (mousePos.x - 0.5) * -2;
+  const parallaxX = (mousePos.x - 0.5) * 45;
+  const parallaxY = (mousePos.y - 0.5) * 45;
+  const videoScale = 1.1 + (Math.abs(mousePos.x - 0.5) + Math.abs(mousePos.y - 0.5)) * 0.05;
+  const videoRotationX = (mousePos.y - 0.5) * 3;
+  const videoRotationY = (mousePos.x - 0.5) * -3;
 
   return (
     <div className="relative h-[200vh] bg-background">
@@ -90,7 +89,7 @@ export function VideoHero() {
           className="absolute inset-0 z-0 pointer-events-none transition-transform duration-300 ease-out grayscale"
           style={{ 
             transform: `translate(${parallaxX}px, ${parallaxY}px) scale(${videoScale}) rotateX(${videoRotationX}deg) rotateY(${videoRotationY}deg)`,
-            perspective: '1000px'
+            perspective: '1200px'
           }}
         >
           <video
@@ -150,7 +149,7 @@ export function VideoHero() {
         <div className="relative z-10 text-center max-w-4xl flex flex-col items-center mt-12">
           {/* Viewport-Wide Grid Background */}
           <div 
-            className="absolute left-1/2 -translate-x-1/2 w-screen -top-32 grid pointer-events-none z-[-1] overflow-hidden transition-opacity duration-1000 delay-300"
+            className="absolute left-1/2 -translate-x-1/2 w-screen -top-32 grid pointer-events-none z-[-1] overflow-hidden transition-opacity duration-1000"
             style={{ 
               gridTemplateColumns: 'repeat(40, minmax(0, 1fr))',
               maskImage: 'radial-gradient(circle at center, black 0%, transparent 80%), linear-gradient(to bottom, transparent 0%, black 15%, black 65%, transparent 100%)',
@@ -165,22 +164,22 @@ export function VideoHero() {
               const joltRow = activeJolt ? Math.floor(activeJolt.index / 40) : -100;
               
               const distance = Math.sqrt(Math.pow(col - joltCol, 2) + Math.pow(row - joltRow, 2));
-              const maxRadius = 6.0; 
+              const maxRadius = 8.5; 
               const isJolting = activeJolt && distance < maxRadius;
               const isDirectlyUnder = distance === 0;
 
               return (
                 <div 
-                  key={i}
+                  key={`${i}-${activeJolt?.time}`}
                   onMouseEnter={() => handleCellHover(i)}
                   className={cn(
-                    "border-[0.5px] border-primary/[0.012] aspect-square transition-all duration-75 pointer-events-auto",
-                    "hover:bg-primary/[0.02] hover:shadow-[inset_0_0_12px_rgba(21,24,26,0.04)]",
+                    "border-[0.5px] border-primary/[0.008] aspect-square transition-all duration-75 pointer-events-auto",
+                    "hover:bg-primary/[0.015] hover:shadow-[inset_0_0_8px_rgba(21,24,26,0.02)]",
                     isJolting && !isDirectlyUnder && "animate-jolt"
                   )}
                   style={isJolting && !isDirectlyUnder ? { 
-                    animationDelay: `${distance * 35}ms`,
-                    opacity: Math.max(0.04, 0.5 - (distance / maxRadius)) 
+                    animationDelay: `${distance * 38}ms`,
+                    opacity: Math.max(0.02, 0.4 - (distance / maxRadius)) 
                   } : {}}
                 />
               );
