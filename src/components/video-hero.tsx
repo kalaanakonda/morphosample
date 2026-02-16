@@ -92,8 +92,9 @@ export function VideoHero() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [hasScrolled]);
 
-  const parallaxX = (mousePos.x - 0.5) * 120;
-  const parallaxY = (mousePos.y - 0.5) * 120;
+  // Increased reactivity for mouse movement
+  const parallaxX = (mousePos.x - 0.5) * 160;
+  const parallaxY = (mousePos.y - 0.5) * 160;
 
   return (
     <div className="relative h-[200vh] bg-[#F9F9F9]">
@@ -127,27 +128,27 @@ export function VideoHero() {
           />
         </div>
 
-        {/* Network Stats - Bottom Left */}
+        {/* Network Stats - Bottom Left (Low hierarchy, sentence case) */}
         <div className={cn(
-          "absolute bottom-12 left-8 md:left-12 z-30 flex flex-col gap-6 transition-all duration-700 ease-out pointer-events-none",
-          hasScrolled ? "opacity-0 -translate-x-10" : "opacity-100 translate-x-0"
+          "absolute bottom-12 left-8 md:left-12 z-30 flex flex-col gap-6 transition-all duration-700 ease-out pointer-events-none opacity-40",
+          hasScrolled ? "opacity-0 -translate-x-10" : "opacity-40 translate-x-0"
         )}>
           <div>
-            <p className="text-[10px] font-bold text-black/20 mb-1 tracking-widest">Deposits</p>
-            <p className="text-lg md:text-xl font-medium text-black/40 tracking-tighter">$9,112,320,603</p>
+            <p className="text-[10px] font-bold text-black mb-1 tracking-tight">Deposits</p>
+            <p className="text-lg md:text-xl font-medium text-black tracking-tighter">$9,112,320,603</p>
           </div>
           <div>
-            <p className="text-[10px] font-bold text-black/20 mb-1 tracking-widest">Loans</p>
-            <p className="text-lg md:text-xl font-medium text-black/40 tracking-tighter">$3,291,165,751</p>
+            <p className="text-[10px] font-bold text-black mb-1 tracking-tight">Loans</p>
+            <p className="text-lg md:text-xl font-medium text-black tracking-tighter">$3,291,165,751</p>
           </div>
         </div>
 
-        {/* Scroll to Explore - Bottom Right */}
+        {/* Scroll to Explore - Bottom Right (Low hierarchy, sentence case) */}
         <div className={cn(
-          "absolute bottom-12 right-8 md:right-12 z-30 flex items-center gap-4 transition-all duration-700 ease-out pointer-events-none",
-          hasScrolled ? "opacity-0 translate-x-10" : "opacity-100 translate-x-0"
+          "absolute bottom-12 right-8 md:right-12 z-30 flex items-center gap-4 transition-all duration-700 ease-out pointer-events-none opacity-40",
+          hasScrolled ? "opacity-0 translate-x-10" : "opacity-40 translate-x-0"
         )}>
-          <span className="text-[10px] font-bold text-black/20 tracking-widest">Scroll to explore</span>
+          <span className="text-[10px] font-bold text-black tracking-tight">Scroll to explore</span>
           <div className="w-px h-8 bg-black/5" />
         </div>
 
@@ -178,7 +179,7 @@ export function VideoHero() {
           showSection ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
         )}>
           <div className="flex flex-col items-center w-full max-w-3xl">
-            {/* Logos Component */}
+            {/* Logos Component - High position preserved */}
             <div className="w-full h-[22vh] overflow-visible mb-0">
               <svg 
                 className="w-full h-full overflow-visible" 
@@ -228,8 +229,8 @@ export function VideoHero() {
               </svg>
             </div>
 
-            {/* Heading Component - Positioned Closer to Logos */}
-            <div className="flex flex-col items-center text-center mt-[-35px]">
+            {/* Heading Component - Moved down relative to logos */}
+            <div className="flex flex-col items-center text-center mt-12">
               <h2 className="text-xl md:text-2xl font-bold text-black tracking-tight leading-[1.1] mb-3">
                 Powered by Morpho
               </h2>
