@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, memo } from 'react';
 import { ChevronDown } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import Lottie from 'lottie-react';
@@ -8,6 +8,49 @@ import Lottie from 'lottie-react';
 const VIDEO_1_URL = "https://raw.githubusercontent.com/kalaanakonda/Video-morpho/main/aa11_3.webm";
 const VIDEO_2_URL = "https://raw.githubusercontent.com/kalaanakonda/Video-morpho/main/aa22_3.webm";
 const LOTTIE_URL = "https://raw.githubusercontent.com/kalaanakonda/Video-morpho/main/Frame-2147223772-Soft.json";
+
+// Individual cell component to allow independent, overlapping ripples
+const GridCell = memo(({ index, x, y, activeJolt }: { index: number, x: number, y: number, activeJolt: { index: number, time: number } | null }) => {
+  const [joltKey, setJoltKey] = useState(0);
+  const [intensity, setIntensity] = useState(0);
+  const maxRadius = 15;
+
+  useEffect(() => {
+    if (!activeJolt) return;
+
+    const joltCol = activeJolt.index % 40;
+    const joltRow = Math.floor(activeJolt.index / 40);
+    const distance = Math.sqrt(Math.pow(x - joltCol, 2) + Math.pow(y - joltRow, 2));
+
+    if (distance < maxRadius && distance > 0) {
+      const delay = distance * 38;
+      const timer = setTimeout(() => {
+        setJoltKey(Date.now());
+        setIntensity(Math.max(0.01, 0.35 * (1 - (distance / maxRadius))));
+      }, delay);
+      return () => clearTimeout(timer);
+    }
+  }, [activeJolt, x, y]);
+
+  return (
+    <div 
+      className={cn(
+        "border-[0.5px] border-primary/[0.008] aspect-square transition-all duration-75 pointer-events-auto relative overflow-hidden",
+        "hover:bg-primary/[0.012] hover:shadow-[inset_0_0_8px_rgba(21,24,26,0.015)]"
+      )}
+    >
+      <div 
+        key={joltKey}
+        className={cn(
+          "absolute inset-0 pointer-events-none",
+          joltKey > 0 && "animate-jolt"
+        )}
+        style={{ opacity: intensity }}
+      />
+    </div>
+  );
+});
+GridCell.displayName = 'GridCell';
 
 export function VideoHero() {
   const [hasScrolled, setHasScrolled] = useState(false);
@@ -76,11 +119,11 @@ export function VideoHero() {
     setActiveJolt({ index, time: Date.now() });
   };
 
-  const parallaxX = (mousePos.x - 0.5) * 60; // Increased intensity
-  const parallaxY = (mousePos.y - 0.5) * 60; // Increased intensity
+  const parallaxX = (mousePos.x - 0.5) * 60;
+  const parallaxY = (mousePos.y - 0.5) * 60;
   const videoScale = 1.15 + (Math.abs(mousePos.x - 0.5) + Math.abs(mousePos.y - 0.5)) * 0.08;
-  const videoRotationX = (mousePos.y - 0.5) * 5; // Increased tilt
-  const videoRotationY = (mousePos.x - 0.5) * -5; // Increased tilt
+  const videoRotationX = (mousePos.y - 0.5) * 5;
+  const videoRotationY = (mousePos.x - 0.5) * -5;
 
   return (
     <div className="relative h-[200vh] bg-background">
@@ -117,7 +160,7 @@ export function VideoHero() {
           />
         </div>
 
-        {/* Network Stats - Individual Reveal */}
+        {/* Network Stats */}
         <div className={cn(
           "absolute bottom-12 left-12 z-30 flex flex-col gap-6 transition-all duration-1000 delay-100 ease-out pointer-events-none",
           isMounted ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-10",
@@ -133,7 +176,7 @@ export function VideoHero() {
           </div>
         </div>
 
-        {/* Scroll Hint - Individual Reveal */}
+        {/* Scroll Hint */}
         <div className={cn(
           "absolute bottom-12 right-12 z-30 flex items-center gap-4 transition-all duration-1000 delay-100 ease-out pointer-events-none",
           isMounted ? "opacity-100 translate-x-0" : "opacity-0 translate-x-10",
@@ -157,38 +200,31 @@ export function VideoHero() {
               opacity: isMounted ? 1 : 0
             }}
           >
-            {Array.from({ length: 480 }).map((_, i) => {
-              const col = i % 40;
-              const row = Math.floor(i / 40);
-              const joltCol = activeJolt ? activeJolt.index % 40 : -100;
-              const joltRow = activeJolt ? Math.floor(activeJolt.index / 40) : -100;
-              
-              const distance = Math.sqrt(Math.pow(col - joltCol, 2) + Math.pow(row - joltRow, 2));
-              const maxRadius = 15; // Increased radius for a more "alive" expansive feel
-              const isJolting = activeJolt && distance < maxRadius;
-              const isDirectlyUnder = distance === 0;
-
-              return (
+            {Array.from({ length: 480 }).map((_, i) => (
+              <GridCell 
+                key={i}
+                index={i}
+                x={i % 40}
+                y={Math.floor(i / 40)}
+                activeJolt={activeJolt}
+              />
+            ))}
+            {/* Overlay for detecting hover without triggering propagation on every pixel move */}
+            <div 
+              className="absolute inset-0 z-20 pointer-events-auto grid"
+              style={{ gridTemplateColumns: 'repeat(40, minmax(0, 1fr))' }}
+            >
+              {Array.from({ length: 480 }).map((_, i) => (
                 <div 
-                  key={`${i}-${activeJolt?.time}`}
+                  key={`hover-${i}`} 
                   onMouseEnter={() => handleCellHover(i)}
-                  className={cn(
-                    "border-[0.5px] border-primary/[0.008] aspect-square transition-all duration-75 pointer-events-auto",
-                    "hover:bg-primary/[0.012] hover:shadow-[inset_0_0_8px_rgba(21,24,26,0.015)]",
-                    isJolting && !isDirectlyUnder && "animate-jolt"
-                  )}
-                  style={isJolting && !isDirectlyUnder ? { 
-                    animationDelay: `${distance * 38}ms`,
-                    // Fades outwards more smoothly
-                    opacity: Math.max(0.01, 0.35 * (1 - (distance / maxRadius))) 
-                  } : {}}
+                  className="w-full h-full"
                 />
-              );
-            })}
+              ))}
+            </div>
           </div>
 
           <div className="flex flex-col items-center w-full">
-            {/* Heading - Line by Line Reveal */}
             <h1 className="text-3xl md:text-5xl font-bold text-primary tracking-tighter leading-[1.1] mb-6 flex flex-col items-center">
               <div className="overflow-hidden">
                 <span className={cn(
@@ -210,7 +246,6 @@ export function VideoHero() {
               </div>
             </h1>
             
-            {/* Description - Individual Reveal */}
             <p className={cn(
               "text-sm md:text-base text-primary/60 max-w-lg mb-10 leading-relaxed font-medium transition-all duration-1000 ease-[cubic-bezier(0.23,1,0.32,1)] delay-700",
               isMounted ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0",
@@ -219,7 +254,6 @@ export function VideoHero() {
               Access global liquidity at the best possible terms powered by open infrastructure.
             </p>
 
-            {/* CTA Section - Individual Reveal */}
             <div className={cn(
               "flex gap-3 pointer-events-auto transition-all duration-1000 ease-[cubic-bezier(0.23,1,0.32,1)] delay-900",
               isMounted ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0",
