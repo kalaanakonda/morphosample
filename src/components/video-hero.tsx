@@ -87,21 +87,21 @@ export function VideoHero() {
 
         {/* Brand & Headline Content */}
         <div className={cn(
-          "relative z-10 text-center max-w-2xl flex flex-col items-center transition-all duration-1000 ease-out",
+          "relative z-10 text-center max-w-3xl flex flex-col items-center transition-all duration-1000 ease-out",
           hasScrolled ? "-translate-y-32 opacity-0" : "translate-y-0 opacity-100"
         )}>
-          <h1 className="text-xl md:text-2xl font-bold text-black tracking-tight leading-[1.15] mb-4">
+          <h1 className="text-4xl md:text-6xl font-bold text-black tracking-tight leading-[1.1] mb-6">
             Connect to the universal <br className="hidden md:block" /> lending network.
           </h1>
-          <p className="text-[12px] md:text-[13px] text-black/60 max-w-sm mb-8 leading-relaxed font-normal">
+          <p className="text-[13px] md:text-[14px] text-black/60 max-w-md mb-10 leading-relaxed font-normal">
             Access global liquidity at the best possible terms powered by open infrastructure that serves, not extracts.
           </p>
           
-          <div className="flex gap-3">
-            <button className="bg-black text-white px-5 py-2 rounded-full font-semibold hover:bg-black/80 transition-all text-[11px]">
+          <div className="flex gap-4">
+            <button className="bg-black text-white px-7 py-2.5 rounded-full font-semibold hover:bg-black/80 transition-all text-[12px] shadow-lg">
               Launch App
             </button>
-            <button className="bg-white/80 backdrop-blur-sm text-black border border-black/5 px-5 py-2 rounded-full font-semibold hover:bg-white transition-all text-[11px] shadow-sm">
+            <button className="bg-white/80 backdrop-blur-sm text-black border border-black/5 px-7 py-2.5 rounded-full font-semibold hover:bg-white transition-all text-[12px] shadow-sm">
               Talk to us
             </button>
           </div>
