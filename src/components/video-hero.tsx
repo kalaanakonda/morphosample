@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useRef, useState, memo } from 'react';
+import React, { useEffect, useRef, useState, memo, useCallback } from 'react';
 import { ChevronDown } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import Lottie from 'lottie-react';
@@ -9,8 +9,11 @@ const VIDEO_1_URL = "https://raw.githubusercontent.com/kalaanakonda/Video-morpho
 const VIDEO_2_URL = "https://raw.githubusercontent.com/kalaanakonda/Video-morpho/main/aa22_3.webm";
 const LOTTIE_URL = "https://raw.githubusercontent.com/kalaanakonda/Video-morpho/main/Frame-2147223772-Soft.json";
 
-// Individual cell component to allow independent, overlapping ripples
-const GridCell = memo(({ index, x, y, activeJolt }: { index: number, x: number, y: number, activeJolt: { index: number, time: number } | null }) => {
+const GRID_COLS = 40;
+const GRID_ROWS = 12;
+const RIPPLE_DURATION = 2500; // Matches CSS animation duration
+
+const GridCell = memo(({ x, y, activeJolt }: { x: number, y: number, activeJolt: { index: number, time: number } | null }) => {
   const [joltKey, setJoltKey] = useState(0);
   const [intensity, setIntensity] = useState(0);
   const maxRadius = 15;
@@ -18,27 +21,22 @@ const GridCell = memo(({ index, x, y, activeJolt }: { index: number, x: number, 
   useEffect(() => {
     if (!activeJolt) return;
 
-    const joltCol = activeJolt.index % 40;
-    const joltRow = Math.floor(activeJolt.index / 40);
+    const joltCol = activeJolt.index % GRID_COLS;
+    const joltRow = Math.floor(activeJolt.index / GRID_COLS);
     const distance = Math.sqrt(Math.pow(x - joltCol, 2) + Math.pow(y - joltRow, 2));
 
-    if (distance < maxRadius && distance > 0) {
+    if (distance < maxRadius) {
       const delay = distance * 38;
       const timer = setTimeout(() => {
-        setJoltKey(Date.now());
-        setIntensity(Math.max(0.01, 0.35 * (1 - (distance / maxRadius))));
+        setJoltKey(activeJolt.time);
+        setIntensity(Math.max(0, 0.35 * (1 - (distance / maxRadius))));
       }, delay);
       return () => clearTimeout(timer);
     }
   }, [activeJolt, x, y]);
 
   return (
-    <div 
-      className={cn(
-        "border-[0.5px] border-primary/[0.008] aspect-square transition-all duration-75 pointer-events-auto relative overflow-hidden",
-        "hover:bg-primary/[0.012] hover:shadow-[inset_0_0_8px_rgba(21,24,26,0.015)]"
-      )}
-    >
+    <div className="border-[0.5px] border-primary/[0.008] aspect-square pointer-events-auto relative overflow-hidden">
       <div 
         key={joltKey}
         className={cn(
@@ -55,21 +53,17 @@ GridCell.displayName = 'GridCell';
 export function VideoHero() {
   const [hasScrolled, setHasScrolled] = useState(false);
   const [showSection, setShowSection] = useState(false);
-  const [isMounted, setIsMounted] = useState(false);
   const [mousePos, setMousePos] = useState({ x: 0.5, y: 0.5 });
   const [animationData, setAnimationData] = useState<any>(null);
   const [activeJolt, setActiveJolt] = useState<{ index: number; time: number } | null>(null);
+  const isRippleActive = useRef(false);
   
   const video1Ref = useRef<HTMLVideoElement>(null);
   const video2Ref = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
-    setIsMounted(true);
     fetch(LOTTIE_URL)
-      .then(res => {
-        if (!res.ok) throw new Error('Network response was not ok');
-        return res.json();
-      })
+      .then(res => res.json())
       .then(data => setAnimationData(data))
       .catch(err => console.error("Error loading Lottie animation:", err));
   }, []);
@@ -115,9 +109,17 @@ export function VideoHero() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [hasScrolled]);
 
-  const handleCellHover = (index: number) => {
+  const handleCellHover = useCallback((index: number) => {
+    if (isRippleActive.current) return;
+
+    isRippleActive.current = true;
     setActiveJolt({ index, time: Date.now() });
-  };
+
+    // Lock interaction until the ripple duration completes
+    setTimeout(() => {
+      isRippleActive.current = false;
+    }, RIPPLE_DURATION);
+  }, []);
 
   const parallaxX = (mousePos.x - 0.5) * 60;
   const parallaxY = (mousePos.y - 0.5) * 60;
@@ -162,9 +164,8 @@ export function VideoHero() {
 
         {/* Network Stats */}
         <div className={cn(
-          "absolute bottom-12 left-12 z-30 flex flex-col gap-6 transition-all duration-1000 delay-100 ease-out pointer-events-none",
-          isMounted ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-10",
-          hasScrolled && "opacity-0 -translate-x-10"
+          "absolute bottom-12 left-12 z-30 flex flex-col gap-6 transition-all duration-1000 ease-out pointer-events-none",
+          hasScrolled ? "opacity-0 -translate-x-10" : "opacity-100 translate-x-0"
         )}>
           <div>
             <p className="text-[10px] font-bold text-primary/15 mb-1 tracking-tight">Deposits</p>
@@ -178,9 +179,8 @@ export function VideoHero() {
 
         {/* Scroll Hint */}
         <div className={cn(
-          "absolute bottom-12 right-12 z-30 flex items-center gap-4 transition-all duration-1000 delay-100 ease-out pointer-events-none",
-          isMounted ? "opacity-100 translate-x-0" : "opacity-0 translate-x-10",
-          hasScrolled && "opacity-0 translate-x-10"
+          "absolute bottom-12 right-12 z-30 flex items-center gap-4 transition-all duration-1000 ease-out pointer-events-none",
+          hasScrolled ? "opacity-0 translate-x-10" : "opacity-100 translate-x-0"
         )}>
           <span className="text-[10px] font-bold text-primary/15 tracking-tight">Scroll to explore</span>
           <div className="flex flex-col items-center">
@@ -190,31 +190,29 @@ export function VideoHero() {
         </div>
 
         <div className="relative z-10 text-center max-w-4xl flex flex-col items-center mt-12">
-          {/* Viewport-Wide Grid Background */}
+          {/* Grid Background */}
           <div 
-            className="absolute left-1/2 -translate-x-1/2 w-screen -top-32 grid pointer-events-none z-[-1] overflow-hidden transition-opacity duration-1000"
+            className="absolute left-1/2 -translate-x-1/2 w-screen -top-32 grid pointer-events-none z-[-1] overflow-hidden"
             style={{ 
-              gridTemplateColumns: 'repeat(40, minmax(0, 1fr))',
+              gridTemplateColumns: `repeat(${GRID_COLS}, minmax(0, 1fr))`,
               maskImage: 'radial-gradient(circle at center, black 0%, transparent 80%), linear-gradient(to bottom, transparent 0%, black 15%, black 65%, transparent 100%)',
               WebkitMaskImage: 'radial-gradient(circle at center, black 0%, transparent 80%), linear-gradient(to bottom, transparent 0%, black 15%, black 65%, transparent 100%)',
-              opacity: isMounted ? 1 : 0
             }}
           >
-            {Array.from({ length: 480 }).map((_, i) => (
+            {Array.from({ length: GRID_COLS * GRID_ROWS }).map((_, i) => (
               <GridCell 
                 key={i}
-                index={i}
-                x={i % 40}
-                y={Math.floor(i / 40)}
+                x={i % GRID_COLS}
+                y={Math.floor(i / GRID_COLS)}
                 activeJolt={activeJolt}
               />
             ))}
-            {/* Overlay for detecting hover without triggering propagation on every pixel move */}
+            {/* Hover Detection Layer */}
             <div 
               className="absolute inset-0 z-20 pointer-events-auto grid"
-              style={{ gridTemplateColumns: 'repeat(40, minmax(0, 1fr))' }}
+              style={{ gridTemplateColumns: `repeat(${GRID_COLS}, minmax(0, 1fr))` }}
             >
-              {Array.from({ length: 480 }).map((_, i) => (
+              {Array.from({ length: GRID_COLS * GRID_ROWS }).map((_, i) => (
                 <div 
                   key={`hover-${i}`} 
                   onMouseEnter={() => handleCellHover(i)}
@@ -225,39 +223,23 @@ export function VideoHero() {
           </div>
 
           <div className="flex flex-col items-center w-full">
-            <h1 className="text-3xl md:text-5xl font-bold text-primary tracking-tighter leading-[1.1] mb-6 flex flex-col items-center">
-              <div className="overflow-hidden">
-                <span className={cn(
-                  "block transition-all duration-1000 ease-[cubic-bezier(0.23,1,0.32,1)] delay-[300ms]",
-                  isMounted ? "translate-y-0 opacity-100" : "translate-y-full opacity-0",
-                  hasScrolled && "-translate-y-full opacity-0"
-                )}>
-                  Connect to the universal
-                </span>
-              </div>
-              <div className="overflow-hidden">
-                <span className={cn(
-                  "block transition-all duration-1000 ease-[cubic-bezier(0.23,1,0.32,1)] delay-[450ms]",
-                  isMounted ? "translate-y-0 opacity-100" : "translate-y-full opacity-0",
-                  hasScrolled && "-translate-y-full opacity-0"
-                )}>
-                  lending network.
-                </span>
-              </div>
+            <h1 className={cn(
+              "text-3xl md:text-5xl font-bold text-primary tracking-tighter leading-[1.1] mb-6 transition-all duration-1000",
+              hasScrolled && "opacity-0 -translate-y-10"
+            )}>
+              Connect to the universal lending network.
             </h1>
             
             <p className={cn(
-              "text-sm md:text-base text-primary/60 max-w-lg mb-10 leading-relaxed font-medium transition-all duration-1000 ease-[cubic-bezier(0.23,1,0.32,1)] delay-700",
-              isMounted ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0",
-              hasScrolled && "-translate-y-48 opacity-0"
+              "text-sm md:text-base text-primary/60 max-w-lg mb-10 leading-relaxed font-medium transition-all duration-1000",
+              hasScrolled && "opacity-0 -translate-y-10"
             )}>
               Access global liquidity at the best possible terms powered by open infrastructure.
             </p>
 
             <div className={cn(
-              "flex gap-3 pointer-events-auto transition-all duration-1000 ease-[cubic-bezier(0.23,1,0.32,1)] delay-900",
-              isMounted ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0",
-              hasScrolled && "-translate-y-32 opacity-0"
+              "flex gap-3 pointer-events-auto transition-all duration-1000",
+              hasScrolled && "opacity-0 -translate-y-10"
             )}>
               <button className="bg-[#2973FF] text-white px-8 py-3 rounded-none font-bold hover:opacity-90 transition-all text-xs shadow-md animate-shine">
                 Launch app
