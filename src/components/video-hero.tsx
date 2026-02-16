@@ -143,8 +143,8 @@ export function VideoHero() {
               className="absolute left-1/2 -translate-x-1/2 w-screen -top-24 grid pointer-events-none z-[-1] overflow-hidden"
               style={{ 
                 gridTemplateColumns: 'repeat(20, minmax(0, 1fr))',
-                maskImage: 'radial-gradient(circle at center, black 0%, transparent 80%)',
-                WebkitMaskImage: 'radial-gradient(circle at center, black 0%, transparent 80%)'
+                maskImage: 'radial-gradient(circle at center, black 0%, transparent 80%), linear-gradient(to bottom, black 0%, black 70%, transparent 100%)',
+                WebkitMaskImage: 'radial-gradient(circle at center, black 0%, transparent 80%), linear-gradient(to bottom, black 0%, black 70%, transparent 100%)'
               }}
             >
               {Array.from({ length: 160 }).map((_, i) => (
