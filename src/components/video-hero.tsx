@@ -3,8 +3,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { cn } from '@/lib/utils';
 
-const VIDEO_1_URL = "https://github.com/kalaanakonda/Video-morpho/raw/refs/heads/main/aa11_1.webm";
-const VIDEO_2_URL = "https://github.com/kalaanakonda/Video-morpho/raw/refs/heads/main/aa11_2.webm";
+const VIDEO_1_URL = "https://github.com/kalaanakonda/Video-morpho/raw/refs/heads/main/aa11_3.webm";
+const VIDEO_2_URL = "https://github.com/kalaanakonda/Video-morpho/raw/refs/heads/main/aa22_3.webm";
 
 const LOGOS = [
   "https://cryptologos.cc/logos/thumbs/bitget-token-new.png?v=040",
@@ -162,7 +162,7 @@ export function VideoHero() {
           </p>
           
           <div className="flex gap-3 pointer-events-auto">
-            <button className="bg-accent text-accent-foreground px-8 py-3 rounded-full font-bold hover:opacity-90 transition-all text-xs shadow-md">
+            <button className="bg-[#2973FF] text-white px-8 py-3 rounded-full font-bold hover:opacity-90 transition-all text-xs shadow-md">
               Launch app
             </button>
             <button className="bg-white/90 backdrop-blur-md text-primary border border-primary/[0.05] px-8 py-3 rounded-full font-bold hover:bg-white transition-all text-xs shadow-sm">
