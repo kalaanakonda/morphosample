@@ -73,10 +73,13 @@ export function VideoHero() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [hasScrolled]);
 
+  // Force blue tint via grayscale + sepia + hue-rotate
+  const videoFilterClass = "filter grayscale-[100%] sepia-[100%] hue-rotate-[190deg] saturate-[6] brightness-[0.75] contrast-[1.1]";
+
   return (
     <div className="relative h-[200vh] bg-[#F9F9F9]">
-      <section className="sticky top-0 w-full h-screen flex flex-col items-center justify-start pt-24 px-6 overflow-hidden">
-        {/* Background Videos with Blue Hue Shift and Increased Saturation */}
+      <section className="sticky top-0 w-full h-screen flex flex-col items-center justify-start pt-32 px-6 overflow-hidden">
+        {/* Background Videos with Blue Hue Shift */}
         <div className="absolute inset-0 z-0 pointer-events-none">
           <video
             ref={video1Ref}
@@ -87,7 +90,7 @@ export function VideoHero() {
             playsInline
             className={cn(
               "absolute inset-0 w-full h-full object-cover transition-opacity duration-1000",
-              "filter hue-rotate-[190deg] saturate-[1.8]",
+              videoFilterClass,
               hasScrolled ? "opacity-0" : "opacity-100"
             )}
           />
@@ -99,29 +102,29 @@ export function VideoHero() {
             playsInline
             className={cn(
               "absolute inset-0 w-full h-full object-cover transition-opacity duration-1000",
-              "filter hue-rotate-[190deg] saturate-[1.8]",
+              videoFilterClass,
               hasScrolled ? "opacity-100" : "opacity-0"
             )}
           />
         </div>
 
-        {/* Hero Content */}
+        {/* Hero Content - Reduced sizes for ultra-minimal feel */}
         <div className={cn(
           "relative z-10 text-center max-w-2xl flex flex-col items-center transition-all duration-700 ease-out pointer-events-none",
           hasScrolled ? "-translate-y-48 opacity-0 scale-95" : "translate-y-0 opacity-100 scale-100"
         )}>
-          <h1 className="text-3xl md:text-5xl font-bold text-black tracking-tight leading-[1.1] mb-5">
+          <h1 className="text-2xl md:text-4xl font-bold text-black tracking-tight leading-[1.1] mb-4">
             Connect to the universal <br className="hidden md:block" /> lending network.
           </h1>
-          <p className="text-[13px] md:text-[14px] text-black/50 max-w-sm mb-6 leading-relaxed font-medium">
+          <p className="text-[12px] md:text-[13px] text-black/40 max-w-xs mb-5 leading-relaxed font-medium">
             Access global liquidity at the best possible terms powered by open infrastructure that serves, not extracts.
           </p>
           
-          <div className="flex gap-3 pointer-events-auto">
-            <button className="bg-black text-white px-6 py-2 rounded-full font-semibold hover:bg-black/80 transition-all text-[11px]">
+          <div className="flex gap-2.5 pointer-events-auto">
+            <button className="bg-black text-white px-5 py-1.5 rounded-full font-semibold hover:bg-black/80 transition-all text-[10px]">
               Launch App
             </button>
-            <button className="bg-white/90 backdrop-blur-sm text-black border border-black/[0.05] px-6 py-2 rounded-full font-semibold hover:bg-white transition-all text-[11px]">
+            <button className="bg-white/80 backdrop-blur-sm text-black border border-black/[0.05] px-5 py-1.5 rounded-full font-semibold hover:bg-white transition-all text-[10px]">
               Talk to us
             </button>
           </div>
@@ -152,29 +155,29 @@ export function VideoHero() {
                     transformOrigin: `${circle.x}px ${circle.y}px`,
                   }}
                 >
-                  <g className="hover:scale-105 transition-transform duration-300 cursor-pointer">
+                  <g className="hover:scale-110 transition-transform duration-300 cursor-pointer">
                     <circle 
                       cx={circle.x} 
                       cy={circle.y} 
-                      r="34" 
+                      r="38" 
                       fill="white"
                       className="drop-shadow-sm"
                     />
                     <image 
                       href={circle.logoUrl}
-                      x={circle.x - 24}
-                      y={circle.y - 24}
-                      height="48"
-                      width="48"
+                      x={circle.x - 28}
+                      y={circle.y - 28}
+                      height="56"
+                      width="56"
                       className="rounded-full"
                     />
                     <circle 
                       cx={circle.x} 
                       cy={circle.y} 
-                      r="34" 
+                      r="38" 
                       fill="none"
                       stroke="black"
-                      strokeOpacity="0.03"
+                      strokeOpacity="0.05"
                       strokeWidth="1"
                     />
                   </g>
