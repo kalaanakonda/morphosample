@@ -136,12 +136,28 @@ export function VideoHero() {
           "relative z-10 text-center max-w-4xl flex flex-col items-center transition-all duration-1000 ease-in-out pointer-events-none mt-12",
           hasScrolled ? "-translate-y-64 opacity-0 scale-90" : "translate-y-0 opacity-100 scale-100"
         )}>
-          <h1 className="text-3xl md:text-5xl font-bold text-primary tracking-tighter leading-[1.1] mb-6">
-            Connect to the universal <br className="hidden md:block" /> lending network.
-          </h1>
-          <p className="text-sm md:text-base text-primary/60 max-w-lg mb-10 leading-relaxed font-medium">
-            Access global liquidity at the best possible terms powered by open infrastructure.
-          </p>
+          {/* Heading Container with Grid */}
+          <div className="relative w-full flex flex-col items-center group/hero-grid mb-4">
+            {/* Interactive Grid Background */}
+            <div 
+              className="absolute inset-x-0 -inset-y-12 grid grid-rows-6 pointer-events-none z-[-1] opacity-70"
+              style={{ gridTemplateColumns: 'repeat(16, minmax(0, 1fr))' }}
+            >
+              {Array.from({ length: 96 }).map((_, i) => (
+                <div 
+                  key={i} 
+                  className="border-[0.5px] border-primary/[0.02] hover:bg-primary/[0.04] transition-colors duration-500 pointer-events-auto"
+                />
+              ))}
+            </div>
+
+            <h1 className="text-3xl md:text-5xl font-bold text-primary tracking-tighter leading-[1.1] mb-6">
+              Connect to the universal <br className="hidden md:block" /> lending network.
+            </h1>
+            <p className="text-sm md:text-base text-primary/60 max-w-lg mb-10 leading-relaxed font-medium">
+              Access global liquidity at the best possible terms powered by open infrastructure.
+            </p>
+          </div>
           
           <div className="flex gap-3 pointer-events-auto">
             <button className="bg-[#2973FF] text-white px-8 py-3 rounded-none font-bold hover:opacity-90 transition-all text-xs shadow-md animate-shine">
