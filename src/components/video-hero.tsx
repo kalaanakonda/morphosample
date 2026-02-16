@@ -138,15 +138,19 @@ export function VideoHero() {
         )}>
           {/* Heading Container with Grid */}
           <div className="relative w-full flex flex-col items-center group/hero-grid mb-4">
-            {/* Interactive Grid Background */}
+            {/* Interactive Viewport-Wide Grid Background */}
             <div 
-              className="absolute inset-x-0 -inset-y-12 grid grid-rows-6 pointer-events-none z-[-1] opacity-70"
-              style={{ gridTemplateColumns: 'repeat(16, minmax(0, 1fr))' }}
+              className="absolute left-1/2 -translate-x-1/2 w-screen -top-24 grid pointer-events-none z-[-1] overflow-hidden"
+              style={{ 
+                gridTemplateColumns: 'repeat(20, minmax(0, 1fr))',
+                maskImage: 'radial-gradient(circle at center, black 0%, transparent 80%)',
+                WebkitMaskImage: 'radial-gradient(circle at center, black 0%, transparent 80%)'
+              }}
             >
-              {Array.from({ length: 96 }).map((_, i) => (
+              {Array.from({ length: 160 }).map((_, i) => (
                 <div 
                   key={i} 
-                  className="border-[0.5px] border-primary/[0.02] hover:bg-primary/[0.04] transition-colors duration-500 pointer-events-auto"
+                  className="border-[0.5px] border-primary/[0.07] aspect-square hover:bg-primary/[0.05] transition-all duration-75 pointer-events-auto hover:shadow-[inset_0_0_25px_rgba(41,115,255,0.08)]"
                 />
               ))}
             </div>
