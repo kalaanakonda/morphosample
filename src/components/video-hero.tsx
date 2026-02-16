@@ -126,26 +126,28 @@ export function VideoHero() {
           />
         </div>
 
+        {/* Network Stats - Bottom Left */}
         <div className={cn(
           "absolute bottom-12 left-8 md:left-12 z-30 flex flex-col gap-6 transition-all duration-700 ease-out pointer-events-none",
-          hasScrolled ? "opacity-0 -translate-x-10" : "opacity-[0.15] translate-x-0"
+          hasScrolled ? "opacity-0 -translate-x-10" : "opacity-100 translate-x-0"
         )}>
           <div>
-            <p className="text-[10px] font-bold text-primary mb-1 tracking-tight">Deposits</p>
-            <p className="text-lg md:text-xl font-medium text-primary tracking-tighter">$9,112,320,603</p>
+            <p className="text-[10px] font-bold text-primary/30 mb-1 tracking-tight">Deposits</p>
+            <p className="text-lg md:text-xl font-medium text-primary/15 tracking-tighter">$9,112,320,603</p>
           </div>
           <div>
-            <p className="text-[10px] font-bold text-primary mb-1 tracking-tight">Loans</p>
-            <p className="text-lg md:text-xl font-medium text-primary tracking-tighter">$3,291,165,751</p>
+            <p className="text-[10px] font-bold text-primary/30 mb-1 tracking-tight">Loans</p>
+            <p className="text-lg md:text-xl font-medium text-primary/15 tracking-tighter">$3,291,165,751</p>
           </div>
         </div>
 
+        {/* Scroll Hint - Bottom Right */}
         <div className={cn(
           "absolute bottom-12 right-8 md:right-12 z-30 flex items-center gap-4 transition-all duration-700 ease-out pointer-events-none",
-          hasScrolled ? "opacity-0 translate-x-10" : "opacity-[0.15] translate-x-0"
+          hasScrolled ? "opacity-0 translate-x-10" : "opacity-100 translate-x-0"
         )}>
-          <span className="text-[10px] font-bold text-primary tracking-tight">Scroll to explore</span>
-          <div className="w-px h-8 bg-primary/5" />
+          <span className="text-[10px] font-bold text-primary/30 tracking-tight">Scroll to explore</span>
+          <div className="w-px h-8 bg-primary/10" />
         </div>
 
         <div className={cn(
@@ -174,6 +176,7 @@ export function VideoHero() {
           showSection ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
         )}>
           <div className="flex flex-col items-center w-full max-w-3xl">
+            {/* Logos Grid */}
             <div className="w-full h-[22vh] overflow-visible mb-0">
               <svg 
                 className="w-full h-full overflow-visible" 
@@ -223,6 +226,7 @@ export function VideoHero() {
               </svg>
             </div>
 
+            {/* Powered by Morpho Section - Positioned slightly higher */}
             <div className="flex flex-col items-center text-center mt-24">
               <h2 className="text-xl md:text-2xl font-bold text-primary tracking-tight leading-[1.1] mb-3">
                 Powered by Morpho
