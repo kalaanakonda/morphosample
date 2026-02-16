@@ -154,12 +154,12 @@ export function VideoHero() {
         </div>
 
         <div className={cn(
-          "absolute inset-x-0 top-[4%] z-30 flex flex-col items-center pointer-events-none transition-all duration-1000 ease-out px-6",
+          "absolute inset-x-0 top-[12%] z-30 flex flex-col items-center pointer-events-none transition-all duration-1000 ease-out px-6",
           showSection ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
         )}>
           <div className="flex flex-col items-center w-full max-w-3xl">
             <div className="w-full max-w-lg overflow-visible mb-0 min-h-[18vh] flex items-center justify-center">
-              {animationData && (
+              {showSection && animationData && (
                 <Lottie 
                   animationData={animationData} 
                   loop={false} 
