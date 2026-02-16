@@ -7,6 +7,19 @@ import { cn } from '@/lib/utils';
 const VIDEO_1_URL = "https://github.com/kalaanakonda/Video-morpho/raw/refs/heads/main/aa11.webm";
 const VIDEO_2_URL = "https://github.com/kalaanakonda/Video-morpho/raw/refs/heads/main/aa22.webm";
 
+const LOGOS = [
+  "https://cryptologos.cc/logos/thumbs/bitget-token-new.png?v=040",
+  "https://cryptologos.cc/logos/thumbs/chainlink.png?v=040",
+  "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/Binance_Logo.svg/960px-Binance_Logo.svg.png",
+  "https://cryptologos.cc/logos/thumbs/pendle.png?v=040",
+  "https://avatars.githubusercontent.com/u/32179889?s=200&v=4",
+  "https://cdn.worldvectorlogo.com/logos/farcaster.svg",
+  "https://play-lh.googleusercontent.com/x3Sles_n9G2I2xnvm4pE6JVMWPCq3Hbbkyq2uLZ-k2XxTrlUXej1FrCAHxMVQHwzXg=w240-h480-rw",
+  "https://upload.wikimedia.org/wikipedia/commons/2/21/Polygon_Icon.svg",
+  "https://pbs.twimg.com/profile_images/1672323719176318987/Qv7h4j1s_400x400.jpg",
+  "https://assets.coingecko.com/coins/images/7310/large/cro_token_logo.png"
+];
+
 // 33 Symmetric points with a wider spread
 const CIRCLES = [
   // Center Column (5)
@@ -33,7 +46,10 @@ const CIRCLES = [
   // Column 4 (4)
   { x: 20, y: 240, delay: 600 }, { x: 980, y: 240, delay: 600 },
   { x: 20, y: 365, delay: 700 }, { x: 980, y: 365, delay: 700 }
-];
+].map((circle, i) => ({
+  ...circle,
+  logoUrl: LOGOS[i % LOGOS.length]
+}));
 
 export function VideoHero() {
   const [hasScrolled, setHasScrolled] = useState(false);
@@ -54,7 +70,6 @@ export function VideoHero() {
             video2Ref.current.currentTime = 0;
             video2Ref.current.play().catch(() => {});
           }
-          // Reveal network after video 2 has played a bit
           setTimeout(() => setShowNetwork(true), 1200);
         }
       } else {
@@ -136,22 +151,55 @@ export function VideoHero() {
             viewBox="0 0 1000 650" 
             preserveAspectRatio="xMidYMid meet"
           >
-            <g className="fill-red-500">
+            <defs>
               {CIRCLES.map((circle, index) => (
-                <circle 
+                <clipPath key={`clip-${index}`} id={`clip-${index}`}>
+                  <circle cx={circle.x} cy={circle.y} r="20" />
+                </clipPath>
+              ))}
+            </defs>
+            <g>
+              {CIRCLES.map((circle, index) => (
+                <g 
                   key={index}
-                  cx={circle.x} 
-                  cy={circle.y} 
-                  r="14" 
                   className={cn(
-                    "transition-all duration-700 ease-out hover:scale-125 hover:fill-red-600 cursor-pointer pointer-events-auto origin-center transform-gpu",
+                    "transition-all duration-700 ease-out hover:scale-110 cursor-pointer pointer-events-auto origin-center transform-gpu",
                     showNetwork ? "opacity-100 scale-100" : "opacity-0 scale-0"
                   )}
                   style={{ 
                     transitionDelay: showNetwork ? `${circle.delay}ms` : '0ms',
                     transformOrigin: `${circle.x}px ${circle.y}px`
-                  }} 
-                />
+                  }}
+                >
+                  {/* Outer circle container */}
+                  <circle 
+                    cx={circle.x} 
+                    cy={circle.y} 
+                    r="22" 
+                    fill="white"
+                    className="shadow-sm"
+                  />
+                  {/* Logo Image */}
+                  <image 
+                    href={circle.logoUrl}
+                    x={circle.x - 16}
+                    y={circle.y - 16}
+                    height="32"
+                    width="32"
+                    className="rounded-full"
+                    preserveAspectRatio="xMidYMid slice"
+                  />
+                  {/* Decorative faint ring */}
+                  <circle 
+                    cx={circle.x} 
+                    cy={circle.y} 
+                    r="22" 
+                    fill="none"
+                    stroke="black"
+                    strokeOpacity="0.05"
+                    strokeWidth="1"
+                  />
+                </g>
               ))}
             </g>
           </svg>
