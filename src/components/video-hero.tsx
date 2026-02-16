@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useEffect, useRef, useState } from 'react';
@@ -28,22 +29,21 @@ const LOGOS = [
   "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDvbfIPn8QRKmiczb0RgL2FAOeMt29sbLV-w&s"
 ];
 
-// Symmetric layout for exactly 19 unique items: 4-5-6-4 grid
 const RAW_POINTS = [
   // Row 1 (4 items)
-  { x: 300, y: 120, row: 0 }, { x: 433, y: 120, row: 0 }, { x: 566, y: 120, row: 0 }, { x: 700, y: 120, row: 0 },
+  { x: 320, y: 150, row: 0 }, { x: 440, y: 150, row: 0 }, { x: 560, y: 150, row: 0 }, { x: 680, y: 150, row: 0 },
   // Row 2 (5 items)
-  { x: 250, y: 240, row: 1 }, { x: 375, y: 240, row: 1 }, { x: 500, y: 240, row: 1 }, { x: 625, y: 240, row: 1 }, { x: 750, y: 240, row: 1 },
+  { x: 260, y: 250, row: 1 }, { x: 380, y: 250, row: 1 }, { x: 500, y: 250, row: 1 }, { x: 620, y: 250, row: 1 }, { x: 740, y: 250, row: 1 },
   // Row 3 (6 items)
-  { x: 200, y: 360, row: 2 }, { x: 320, y: 360, row: 2 }, { x: 440, y: 360, row: 2 }, { x: 560, y: 360, row: 2 }, { x: 680, y: 360, row: 2 }, { x: 800, y: 360, row: 2 },
+  { x: 200, y: 350, row: 2 }, { x: 320, y: 350, row: 2 }, { x: 440, y: 350, row: 2 }, { x: 560, y: 350, row: 2 }, { x: 680, y: 350, row: 2 }, { x: 800, y: 350, row: 2 },
   // Row 4 (4 items)
-  { x: 300, y: 480, row: 3 }, { x: 433, y: 480, row: 3 }, { x: 566, y: 480, row: 3 }, { x: 700, y: 480, row: 3 }
+  { x: 320, y: 450, row: 3 }, { x: 440, y: 450, row: 3 }, { x: 560, y: 450, row: 3 }, { x: 680, y: 450, row: 3 }
 ];
 
 const CIRCLES = RAW_POINTS.map((point, i) => ({
   ...point,
   logoUrl: LOGOS[i % LOGOS.length],
-  revealDelay: point.row * 100, 
+  revealDelay: point.row * 80, 
 }));
 
 export function VideoHero() {
@@ -87,7 +87,6 @@ export function VideoHero() {
   return (
     <div className="relative h-[200vh] bg-[#F9F9F9]">
       <section className="sticky top-0 w-full h-screen flex flex-col items-center justify-start pt-32 px-6 overflow-hidden">
-        {/* Background Videos */}
         <div className="absolute inset-0 z-0 pointer-events-none">
           <video
             ref={video1Ref}
@@ -114,86 +113,89 @@ export function VideoHero() {
           />
         </div>
 
-        {/* Hero Content */}
         <div className={cn(
           "relative z-10 text-center max-w-2xl flex flex-col items-center transition-all duration-700 ease-out pointer-events-none",
           hasScrolled ? "-translate-y-48 opacity-0 scale-95" : "translate-y-0 opacity-100 scale-100"
         )}>
-          <h1 className="text-2xl md:text-4xl font-bold text-black tracking-tight leading-[1.1] mb-4">
+          <h1 className="text-xl md:text-3xl font-bold text-black tracking-tight leading-[1.1] mb-3">
             Connect to the universal <br className="hidden md:block" /> lending network.
           </h1>
-          <p className="text-[12px] md:text-[13px] text-black/40 max-w-xs mb-5 leading-relaxed font-medium">
-            Access global liquidity at the best possible terms powered by open infrastructure that serves, not extracts.
+          <p className="text-[11px] md:text-[12px] text-black/40 max-w-xs mb-4 leading-relaxed font-medium">
+            Access global liquidity at the best possible terms powered by open infrastructure.
           </p>
           
-          <div className="flex gap-2.5 pointer-events-auto">
-            <button className="bg-black text-white px-5 py-1.5 rounded-full font-semibold hover:bg-black/80 transition-all text-[10px]">
+          <div className="flex gap-2 pointer-events-auto">
+            <button className="bg-black text-white px-4 py-1.5 rounded-full font-semibold hover:bg-black/80 transition-all text-[9px]">
               Launch App
             </button>
-            <button className="bg-white/80 backdrop-blur-sm text-black border border-black/[0.05] px-5 py-1.5 rounded-full font-semibold hover:bg-white transition-all text-[10px]">
+            <button className="bg-white/80 backdrop-blur-sm text-black border border-black/[0.05] px-4 py-1.5 rounded-full font-semibold hover:bg-white transition-all text-[9px]">
               Talk to us
             </button>
           </div>
         </div>
 
-        {/* Network Visualization */}
         <div className={cn(
           "absolute inset-0 z-20 flex items-center justify-center pointer-events-none transition-all duration-1000 ease-out",
-          showNetwork ? "opacity-100 translate-y-[-15%]" : "opacity-0 translate-y-10"
+          showNetwork ? "opacity-100 translate-y-[-10%]" : "opacity-0 translate-y-8"
         )}>
           <svg 
-            className="w-full h-[75vh] max-w-6xl overflow-visible" 
+            className="w-full h-[70vh] max-w-5xl overflow-visible" 
             viewBox="0 0 1000 650" 
             preserveAspectRatio="xMidYMid meet"
           >
+            <defs>
+              {CIRCLES.map((_, i) => (
+                <clipPath key={`clip-${i}`} id={`clip-${i}`}>
+                  <circle cx={CIRCLES[i].x} cy={CIRCLES[i].y} r="20" />
+                </clipPath>
+              ))}
+            </defs>
             <g>
               {CIRCLES.map((circle, index) => (
                 <g 
                   key={index}
                   className={cn(
-                    "transition-all duration-500 pointer-events-auto origin-center transform-gpu",
+                    "transition-all duration-500 transform-gpu",
                     showNetwork 
                       ? "opacity-100 scale-100 translate-y-0" 
-                      : "opacity-0 scale-90 translate-y-4"
+                      : "opacity-0 scale-90 translate-y-2"
                   )}
                   style={{ 
                     transitionDelay: showNetwork ? `${circle.revealDelay}ms` : '0ms',
                     transformOrigin: `${circle.x}px ${circle.y}px`,
                   }}
                 >
-                  <g className="hover:scale-110 transition-transform duration-300 cursor-pointer">
-                    <circle 
-                      cx={circle.x} 
-                      cy={circle.y} 
-                      r="42" 
-                      fill="white"
-                      className="drop-shadow-sm"
-                    />
-                    <image 
-                      href={circle.logoUrl}
-                      x={circle.x - 30}
-                      y={circle.y - 30}
-                      height="60"
-                      width="60"
-                      className="rounded-full"
-                    />
-                    <circle 
-                      cx={circle.x} 
-                      cy={circle.y} 
-                      r="42" 
-                      fill="none"
-                      stroke="black"
-                      strokeOpacity="0.05"
-                      strokeWidth="1"
-                    />
-                  </g>
+                  <circle 
+                    cx={circle.x} 
+                    cy={circle.y} 
+                    r="28" 
+                    fill="white"
+                    className="drop-shadow-sm"
+                  />
+                  <image 
+                    href={circle.logoUrl}
+                    x={circle.x - 20}
+                    y={circle.y - 20}
+                    height="40"
+                    width="40"
+                    clipPath={`url(#clip-${index})`}
+                    className="rounded-full"
+                  />
+                  <circle 
+                    cx={circle.x} 
+                    cy={circle.y} 
+                    r="28" 
+                    fill="none"
+                    stroke="black"
+                    strokeOpacity="0.03"
+                    strokeWidth="1"
+                  />
                 </g>
               ))}
             </g>
           </svg>
         </div>
 
-        {/* Bottom Fade */}
         <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#F9F9F9] to-transparent pointer-events-none z-10"></div>
       </section>
     </div>
