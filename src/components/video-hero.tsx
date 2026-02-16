@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from 'react';
+import { ChevronDown } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const VIDEO_1_URL = "https://github.com/kalaanakonda/Video-morpho/raw/refs/heads/main/aa11_3.webm";
@@ -91,15 +92,15 @@ export function VideoHero() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [hasScrolled]);
 
-  const parallaxX = (mousePos.x - 0.5) * 60;
-  const parallaxY = (mousePos.y - 0.5) * 60;
+  const parallaxX = (mousePos.x - 0.5) * 30;
+  const parallaxY = (mousePos.y - 0.5) * 30;
 
   return (
     <div className="relative h-[200vh] bg-[#F9F9F9]">
       <section className="sticky top-0 w-full h-screen flex flex-col items-center justify-start pt-32 px-6 overflow-hidden">
         <div 
           className="absolute inset-0 z-0 pointer-events-none transition-transform duration-700 ease-out grayscale"
-          style={{ transform: `translate(${parallaxX}px, ${parallaxY}px) scale(1.1)` }}
+          style={{ transform: `translate(${parallaxX}px, ${parallaxY}px) scale(1.2)` }}
         >
           <video
             ref={video1Ref}
@@ -147,7 +148,10 @@ export function VideoHero() {
           hasScrolled ? "opacity-0 translate-x-10" : "opacity-100 translate-x-0"
         )}>
           <span className="text-[10px] font-bold text-primary/30 tracking-tight">Scroll to explore</span>
-          <div className="w-px h-8 bg-primary/10" />
+          <div className="flex flex-col items-center">
+            <div className="w-px h-8 bg-primary/10" />
+            <ChevronDown className="w-3 h-3 text-primary/30 -mt-1" />
+          </div>
         </div>
 
         <div className={cn(
@@ -162,10 +166,10 @@ export function VideoHero() {
           </p>
           
           <div className="flex gap-3 pointer-events-auto">
-            <button className="bg-[#2973FF] text-white px-8 py-3 rounded-full font-bold hover:opacity-90 transition-all text-xs shadow-md animate-shine">
+            <button className="bg-[#2973FF] text-white px-8 py-3 rounded-md font-bold hover:opacity-90 transition-all text-xs shadow-md animate-shine">
               Launch app
             </button>
-            <button className="bg-white/90 backdrop-blur-md text-primary border border-primary/[0.05] px-8 py-3 rounded-full font-bold hover:bg-white transition-all text-xs shadow-sm">
+            <button className="bg-white/90 backdrop-blur-md text-primary border border-primary/[0.05] px-8 py-3 rounded-md font-bold hover:bg-white transition-all text-xs shadow-sm">
               Talk to us
             </button>
           </div>

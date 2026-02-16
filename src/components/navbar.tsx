@@ -46,7 +46,7 @@ export function Navbar() {
         <button className="hidden sm:block text-xs font-medium text-primary/50 hover:text-primary transition-colors px-3 py-1.5">
           Talk to us
         </button>
-        <button className="bg-[#2973FF] hover:opacity-90 text-white px-5 py-2 rounded-full text-xs font-semibold transition-all shadow-sm animate-shine">
+        <button className="bg-[#2973FF] hover:opacity-90 text-white px-5 py-2 rounded-md text-xs font-semibold transition-all shadow-sm animate-shine">
           Launch app
         </button>
       </div>
