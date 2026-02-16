@@ -17,21 +17,31 @@ export function VideoHero() {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const handleTrigger = (e: WheelEvent | TouchEvent) => {
-      if (!hasScrolled) {
+    const handleScroll = () => {
+      const scrollY = window.scrollY;
+      const threshold = 50; // Threshold to trigger the transformation
+
+      if (scrollY > threshold && !hasScrolled) {
         setHasScrolled(true);
         if (video2Ref.current) {
+          video2Ref.current.currentTime = 0;
           video2Ref.current.play().catch(console.error);
+        }
+      } else if (scrollY <= threshold && hasScrolled) {
+        setHasScrolled(false);
+        setVideo2Ended(false);
+        if (video1Ref.current) {
+          video1Ref.current.play().catch(console.error);
         }
       }
     };
 
-    window.addEventListener('wheel', handleTrigger, { once: true });
-    window.addEventListener('touchstart', handleTrigger, { once: true });
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    // Initial check in case page is loaded already scrolled
+    handleScroll();
 
     return () => {
-      window.removeEventListener('wheel', handleTrigger);
-      window.removeEventListener('touchstart', handleTrigger);
+      window.removeEventListener('scroll', handleScroll);
     };
   }, [hasScrolled]);
 
@@ -40,24 +50,7 @@ export function VideoHero() {
   };
 
   const restartExperience = () => {
-    setHasScrolled(false);
-    setVideo2Ended(false);
-    if (video2Ref.current) {
-      video2Ref.current.pause();
-      video2Ref.current.currentTime = 0;
-    }
-    if (video1Ref.current) {
-      video1Ref.current.play().catch(console.error);
-    }
-    // Re-attach listeners
-    const handleTrigger = (e: WheelEvent | TouchEvent) => {
-      setHasScrolled(true);
-      if (video2Ref.current) {
-        video2Ref.current.play().catch(console.error);
-      }
-    };
-    window.addEventListener('wheel', handleTrigger, { once: true });
-    window.addEventListener('touchstart', handleTrigger, { once: true });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (
@@ -106,7 +99,7 @@ export function VideoHero() {
         />
         
         {/* Discrete Controls */}
-        <div className="absolute bottom-10 right-10 flex gap-3">
+        <div className="absolute bottom-10 right-10 flex gap-3 z-20">
           <button
             onClick={toggleMute}
             className="p-3 bg-black/40 hover:bg-black/60 backdrop-blur-lg border border-white/10 rounded-full text-white transition-all"
@@ -120,12 +113,12 @@ export function VideoHero() {
               className="flex items-center gap-2 px-5 bg-accent hover:bg-accent/90 text-accent-foreground font-bold rounded-full transition-all shadow-lg"
             >
               <RotateCcw className="w-4 h-4" />
-              <span>Replay</span>
+              <span>Reset</span>
             </button>
           )}
         </div>
 
-        {/* Cinematic overlay for Video 2 if needed */}
+        {/* Cinematic overlay for Video 2 */}
         {hasScrolled && !video2Ended && (
           <div className="absolute top-10 left-1/2 -translate-x-1/2 pointer-events-none">
              <div className="px-4 py-1 rounded-full bg-white/10 backdrop-blur-sm border border-white/10">
