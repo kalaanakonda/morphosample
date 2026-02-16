@@ -7,24 +7,22 @@ export default function Home() {
       <Navbar />
       <VideoHero />
       
-      {/* Scrollable content section for added depth if user manages to scroll past hero height, 
-          though the app logic mainly focuses on the switch. */}
       <section className="relative z-10 py-24 px-6 md:px-12 max-w-7xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
           <div>
-            <h2 className="text-4xl md:text-5xl font-black mb-6 font-headline tracking-tight uppercase">
+            <h2 className="text-2xl md:text-3xl font-black mb-6 font-headline tracking-tight uppercase">
               Designed for <br /><span className="text-accent">Precision</span>
             </h2>
-            <p className="text-muted-foreground text-lg leading-relaxed mb-8">
+            <p className="text-muted-foreground text-sm leading-relaxed mb-8">
               ScrollPlay offers a unique interaction model where every gesture matters. 
               Our technology synchronizes motion with visual storytelling to create 
               immersive digital environments that respond to user presence.
             </p>
             <div className="flex gap-4">
-              <button className="bg-primary hover:bg-primary/80 text-white px-8 py-3 rounded-full font-bold transition-all border border-white/5">
+              <button className="bg-primary hover:bg-primary/80 text-white px-6 py-2.5 rounded-full text-xs font-bold transition-all border border-white/5">
                 Learn More
               </button>
-              <button className="bg-accent hover:bg-accent/90 text-accent-foreground px-8 py-3 rounded-full font-bold transition-all shadow-lg">
+              <button className="bg-accent hover:bg-accent/90 text-accent-foreground px-6 py-2.5 rounded-full text-xs font-bold transition-all shadow-lg">
                 View Gallery
               </button>
             </div>
@@ -50,7 +48,7 @@ export default function Home() {
       </section>
 
       <footer className="py-12 px-6 border-t border-white/5 text-center">
-        <p className="text-sm text-muted-foreground">
+        <p className="text-xs text-muted-foreground">
           © {new Date().getFullYear()} ScrollPlay Interactive. All rights reserved.
         </p>
       </footer>

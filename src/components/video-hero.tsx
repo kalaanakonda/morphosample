@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useEffect, useRef, useState } from 'react';
@@ -25,22 +24,20 @@ const LOGOS = [
   "https://play-lh.googleusercontent.com/jrC7NQ6QGyEXLhzT5IkDNoCpB9Unj8Men9NibldAW1mKHPH6vaouBLOk6mNkFjAt7vlG"
 ];
 
-// Simplified 2-row layout for logos, positioned above the heading area
+// 2-row layout for logos
 const RAW_POINTS = [
   // Row 1
-  { x: 300, y: 180, row: 0 }, { x: 380, y: 180, row: 0 }, { x: 460, y: 180, row: 0 }, { x: 540, y: 180, row: 0 }, { x: 620, y: 180, row: 0 }, { x: 700, y: 180, row: 0 },
+  { x: 300, y: 150, row: 0 }, { x: 380, y: 150, row: 0 }, { x: 460, y: 150, row: 0 }, { x: 540, y: 150, row: 0 }, { x: 620, y: 150, row: 0 }, { x: 700, y: 150, row: 0 },
   // Row 2
-  { x: 340, y: 245, row: 1 }, { x: 420, y: 245, row: 1 }, { x: 500, y: 245, row: 1 }, { x: 580, y: 245, row: 1 }, { x: 660, y: 245, row: 1 }
+  { x: 340, y: 215, row: 1 }, { x: 420, y: 215, row: 1 }, { x: 500, y: 215, row: 1 }, { x: 580, y: 215, row: 1 }, { x: 660, y: 215, row: 1 }
 ];
 
 const CIRCLES = RAW_POINTS.map((point, i) => ({
   ...point,
   logoUrl: LOGOS[i % LOGOS.length],
-  revealDelay: i * 40, 
 }));
 
 export function VideoHero() {
-  const [scrollY, setScrollY] = useState(0);
   const [hasScrolled, setHasScrolled] = useState(false);
   const [showSection, setShowSection] = useState(false);
   const [mousePos, setMousePos] = useState({ x: 0.5, y: 0.5 });
@@ -62,9 +59,8 @@ export function VideoHero() {
   useEffect(() => {
     const handleScroll = () => {
       const currentScroll = window.scrollY;
-      setScrollY(currentScroll);
-
       const revealThreshold = 80; 
+
       if (currentScroll > revealThreshold) {
         if (!hasScrolled) {
           setHasScrolled(true);
@@ -87,21 +83,20 @@ export function VideoHero() {
 
     window.addEventListener('scroll', handleScroll, { passive: true });
     handleScroll();
-
     return () => window.removeEventListener('scroll', handleScroll);
   }, [hasScrolled]);
 
-  // Parallax calculation
-  const parallaxX = (mousePos.x - 0.5) * 6;
-  const parallaxY = (mousePos.y - 0.5) * 6;
+  // Very subtle parallax
+  const parallaxX = (mousePos.x - 0.5) * 4;
+  const parallaxY = (mousePos.y - 0.5) * 4;
 
   return (
     <div className="relative h-[250vh] bg-[#F9F9F9]">
       <section className="sticky top-0 w-full h-screen flex flex-col items-center justify-start pt-32 px-6 overflow-hidden">
-        {/* Parallax Video Container */}
+        {/* Background Videos with Parallax */}
         <div 
           className="absolute inset-0 z-0 pointer-events-none transition-transform duration-500 ease-out"
-          style={{ transform: `translate(${parallaxX}px, ${parallaxY}px) scale(1.02)` }}
+          style={{ transform: `translate(${parallaxX}px, ${parallaxY}px) scale(1.01)` }}
         >
           <video
             ref={video1Ref}
@@ -131,41 +126,41 @@ export function VideoHero() {
         {/* Hero Content */}
         <div className={cn(
           "relative z-10 text-center max-w-4xl flex flex-col items-center transition-all duration-1000 ease-in-out pointer-events-none",
-          hasScrolled ? "-translate-y-64 opacity-0 scale-90" : "translate-y-0 opacity-100 scale-100"
+          hasScrolled ? "-translate-y-64 opacity-0 scale-95" : "translate-y-0 opacity-100 scale-100"
         )}>
-          <h1 className="text-xl md:text-3xl font-bold text-black tracking-tighter leading-[1.1] mb-6">
+          <h1 className="text-lg md:text-2xl font-bold text-black tracking-tighter leading-[1.1] mb-6">
             Connect to the universal <br className="hidden md:block" /> lending network.
           </h1>
-          <p className="text-sm md:text-base text-black/60 max-w-lg mb-10 leading-relaxed font-medium">
+          <p className="text-xs md:text-sm text-black/60 max-w-lg mb-10 leading-relaxed font-medium">
             Access global liquidity at the best possible terms powered by open infrastructure.
           </p>
           
           <div className="flex gap-4 pointer-events-auto">
-            <button className="bg-black text-white px-7 py-3 rounded-full font-bold hover:bg-black/90 transition-all text-[11px] uppercase tracking-widest shadow-md">
+            <button className="bg-black text-white px-6 py-2.5 rounded-full font-bold hover:bg-black/90 transition-all text-[10px] uppercase tracking-widest shadow-md">
               Launch App
             </button>
-            <button className="bg-white/90 backdrop-blur-md text-black border border-black/[0.05] px-7 py-3 rounded-full font-bold hover:bg-white transition-all text-[11px] uppercase tracking-widest shadow-sm">
+            <button className="bg-white/90 backdrop-blur-md text-black border border-black/[0.05] px-6 py-2.5 rounded-full font-bold hover:bg-white transition-all text-[10px] uppercase tracking-widest shadow-sm">
               Talk to us
             </button>
           </div>
         </div>
 
-        {/* Powered by Morpho Section - Unified Simple Motion */}
+        {/* Powered by Morpho Section - Simplified Motion, Centered Stack */}
         <div className={cn(
-          "absolute inset-0 z-30 flex flex-col items-center justify-center pointer-events-none transition-all duration-1000 ease-out px-6 text-center",
-          showSection ? "opacity-100 translate-y-0" : "opacity-0 translate-y-32"
+          "absolute inset-0 z-30 flex flex-col items-center justify-center pointer-events-none transition-all duration-1000 ease-out px-6",
+          showSection ? "opacity-100 translate-y-0" : "opacity-0 translate-y-16"
         )}>
-          {/* Network Circles - Closer to text */}
-          <div className="w-full max-w-4xl mb-6">
+          {/* Logo Grid - Closer to Heading */}
+          <div className="w-full max-w-2xl -mb-10">
             <svg 
-              className="w-full h-[30vh] overflow-visible" 
-              viewBox="0 0 1000 350" 
+              className="w-full h-[25vh] overflow-visible" 
+              viewBox="0 0 1000 300" 
               preserveAspectRatio="xMidYMid meet"
             >
               <defs>
                 {CIRCLES.map((_, i) => (
                   <clipPath key={`clip-${i}`} id={`clip-${i}`}>
-                    <circle cx={CIRCLES[i].x} cy={CIRCLES[i].y} r="16" />
+                    <circle cx={CIRCLES[i].x} cy={CIRCLES[i].y} r="14" />
                   </clipPath>
                 ))}
               </defs>
@@ -174,30 +169,27 @@ export function VideoHero() {
                   <g 
                     key={index}
                     className="transition-opacity duration-700 ease-out"
-                    style={{ 
-                      opacity: showSection ? 1 : 0,
-                      transitionDelay: showSection ? `${circle.revealDelay}ms` : '0ms',
-                    }}
+                    style={{ opacity: showSection ? 1 : 0 }}
                   >
                     <circle 
                       cx={circle.x} 
                       cy={circle.y} 
-                      r="16" 
+                      r="14" 
                       fill="white"
                       className="drop-shadow-sm"
                     />
                     <image 
                       href={circle.logoUrl}
-                      x={circle.x - 11}
-                      y={circle.y - 11}
-                      height="22"
-                      width="22"
+                      x={circle.x - 10}
+                      y={circle.y - 10}
+                      height="20"
+                      width="20"
                       clipPath={`url(#clip-${index})`}
                     />
                     <circle 
                       cx={circle.x} 
                       cy={circle.y} 
-                      r="16" 
+                      r="14" 
                       fill="none"
                       stroke="black"
                       strokeOpacity="0.04"
@@ -209,18 +201,18 @@ export function VideoHero() {
             </svg>
           </div>
 
-          <div className="flex flex-col items-center">
-            <h2 className="text-lg md:text-xl font-bold text-black tracking-tight leading-[1.1] mb-3">
+          <div className="flex flex-col items-center text-center">
+            <h2 className="text-base md:text-lg font-bold text-black tracking-tight leading-[1.1] mb-2">
               Powered by Morpho
             </h2>
-            <p className="text-[10px] text-black/40 max-w-sm leading-relaxed font-semibold uppercase tracking-widest">
+            <p className="text-[9px] text-black/40 max-w-sm leading-relaxed font-semibold uppercase tracking-widest">
               Enterprises that connect with Morpho to power any lending or borrowing use case at scale
             </p>
           </div>
         </div>
 
         {/* Bottom Fade */}
-        <div className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-[#F9F9F9] via-[#F9F9F9]/80 to-transparent pointer-events-none z-10"></div>
+        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#F9F9F9] to-transparent pointer-events-none z-10"></div>
       </section>
     </div>
   );
