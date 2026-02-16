@@ -76,20 +76,20 @@ export function VideoHero() {
     setActiveJolt({ index, time: Date.now() });
   };
 
-  const parallaxX = (mousePos.x - 0.5) * 45;
-  const parallaxY = (mousePos.y - 0.5) * 45;
-  const videoScale = 1.1 + (Math.abs(mousePos.x - 0.5) + Math.abs(mousePos.y - 0.5)) * 0.05;
-  const videoRotationX = (mousePos.y - 0.5) * 3;
-  const videoRotationY = (mousePos.x - 0.5) * -3;
+  const parallaxX = (mousePos.x - 0.5) * 60; // Increased intensity
+  const parallaxY = (mousePos.y - 0.5) * 60; // Increased intensity
+  const videoScale = 1.15 + (Math.abs(mousePos.x - 0.5) + Math.abs(mousePos.y - 0.5)) * 0.08;
+  const videoRotationX = (mousePos.y - 0.5) * 5; // Increased tilt
+  const videoRotationY = (mousePos.x - 0.5) * -5; // Increased tilt
 
   return (
     <div className="relative h-[200vh] bg-background">
       <section className="sticky top-0 w-full h-screen flex flex-col items-center justify-start pt-32 px-6 overflow-hidden">
         <div 
-          className="absolute inset-0 z-0 pointer-events-none transition-transform duration-300 ease-out grayscale"
+          className="absolute inset-0 z-0 pointer-events-none transition-transform duration-500 ease-out grayscale"
           style={{ 
             transform: `translate(${parallaxX}px, ${parallaxY}px) scale(${videoScale}) rotateX(${videoRotationX}deg) rotateY(${videoRotationY}deg)`,
-            perspective: '1200px'
+            perspective: '1500px'
           }}
         >
           <video
@@ -164,7 +164,7 @@ export function VideoHero() {
               const joltRow = activeJolt ? Math.floor(activeJolt.index / 40) : -100;
               
               const distance = Math.sqrt(Math.pow(col - joltCol, 2) + Math.pow(row - joltRow, 2));
-              const maxRadius = 8.5; 
+              const maxRadius = 15; // Increased radius for a more "alive" expansive feel
               const isJolting = activeJolt && distance < maxRadius;
               const isDirectlyUnder = distance === 0;
 
@@ -174,12 +174,13 @@ export function VideoHero() {
                   onMouseEnter={() => handleCellHover(i)}
                   className={cn(
                     "border-[0.5px] border-primary/[0.008] aspect-square transition-all duration-75 pointer-events-auto",
-                    "hover:bg-primary/[0.015] hover:shadow-[inset_0_0_8px_rgba(21,24,26,0.02)]",
+                    "hover:bg-primary/[0.012] hover:shadow-[inset_0_0_8px_rgba(21,24,26,0.015)]",
                     isJolting && !isDirectlyUnder && "animate-jolt"
                   )}
                   style={isJolting && !isDirectlyUnder ? { 
                     animationDelay: `${distance * 38}ms`,
-                    opacity: Math.max(0.02, 0.4 - (distance / maxRadius)) 
+                    // Fades outwards more smoothly
+                    opacity: Math.max(0.01, 0.35 * (1 - (distance / maxRadius))) 
                   } : {}}
                 />
               );
