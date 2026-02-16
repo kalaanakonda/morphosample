@@ -6,9 +6,9 @@ import { ChevronDown } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import Lottie from 'lottie-react';
 
-const VIDEO_1_URL = "https://github.com/kalaanakonda/Video-morpho/raw/refs/heads/main/aa11_3.webm";
-const VIDEO_2_URL = "https://github.com/kalaanakonda/Video-morpho/raw/refs/heads/main/aa22_3.webm";
-const LOTTIE_URL = "https://github.com/kalaanakonda/Video-morpho/raw/refs/heads/main/Frame-2147223772-Soft.json";
+const VIDEO_1_URL = "https://raw.githubusercontent.com/kalaanakonda/Video-morpho/main/aa11_3.webm";
+const VIDEO_2_URL = "https://raw.githubusercontent.com/kalaanakonda/Video-morpho/main/aa22_3.webm";
+const LOTTIE_URL = "https://raw.githubusercontent.com/kalaanakonda/Video-morpho/main/Frame-2147223772-Soft.json";
 
 export function VideoHero() {
   const [hasScrolled, setHasScrolled] = useState(false);
@@ -21,7 +21,10 @@ export function VideoHero() {
 
   useEffect(() => {
     fetch(LOTTIE_URL)
-      .then(res => res.json())
+      .then(res => {
+        if (!res.ok) throw new Error('Network response was not ok');
+        return res.json();
+      })
       .then(data => setAnimationData(data))
       .catch(err => console.error("Error loading Lottie animation:", err));
   }, []);
