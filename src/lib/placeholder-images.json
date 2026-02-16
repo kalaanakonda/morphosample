@@ -1,3 +1,10 @@
 {
-  "placeholderImages": []
+  "placeholderImages": [
+    {
+      "id": "tech-backdrop",
+      "description": "Dark abstract technology background",
+      "imageUrl": "https://images.unsplash.com/photo-1632893037506-aac33bf18107?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxkYXJrJTIwdGVjaG5vbG9neXxlbnwwfHx8fDE3NzEyNDI2NDB8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "dark technology"
+    }
+  ]
 }
