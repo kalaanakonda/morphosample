@@ -2,8 +2,8 @@ import type {Metadata} from 'next';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'ScrollPlay | Interactive Video Experience',
-  description: 'A seamless scroll-triggered video transitions experience.',
+  title: 'Morpho | Connect to the universal lending network',
+  description: 'Access global liquidity at the best possible terms powered by open infrastructure.',
 };
 
 export default function RootLayout({
@@ -12,13 +12,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark">
+    <html lang="en" className="light">
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        {/* Using Inter as a high-quality proxy for Geist for reliable loading, or standard sans stack */}
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
       </head>
-      <body className="font-body antialiased selection:bg-accent selection:text-accent-foreground">
+      <body className="font-body antialiased selection:bg-black selection:text-white bg-[#F9F9F9]">
         {children}
       </body>
     </html>
