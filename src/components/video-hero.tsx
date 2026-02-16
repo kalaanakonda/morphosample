@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useEffect, useRef, useState } from 'react';
@@ -15,6 +14,7 @@ export function VideoHero() {
   const [showSection, setShowSection] = useState(false);
   const [mousePos, setMousePos] = useState({ x: 0.5, y: 0.5 });
   const [animationData, setAnimationData] = useState<any>(null);
+  const [activeJolt, setActiveJolt] = useState<{ index: number; time: number } | null>(null);
   
   const video1Ref = useRef<HTMLVideoElement>(null);
   const video2Ref = useRef<HTMLVideoElement>(null);
@@ -70,15 +70,19 @@ export function VideoHero() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [hasScrolled]);
 
-  const parallaxX = (mousePos.x - 0.5) * 20;
-  const parallaxY = (mousePos.y - 0.5) * 20;
+  const handleCellClick = (index: number) => {
+    setActiveJolt({ index, time: Date.now() });
+  };
+
+  const parallaxX = (mousePos.x - 0.5) * 12;
+  const parallaxY = (mousePos.y - 0.5) * 12;
 
   return (
     <div className="relative h-[200vh] bg-background">
       <section className="sticky top-0 w-full h-screen flex flex-col items-center justify-start pt-32 px-6 overflow-hidden">
         <div 
           className="absolute inset-0 z-0 pointer-events-none transition-transform duration-700 ease-out grayscale"
-          style={{ transform: `translate(${parallaxX}px, ${parallaxY}px) scale(1.3)` }}
+          style={{ transform: `translate(${parallaxX}px, ${parallaxY}px) scale(1.15)` }}
         >
           <video
             ref={video1Ref}
@@ -137,8 +141,8 @@ export function VideoHero() {
           hasScrolled ? "-translate-y-64 opacity-0 scale-90" : "translate-y-0 opacity-100 scale-100"
         )}>
           {/* Heading Container with Grid */}
-          <div className="relative w-full flex flex-col items-center group/hero-grid mb-4">
-            {/* Interactive Viewport-Wide Grid Background - Scaled Down (Higher Density) */}
+          <div className="relative w-full flex flex-col items-center mb-4">
+            {/* Interactive Viewport-Wide Grid Background */}
             <div 
               className="absolute left-1/2 -translate-x-1/2 w-screen -top-32 grid pointer-events-none z-[-1] overflow-hidden"
               style={{ 
@@ -147,12 +151,31 @@ export function VideoHero() {
                 WebkitMaskImage: 'radial-gradient(circle at center, black 0%, transparent 80%), linear-gradient(to bottom, transparent 0%, black 15%, black 65%, transparent 100%)'
               }}
             >
-              {Array.from({ length: 480 }).map((_, i) => (
-                <div 
-                  key={i} 
-                  className="border-[0.5px] border-primary/[0.02] aspect-square hover:bg-primary/[0.02] transition-all duration-75 pointer-events-auto hover:shadow-[inset_0_0_15px_rgba(41,115,255,0.06)]"
-                />
-              ))}
+              {Array.from({ length: 480 }).map((_, i) => {
+                const col = i % 40;
+                const row = Math.floor(i / 40);
+                const joltCol = activeJolt ? activeJolt.index % 40 : -100;
+                const joltRow = activeJolt ? Math.floor(activeJolt.index / 40) : -100;
+                
+                const distance = Math.sqrt(Math.pow(col - joltCol, 2) + Math.pow(row - joltRow, 2));
+                const isJolting = activeJolt && distance < 3.5;
+
+                return (
+                  <div 
+                    key={i}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleCellClick(i);
+                    }}
+                    className={cn(
+                      "border-[0.5px] border-primary/[0.015] aspect-square transition-all duration-75 pointer-events-auto",
+                      "hover:bg-primary/[0.02] hover:shadow-[inset_0_0_15px_rgba(41,115,255,0.06)]",
+                      isJolting && "animate-jolt"
+                    )}
+                    style={isJolting ? { animationDelay: `${distance * 40}ms` } : {}}
+                  />
+                );
+              })}
             </div>
 
             <h1 className="text-3xl md:text-5xl font-bold text-primary tracking-tighter leading-[1.1] mb-6">
