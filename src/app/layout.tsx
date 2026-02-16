@@ -16,10 +16,10 @@ export default function RootLayout({
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        {/* Using Inter as a high-quality proxy for Geist for reliable loading, or standard sans stack */}
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+        {/* Proxying Geist with Inter as specified in guidelines for reliability, but prioritizing sans-serif system stack */}
       </head>
-      <body className="font-body antialiased selection:bg-black selection:text-white bg-[#F9F9F9]">
+      <body className="font-sans antialiased selection:bg-black selection:text-white bg-[#F9F9F9]">
         {children}
       </body>
     </html>
