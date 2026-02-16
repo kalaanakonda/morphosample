@@ -46,7 +46,7 @@ export function VideoHero() {
   const toggleMute = () => setIsMuted(!isMuted);
 
   return (
-    <section className="relative w-full h-[90vh] flex flex-col items-center justify-start pt-24 md:pt-32 px-6 bg-[#F9F9F9] overflow-hidden">
+    <section className="relative w-full h-[90vh] flex flex-col items-center justify-start pt-20 md:pt-24 px-6 bg-[#F9F9F9] overflow-hidden">
       {/* Background Videos */}
       <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
         {/* Video 1: Loop */}
@@ -75,24 +75,24 @@ export function VideoHero() {
           )}
         />
 
-        {/* Overlay for readability if needed, though videos seem light/clean */}
-        <div className="absolute inset-0 bg-white/10 backdrop-blur-[2px] pointer-events-none"></div>
+        {/* Removed the blur overlay entirely for clarity */}
+        <div className="absolute inset-0 bg-white/5 pointer-events-none"></div>
       </div>
 
       {/* Brand & Headline Content */}
       <div className="relative z-10 text-center max-w-2xl flex flex-col items-center">
-        <h1 className="text-3xl md:text-4xl lg:text-[42px] font-bold text-black tracking-tight leading-[1.1] mb-4">
+        <h1 className="text-2xl md:text-3xl lg:text-[32px] font-bold text-black tracking-tight leading-[1.1] mb-3">
           Connect to the universal <br className="hidden md:block" /> lending network.
         </h1>
-        <p className="text-sm md:text-base text-black/70 max-w-xl mb-8 leading-relaxed font-normal">
+        <p className="text-[13px] md:text-sm text-black/60 max-w-lg mb-6 leading-relaxed font-normal">
           Access global liquidity at the best possible terms powered by open infrastructure that serves, not extracts.
         </p>
         
         <div className="flex flex-col sm:flex-row gap-3">
-          <button className="bg-black text-white px-7 py-2.5 rounded-full font-semibold hover:bg-black/80 transition-all text-xs md:text-sm">
+          <button className="bg-black text-white px-6 py-2 rounded-full font-semibold hover:bg-black/80 transition-all text-[12px]">
             Launch App
           </button>
-          <button className="bg-white/80 backdrop-blur-sm text-black border border-black/5 px-7 py-2.5 rounded-full font-semibold hover:bg-white transition-all text-xs md:text-sm shadow-sm">
+          <button className="bg-white/90 backdrop-blur-sm text-black border border-black/5 px-6 py-2 rounded-full font-semibold hover:bg-white transition-all text-[12px] shadow-sm">
             Talk to us
           </button>
         </div>
@@ -101,14 +101,14 @@ export function VideoHero() {
       {/* Mute toggle */}
       <button
         onClick={toggleMute}
-        className="absolute bottom-10 right-10 p-2.5 bg-black/5 hover:bg-black/10 backdrop-blur-md border border-black/10 rounded-full text-black/60 hover:text-black transition-all z-20"
+        className="absolute bottom-8 right-8 p-2 bg-black/5 hover:bg-black/10 backdrop-blur-md border border-black/10 rounded-full text-black/60 hover:text-black transition-all z-20"
         aria-label={isMuted ? "Unmute" : "Mute"}
       >
-        {isMuted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
+        {isMuted ? <VolumeX className="w-3.5 h-3.5" /> : <Volume2 className="w-3.5 h-3.5" />}
       </button>
 
       {/* Subtle Bottom Gradient */}
-      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#F9F9F9] to-transparent pointer-events-none z-10"></div>
+      <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-[#F9F9F9] to-transparent pointer-events-none z-10"></div>
     </section>
   );
 }
