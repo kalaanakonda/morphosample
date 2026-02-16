@@ -1,55 +1,30 @@
+
 "use client";
 
 import React, { useEffect, useRef, useState } from 'react';
 import { ChevronDown } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import Lottie from 'lottie-react';
 
 const VIDEO_1_URL = "https://github.com/kalaanakonda/Video-morpho/raw/refs/heads/main/aa11_3.webm";
 const VIDEO_2_URL = "https://github.com/kalaanakonda/Video-morpho/raw/refs/heads/main/aa22_3.webm";
-
-const LOGOS = [
-  "https://cryptologos.cc/logos/thumbs/bitget-token-new.png?v=040",
-  "https://cryptologos.cc/logos/thumbs/chainlink.png?v=040",
-  "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/Binance_Logo.svg/960px-Binance_Logo.svg.png",
-  "https://cryptologos.cc/logos/thumbs/pendle.png?v=040",
-  "https://avatars.githubusercontent.com/u/32179889?s=200&v=4",
-  "https://cdn.worldvectorlogo.com/logos/farcaster.svg",
-  "https://pbs.twimg.com/profile_images/1643941027898613760/gyhYEOCE_400x400.jpg",
-  "https://upload.wikimedia.org/wikipedia/commons/2/21/Polygon_Icon.svg",
-  "https://pbs.twimg.com/profile_images/1672323719176318987/Qv7h4j1s_400x400.jpg",
-  "https://assets.coingecko.com/coins/images/7310/large/cro_token_logo.png",
-  "https://cryptologos.cc/logos/lido-dao-ldo-logo.png",
-  "https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/coinbase-logo-icon.png",
-  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR-IVIyim1hmDBpx97RslB9FvyUNKHk_liy2A&s",
-  "https://play-lh.googleusercontent.com/94WeEFfCBINrvpKxGB4YjR6-yau-aCx4PZVivlDDFbdPOajiwJ-E7ew3gC9WfsYiHmfvwFRfQATzPOBKzJGQIA=w240-h480-rw",
-  "https://play-lh.googleusercontent.com/jrC7NQ6QGyEXLhzT5IkDNoCpB9Unj8Men9NibldAW1mKHPH6vaouBLOk6mNkFjAt7vlG",
-  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR2ai9aTxuvIhVwDAFnPv0fETRIN2llX-9QgQ&s",
-  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR2ai9aTxuvIhVwDAFnPv0fETRIN2llX-9QgQ&s",
-  "https://cdn.morpho.org/v2/assets/images/steakhouse.svg",
-  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDvbfIPn8QRKmiczb0RgL2FAOeMt29sbLV-w&s"
-];
-
-const RAW_POINTS = [
-  // Row 1 - 10 points
-  { x: 140, y: 120 }, { x: 220, y: 120 }, { x: 300, y: 120 }, { x: 380, y: 120 }, { x: 460, y: 120 }, 
-  { x: 540, y: 120 }, { x: 620, y: 120 }, { x: 700, y: 120 }, { x: 780, y: 120 }, { x: 860, y: 120 },
-  // Row 2 - 9 points
-  { x: 180, y: 200 }, { x: 260, y: 200 }, { x: 340, y: 200 }, { x: 420, y: 200 }, { x: 500, y: 200 }, 
-  { x: 580, y: 200 }, { x: 660, y: 200 }, { x: 740, y: 200 }, { x: 820, y: 200 }
-];
-
-const CIRCLES = RAW_POINTS.map((point, i) => ({
-  ...point,
-  logoUrl: LOGOS[i % LOGOS.length],
-}));
+const LOTTIE_URL = "https://github.com/kalaanakonda/Video-morpho/raw/refs/heads/main/Frame-2147223772-Soft.json";
 
 export function VideoHero() {
   const [hasScrolled, setHasScrolled] = useState(false);
   const [showSection, setShowSection] = useState(false);
   const [mousePos, setMousePos] = useState({ x: 0.5, y: 0.5 });
+  const [animationData, setAnimationData] = useState<any>(null);
   
   const video1Ref = useRef<HTMLVideoElement>(null);
   const video2Ref = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    fetch(LOTTIE_URL)
+      .then(res => res.json())
+      .then(data => setAnimationData(data))
+      .catch(err => console.error("Error loading Lottie animation:", err));
+  }, []);
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -180,36 +155,14 @@ export function VideoHero() {
           showSection ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
         )}>
           <div className="flex flex-col items-center w-full max-w-3xl">
-            <div className="w-full h-[22vh] overflow-visible mb-0">
-              <svg 
-                className="w-full h-full overflow-visible" 
-                viewBox="0 0 1000 300" 
-                preserveAspectRatio="xMidYMid meet"
-              >
-                <defs>
-                  {CIRCLES.map((_, i) => (
-                    <clipPath key={`clip-${i}`} id={`clip-${i}`}>
-                      <circle cx={CIRCLES[i].x} cy={CIRCLES[i].y} r="26" />
-                    </clipPath>
-                  ))}
-                </defs>
-                <g>
-                  {CIRCLES.map((circle, index) => (
-                    <g key={index} className="transition-all duration-700 ease-out">
-                      <circle cx={circle.x} cy={circle.y} r="26" fill="white" className="drop-shadow-sm" />
-                      <image 
-                        href={circle.logoUrl}
-                        x={circle.x - 17}
-                        y={circle.y - 17}
-                        height="34"
-                        width="34"
-                        clipPath={`url(#clip-${index})`}
-                      />
-                      <circle cx={circle.x} cy={circle.y} r="26" fill="none" stroke="#15181A" strokeOpacity="0.04" strokeWidth="1" />
-                    </g>
-                  ))}
-                </g>
-              </svg>
+            <div className="w-full max-w-2xl overflow-visible mb-0 min-h-[22vh] flex items-center justify-center">
+              {animationData && (
+                <Lottie 
+                  animationData={animationData} 
+                  loop={true} 
+                  className="w-full h-full"
+                />
+              )}
             </div>
 
             <div className="flex flex-col items-center text-center mt-24">
