@@ -29,25 +29,29 @@ const LOGOS = [
   "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDvbfIPn8QRKmiczb0RgL2FAOeMt29sbLV-w&s"
 ];
 
-// Moving points higher up (lower Y values) to avoid overlap with center text
+// Moving points even higher up (lower Y values) to ensure no overlap with central text
 const RAW_POINTS = [
-  // Row 0 (4 items)
-  { x: 380, y: 50, row: 0 }, { x: 460, y: 50, row: 0 }, { x: 540, y: 50, row: 0 }, { x: 620, y: 50, row: 0 },
-  // Row 1 (5 items)
-  { x: 340, y: 110, row: 1 }, { x: 420, y: 110, row: 1 }, { x: 500, y: 110, row: 1 }, { x: 580, y: 110, row: 1 }, { x: 660, y: 110, row: 1 },
-  // Row 2 (5 items)
-  { x: 340, y: 170, row: 2 }, { x: 420, y: 170, row: 2 }, { x: 500, y: 170, row: 2 }, { x: 580, y: 170, row: 2 }, { x: 660, y: 170, row: 2 },
-  // Row 3 (4 items)
-  { x: 380, y: 230, row: 3 }, { x: 460, y: 230, row: 3 }, { x: 540, y: 230, row: 3 }, { x: 620, y: 230, row: 3 }
+  // Row 0
+  { x: 380, y: 10, row: 0 }, { x: 460, y: 10, row: 0 }, { x: 540, y: 10, row: 0 }, { x: 620, y: 10, row: 0 },
+  // Row 1
+  { x: 340, y: 65, row: 1 }, { x: 420, y: 65, row: 1 }, { x: 500, y: 65, row: 1 }, { x: 580, y: 65, row: 1 }, { x: 660, y: 65, row: 1 },
+  // Row 2
+  { x: 340, y: 120, row: 2 }, { x: 420, y: 120, row: 2 }, { x: 500, y: 120, row: 2 }, { x: 580, y: 120, row: 2 }, { x: 660, y: 120, row: 2 },
+  // Row 3
+  { x: 380, y: 175, row: 3 }, { x: 460, y: 175, row: 3 }, { x: 540, y: 175, row: 3 }, { x: 620, y: 175, row: 3 }
 ];
 
-const CIRCLES = RAW_POINTS.map((point, i) => ({
-  ...point,
-  logoUrl: LOGOS[i % LOGOS.length],
-  revealDelay: point.row * 60,
-  // Deterministic scatter speed for asymmetrical movement
-  scatterSpeed: 1.2 + (i % 7) * 0.4,
-}));
+const CIRCLES = RAW_POINTS.map((point, i) => {
+  // Random horizontal variance for asymmetrical scatter
+  const xDir = (i % 2 === 0 ? 1 : -1) * (0.2 + (i % 5) * 0.1);
+  return {
+    ...point,
+    logoUrl: LOGOS[i % LOGOS.length],
+    revealDelay: point.row * 60,
+    scatterSpeedY: 1.5 + (i % 4) * 0.5,
+    scatterSpeedX: xDir,
+  };
+});
 
 export function VideoHero() {
   const [scrollY, setScrollY] = useState(0);
@@ -89,9 +93,10 @@ export function VideoHero() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [hasScrolled]);
 
+  // Scatter starts once the "Powered by Morpho" is revealed
   const scatterStart = 350;
   const scatterProgress = Math.max(0, scrollY - scatterStart);
-  const scatterOpacity = Math.max(0, 1 - scatterProgress / 400);
+  const scatterOpacity = Math.max(0, 1 - scatterProgress / 500);
 
   return (
     <div className="relative h-[250vh] bg-[#F9F9F9]">
@@ -122,55 +127,55 @@ export function VideoHero() {
           />
         </div>
 
-        {/* Initial Hero Text - Increased Sizes */}
+        {/* Hero Content - Prominent Sizes */}
         <div className={cn(
-          "relative z-10 text-center max-w-2xl flex flex-col items-center transition-all duration-700 ease-out pointer-events-none",
+          "relative z-10 text-center max-w-3xl flex flex-col items-center transition-all duration-700 ease-out pointer-events-none",
           hasScrolled ? "-translate-y-48 opacity-0 scale-95" : "translate-y-0 opacity-100 scale-100"
         )}>
-          <h1 className="text-2xl md:text-5xl font-bold text-black tracking-tight leading-[1.05] mb-4">
+          <h1 className="text-3xl md:text-6xl font-bold text-black tracking-tight leading-[1.02] mb-6">
             Connect to the universal <br className="hidden md:block" /> lending network.
           </h1>
-          <p className="text-[12px] md:text-[14px] text-black/50 max-w-sm mb-6 leading-relaxed font-medium">
+          <p className="text-sm md:text-base text-black/50 max-w-md mb-10 leading-relaxed font-medium">
             Access global liquidity at the best possible terms powered by open infrastructure.
           </p>
           
-          <div className="flex gap-3 pointer-events-auto">
-            <button className="bg-black text-white px-6 py-2.5 rounded-full font-semibold hover:bg-black/80 transition-all text-[11px] tracking-wide">
+          <div className="flex gap-4 pointer-events-auto">
+            <button className="bg-black text-white px-8 py-3 rounded-full font-bold hover:bg-black/90 transition-all text-xs uppercase tracking-widest shadow-lg">
               Launch App
             </button>
-            <button className="bg-white/80 backdrop-blur-sm text-black border border-black/[0.05] px-6 py-2.5 rounded-full font-semibold hover:bg-white transition-all text-[11px] tracking-wide">
+            <button className="bg-white/90 backdrop-blur-sm text-black border border-black/[0.05] px-8 py-3 rounded-full font-bold hover:bg-white transition-all text-xs uppercase tracking-widest shadow-sm">
               Talk to us
             </button>
           </div>
         </div>
 
-        {/* Powered by Morpho Text - Revealed on scroll */}
+        {/* Powered by Morpho Section */}
         <div className={cn(
           "absolute inset-0 z-30 flex flex-col items-center justify-center pointer-events-none transition-all duration-1000 ease-out px-6 text-center",
           hasScrolled ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
         )}>
-          <h2 className="text-2xl md:text-4xl font-bold text-black tracking-tight leading-[1.1] mb-3">
+          <h2 className="text-3xl md:text-5xl font-bold text-black tracking-tight leading-[1.1] mb-4">
             Powered by Morpho
           </h2>
-          <p className="text-[11px] md:text-[13px] text-black/40 max-w-sm mb-4 leading-relaxed font-medium">
+          <p className="text-xs md:text-sm text-black/40 max-w-md leading-relaxed font-medium">
             Enterprises that connect with Morpho to power any lending or borrowing use case at scale
           </p>
         </div>
 
-        {/* Network Circles - Positioned above text with asymmetrical scatter */}
+        {/* Network Circles - Positioned significantly higher and scattering out */}
         <div className={cn(
           "absolute inset-0 z-20 flex items-center justify-center pointer-events-none transition-all duration-1000 ease-out",
           showNetwork ? "opacity-100" : "opacity-0 translate-y-8"
         )}>
           <svg 
-            className="w-full h-[60vh] max-w-5xl overflow-visible" 
+            className="w-full h-[70vh] max-w-5xl overflow-visible" 
             viewBox="0 0 1000 650" 
             preserveAspectRatio="xMidYMid meet"
           >
             <defs>
               {CIRCLES.map((_, i) => (
                 <clipPath key={`clip-${i}`} id={`clip-${i}`}>
-                  <circle cx={CIRCLES[i].x} cy={CIRCLES[i].y} r="20" />
+                  <circle cx={CIRCLES[i].x} cy={CIRCLES[i].y} r="16" />
                 </clipPath>
               ))}
             </defs>
@@ -181,7 +186,9 @@ export function VideoHero() {
               }}
             >
               {CIRCLES.map((circle, index) => {
-                const individualOffset = scatterProgress * circle.scatterSpeed;
+                const offY = scatterProgress * circle.scatterSpeedY;
+                const offX = scatterProgress * circle.scatterSpeedX;
+                
                 return (
                   <g 
                     key={index}
@@ -193,33 +200,33 @@ export function VideoHero() {
                     )}
                     style={{ 
                       transitionDelay: showNetwork ? `${circle.revealDelay}ms` : '0ms',
-                      transform: `translateY(-${individualOffset}px)`,
+                      transform: `translate(${offX}px, -${offY}px)`,
                       transformOrigin: `${circle.x}px ${circle.y}px`,
                     }}
                   >
                     <circle 
                       cx={circle.x} 
                       cy={circle.y} 
-                      r="18" 
+                      r="16" 
                       fill="white"
                       className="drop-shadow-sm"
                     />
                     <image 
                       href={circle.logoUrl}
-                      x={circle.x - 13}
-                      y={circle.y - 13}
-                      height="26"
-                      width="26"
+                      x={circle.x - 12}
+                      y={circle.y - 12}
+                      height="24"
+                      width="24"
                       clipPath={`url(#clip-${index})`}
                       className="rounded-full"
                     />
                     <circle 
                       cx={circle.x} 
                       cy={circle.y} 
-                      r="18" 
+                      r="16" 
                       fill="none"
                       stroke="black"
-                      strokeOpacity="0.03"
+                      strokeOpacity="0.04"
                       strokeWidth="1"
                     />
                   </g>
