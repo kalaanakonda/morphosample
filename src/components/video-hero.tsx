@@ -70,7 +70,7 @@ export function VideoHero() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [hasScrolled]);
 
-  const handleCellClick = (index: number) => {
+  const handleCellHover = (index: number) => {
     setActiveJolt({ index, time: Date.now() });
   };
 
@@ -158,21 +158,19 @@ export function VideoHero() {
                 const joltRow = activeJolt ? Math.floor(activeJolt.index / 40) : -100;
                 
                 const distance = Math.sqrt(Math.pow(col - joltCol, 2) + Math.pow(row - joltRow, 2));
-                const isJolting = activeJolt && distance < 3.5;
+                // Smaller radius (2.2) and hover-based trigger logic
+                const isJolting = activeJolt && distance < 2.2;
 
                 return (
                   <div 
                     key={i}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleCellClick(i);
-                    }}
+                    onMouseEnter={() => handleCellHover(i)}
                     className={cn(
                       "border-[0.5px] border-primary/[0.015] aspect-square transition-all duration-75 pointer-events-auto",
-                      "hover:bg-primary/[0.02] hover:shadow-[inset_0_0_15px_rgba(41,115,255,0.06)]",
+                      "hover:bg-primary/[0.015] hover:shadow-[inset_0_0_12px_rgba(41,115,255,0.04)]",
                       isJolting && "animate-jolt"
                     )}
-                    style={isJolting ? { animationDelay: `${distance * 40}ms` } : {}}
+                    style={isJolting ? { animationDelay: `${distance * 30}ms` } : {}}
                   />
                 );
               })}
