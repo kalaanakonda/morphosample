@@ -11,12 +11,12 @@ const LOTTIE_URL = "https://raw.githubusercontent.com/kalaanakonda/Video-morpho/
 
 const GRID_COLS = 40;
 const GRID_ROWS = 12;
-const RIPPLE_DURATION = 2500; // Matches CSS animation duration
+const RIPPLE_DURATION = 600; // Snappy interaction loop
 
 const GridCell = memo(({ x, y, activeJolt }: { x: number, y: number, activeJolt: { index: number, time: number } | null }) => {
   const [joltKey, setJoltKey] = useState(0);
   const [intensity, setIntensity] = useState(0);
-  const maxRadius = 15;
+  const maxRadius = 6; // Tightened radius
 
   useEffect(() => {
     if (!activeJolt) return;
@@ -26,10 +26,10 @@ const GridCell = memo(({ x, y, activeJolt }: { x: number, y: number, activeJolt:
     const distance = Math.sqrt(Math.pow(x - joltCol, 2) + Math.pow(y - joltRow, 2));
 
     if (distance < maxRadius) {
-      const delay = distance * 38;
+      const delay = distance * 25; // Faster propagation
       const timer = setTimeout(() => {
         setJoltKey(activeJolt.time);
-        setIntensity(Math.max(0, 0.35 * (1 - (distance / maxRadius))));
+        setIntensity(Math.max(0, 0.4 * (1 - (distance / maxRadius))));
       }, delay);
       return () => clearTimeout(timer);
     }
@@ -121,11 +121,9 @@ export function VideoHero() {
     }, RIPPLE_DURATION);
   }, []);
 
-  const parallaxX = (mousePos.x - 0.5) * 60;
-  const parallaxY = (mousePos.y - 0.5) * 60;
-  const videoScale = 1.15 + (Math.abs(mousePos.x - 0.5) + Math.abs(mousePos.y - 0.5)) * 0.08;
-  const videoRotationX = (mousePos.y - 0.5) * 5;
-  const videoRotationY = (mousePos.x - 0.5) * -5;
+  const parallaxX = (mousePos.x - 0.5) * 40;
+  const parallaxY = (mousePos.y - 0.5) * 40;
+  const videoScale = 1.1 + (Math.abs(mousePos.x - 0.5) + Math.abs(mousePos.y - 0.5)) * 0.05;
 
   return (
     <div className="relative h-[200vh] bg-background">
@@ -133,8 +131,7 @@ export function VideoHero() {
         <div 
           className="absolute inset-0 z-0 pointer-events-none transition-transform duration-500 ease-out grayscale"
           style={{ 
-            transform: `translate(${parallaxX}px, ${parallaxY}px) scale(${videoScale}) rotateX(${videoRotationX}deg) rotateY(${videoRotationY}deg)`,
-            perspective: '1500px'
+            transform: `translate(${parallaxX}px, ${parallaxY}px) scale(${videoScale})`,
           }}
         >
           <video
@@ -145,7 +142,7 @@ export function VideoHero() {
             muted
             playsInline
             className={cn(
-              "absolute inset-0 w-full h-full object-cover transition-opacity duration-1000",
+              "absolute inset-0 w-full h-full object-cover transition-opacity duration-700",
               hasScrolled ? "opacity-0" : "opacity-100"
             )}
           />
@@ -156,7 +153,7 @@ export function VideoHero() {
             muted
             playsInline
             className={cn(
-              "absolute inset-0 w-full h-full object-cover transition-opacity duration-1000",
+              "absolute inset-0 w-full h-full object-cover transition-opacity duration-700",
               hasScrolled ? "opacity-100" : "opacity-0"
             )}
           />
@@ -164,8 +161,8 @@ export function VideoHero() {
 
         {/* Network Stats */}
         <div className={cn(
-          "absolute bottom-12 left-12 z-30 flex flex-col gap-6 transition-all duration-1000 ease-out pointer-events-none",
-          hasScrolled ? "opacity-0 -translate-x-10" : "opacity-100 translate-x-0"
+          "absolute bottom-12 left-12 z-30 flex flex-col gap-6 transition-opacity duration-700 pointer-events-none",
+          hasScrolled ? "opacity-0" : "opacity-100"
         )}>
           <div>
             <p className="text-[10px] font-bold text-primary/15 mb-1 tracking-tight">Deposits</p>
@@ -179,8 +176,8 @@ export function VideoHero() {
 
         {/* Scroll Hint */}
         <div className={cn(
-          "absolute bottom-12 right-12 z-30 flex items-center gap-4 transition-all duration-1000 ease-out pointer-events-none",
-          hasScrolled ? "opacity-0 translate-x-10" : "opacity-100 translate-x-0"
+          "absolute bottom-12 right-12 z-30 flex items-center gap-4 transition-opacity duration-700 pointer-events-none",
+          hasScrolled ? "opacity-0" : "opacity-100"
         )}>
           <span className="text-[10px] font-bold text-primary/15 tracking-tight">Scroll to explore</span>
           <div className="flex flex-col items-center">
@@ -224,21 +221,21 @@ export function VideoHero() {
 
           <div className="flex flex-col items-center w-full">
             <h1 className={cn(
-              "text-3xl md:text-5xl font-bold text-primary tracking-tighter leading-[1.1] mb-6 transition-all duration-1000",
+              "text-3xl md:text-5xl font-bold text-primary tracking-tighter leading-[1.1] mb-6 transition-all duration-700",
               hasScrolled && "opacity-0 -translate-y-10"
             )}>
               Connect to the universal lending network.
             </h1>
             
             <p className={cn(
-              "text-sm md:text-base text-primary/60 max-w-lg mb-10 leading-relaxed font-medium transition-all duration-1000",
+              "text-sm md:text-base text-primary/60 max-w-lg mb-10 leading-relaxed font-medium transition-all duration-700",
               hasScrolled && "opacity-0 -translate-y-10"
             )}>
               Access global liquidity at the best possible terms powered by open infrastructure.
             </p>
 
             <div className={cn(
-              "flex gap-3 pointer-events-auto transition-all duration-1000",
+              "flex gap-3 pointer-events-auto transition-all duration-700",
               hasScrolled && "opacity-0 -translate-y-10"
             )}>
               <button className="bg-[#2973FF] text-white px-8 py-3 rounded-none font-bold hover:opacity-90 transition-all text-xs shadow-md animate-shine">
