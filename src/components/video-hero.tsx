@@ -92,7 +92,7 @@ export function VideoHero() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [hasScrolled]);
 
-  // Increased reactivity for mouse movement
+  // Higher reactivity for mouse movement as requested
   const parallaxX = (mousePos.x - 0.5) * 160;
   const parallaxY = (mousePos.y - 0.5) * 160;
 
@@ -128,10 +128,10 @@ export function VideoHero() {
           />
         </div>
 
-        {/* Network Stats - Bottom Left (Low hierarchy, sentence case) */}
+        {/* Network Stats - Bottom Left (Subtle opacity as requested) */}
         <div className={cn(
-          "absolute bottom-12 left-8 md:left-12 z-30 flex flex-col gap-6 transition-all duration-700 ease-out pointer-events-none opacity-40",
-          hasScrolled ? "opacity-0 -translate-x-10" : "opacity-40 translate-x-0"
+          "absolute bottom-12 left-8 md:left-12 z-30 flex flex-col gap-6 transition-all duration-700 ease-out pointer-events-none",
+          hasScrolled ? "opacity-0 -translate-x-10" : "opacity-[0.15] translate-x-0"
         )}>
           <div>
             <p className="text-[10px] font-bold text-black mb-1 tracking-tight">Deposits</p>
@@ -143,10 +143,10 @@ export function VideoHero() {
           </div>
         </div>
 
-        {/* Scroll to Explore - Bottom Right (Low hierarchy, sentence case) */}
+        {/* Scroll to Explore - Bottom Right (Subtle opacity as requested) */}
         <div className={cn(
-          "absolute bottom-12 right-8 md:right-12 z-30 flex items-center gap-4 transition-all duration-700 ease-out pointer-events-none opacity-40",
-          hasScrolled ? "opacity-0 translate-x-10" : "opacity-40 translate-x-0"
+          "absolute bottom-12 right-8 md:right-12 z-30 flex items-center gap-4 transition-all duration-700 ease-out pointer-events-none",
+          hasScrolled ? "opacity-0 translate-x-10" : "opacity-[0.15] translate-x-0"
         )}>
           <span className="text-[10px] font-bold text-black tracking-tight">Scroll to explore</span>
           <div className="w-px h-8 bg-black/5" />
@@ -229,8 +229,8 @@ export function VideoHero() {
               </svg>
             </div>
 
-            {/* Heading Component - Moved down relative to logos */}
-            <div className="flex flex-col items-center text-center mt-12">
+            {/* Heading Component - Moved slightly up closer to logos as requested */}
+            <div className="flex flex-col items-center text-center mt-6 md:mt-8">
               <h2 className="text-xl md:text-2xl font-bold text-black tracking-tight leading-[1.1] mb-3">
                 Powered by Morpho
               </h2>
