@@ -138,19 +138,19 @@ export function VideoHero() {
         )}>
           {/* Heading Container with Grid */}
           <div className="relative w-full flex flex-col items-center group/hero-grid mb-4">
-            {/* Interactive Viewport-Wide Grid Background */}
+            {/* Interactive Viewport-Wide Grid Background - Scaled Down (Higher Density) */}
             <div 
-              className="absolute left-1/2 -translate-x-1/2 w-screen -top-24 grid pointer-events-none z-[-1] overflow-hidden"
+              className="absolute left-1/2 -translate-x-1/2 w-screen -top-32 grid pointer-events-none z-[-1] overflow-hidden"
               style={{ 
-                gridTemplateColumns: 'repeat(20, minmax(0, 1fr))',
+                gridTemplateColumns: 'repeat(40, minmax(0, 1fr))',
                 maskImage: 'radial-gradient(circle at center, black 0%, transparent 80%), linear-gradient(to bottom, transparent 0%, black 15%, black 65%, transparent 100%)',
                 WebkitMaskImage: 'radial-gradient(circle at center, black 0%, transparent 80%), linear-gradient(to bottom, transparent 0%, black 15%, black 65%, transparent 100%)'
               }}
             >
-              {Array.from({ length: 160 }).map((_, i) => (
+              {Array.from({ length: 480 }).map((_, i) => (
                 <div 
                   key={i} 
-                  className="border-[0.5px] border-primary/[0.07] aspect-square hover:bg-primary/[0.05] transition-all duration-75 pointer-events-auto hover:shadow-[inset_0_0_25px_rgba(41,115,255,0.08)]"
+                  className="border-[0.5px] border-primary/[0.05] aspect-square hover:bg-primary/[0.05] transition-all duration-75 pointer-events-auto hover:shadow-[inset_0_0_15px_rgba(41,115,255,0.08)]"
                 />
               ))}
             </div>
