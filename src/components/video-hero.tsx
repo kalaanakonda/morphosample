@@ -2,7 +2,6 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from 'react';
-import { Volume2, VolumeX } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const VIDEO_1_URL = "https://github.com/kalaanakonda/Video-morpho/raw/refs/heads/main/aa11.webm";
@@ -10,10 +9,10 @@ const VIDEO_2_URL = "https://github.com/kalaanakonda/Video-morpho/raw/refs/heads
 
 // 33 Symmetric points with a wider spread
 const CIRCLES = [
-  // Center Column (5) - Spread Y more
+  // Center Column (5)
   { x: 500, y: 50, delay: 0 }, { x: 500, y: 175, delay: 100 }, { x: 500, y: 300, delay: 200 }, { x: 500, y: 425, delay: 300 }, { x: 500, y: 550, delay: 400 },
   
-  // Column 1 (10) - Wider X
+  // Column 1 (10) - Spread outward
   { x: 380, y: 80, delay: 150 }, { x: 620, y: 80, delay: 150 },
   { x: 380, y: 205, delay: 250 }, { x: 620, y: 205, delay: 250 },
   { x: 380, y: 330, delay: 350 }, { x: 620, y: 330, delay: 350 },
@@ -38,7 +37,6 @@ const CIRCLES = [
 
 export function VideoHero() {
   const [hasScrolled, setHasScrolled] = useState(false);
-  const [isMuted, setIsMuted] = useState(true);
   const [showNetwork, setShowNetwork] = useState(false);
   
   const video1Ref = useRef<HTMLVideoElement>(null);
@@ -56,7 +54,8 @@ export function VideoHero() {
             video2Ref.current.currentTime = 0;
             video2Ref.current.play().catch(() => {});
           }
-          setTimeout(() => setShowNetwork(true), 1500);
+          // Reveal network after video 2 has played a bit
+          setTimeout(() => setShowNetwork(true), 1200);
         }
       } else {
         if (hasScrolled) {
@@ -74,8 +73,6 @@ export function VideoHero() {
 
     return () => window.removeEventListener('scroll', handleScroll);
   }, [hasScrolled]);
-
-  const toggleMute = () => setIsMuted(!isMuted);
 
   return (
     <div className="relative h-[200vh] bg-background">
@@ -98,7 +95,7 @@ export function VideoHero() {
           <video
             ref={video2Ref}
             src={VIDEO_2_URL}
-            muted={isMuted}
+            muted
             playsInline
             className={cn(
               "absolute inset-0 w-full h-full object-cover transition-opacity duration-1000",
@@ -107,12 +104,12 @@ export function VideoHero() {
           />
         </div>
 
-        {/* Content Section */}
+        {/* Hero Content */}
         <div className={cn(
           "relative z-10 text-center max-w-3xl flex flex-col items-center transition-all duration-1000 ease-out pointer-events-none",
           hasScrolled ? "-translate-y-48 opacity-0 scale-95" : "translate-y-0 opacity-100 scale-100"
         )}>
-          <h1 className="text-4xl md:text-6xl font-bold text-black tracking-tight leading-[1.1] mb-6">
+          <h1 className="text-4xl md:text-5xl font-bold text-black tracking-tight leading-[1.1] mb-6">
             Connect to the universal <br className="hidden md:block" /> lending network.
           </h1>
           <p className="text-[14px] md:text-[15px] text-black/60 max-w-md mb-8 leading-relaxed font-normal">
@@ -129,9 +126,9 @@ export function VideoHero() {
           </div>
         </div>
 
-        {/* Network Visualization - Interactive */}
+        {/* Network Visualization */}
         <div className={cn(
-          "absolute inset-0 z-20 flex items-center justify-center pointer-events-none transition-all duration-1500 ease-in-out",
+          "absolute inset-0 z-20 flex items-center justify-center pointer-events-none transition-all duration-1000 ease-in-out",
           showNetwork ? "opacity-100 translate-y-[-10%]" : "opacity-0 translate-y-20"
         )}>
           <svg 
@@ -147,12 +144,11 @@ export function VideoHero() {
                   cy={circle.y} 
                   r="14" 
                   className={cn(
-                    "transition-all duration-700 ease-out hover:scale-150 hover:fill-red-600 cursor-pointer pointer-events-auto origin-center transform-gpu",
+                    "transition-all duration-700 ease-out hover:scale-125 hover:fill-red-600 cursor-pointer pointer-events-auto origin-center transform-gpu",
                     showNetwork ? "opacity-100 scale-100" : "opacity-0 scale-0"
                   )}
                   style={{ 
-                    transitionDelay: showNetwork ? `${circle.delay + 300}ms` : '0ms',
-                    filter: 'drop-shadow(0 0 6px rgba(239, 68, 68, 0.4))',
+                    transitionDelay: showNetwork ? `${circle.delay}ms` : '0ms',
                     transformOrigin: `${circle.x}px ${circle.y}px`
                   }} 
                 />
@@ -161,15 +157,7 @@ export function VideoHero() {
           </svg>
         </div>
 
-        {/* Mute toggle */}
-        <button
-          onClick={toggleMute}
-          className="absolute bottom-10 right-10 p-2 bg-black/5 hover:bg-black/10 backdrop-blur-md border border-black/10 rounded-full text-black/60 hover:text-black transition-all z-30"
-          aria-label={isMuted ? "Unmute" : "Mute"}
-        >
-          {isMuted ? <VolumeX className="w-3.5 h-3.5" /> : <Volume2 className="w-3.5 h-3.5" />}
-        </button>
-
+        {/* Subtle Bottom Fade */}
         <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background to-transparent pointer-events-none z-10"></div>
       </section>
     </div>
