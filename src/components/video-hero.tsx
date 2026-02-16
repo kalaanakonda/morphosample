@@ -8,6 +8,30 @@ import { cn } from '@/lib/utils';
 const VIDEO_1_URL = "https://github.com/kalaanakonda/Video-morpho/raw/refs/heads/main/aa11.webm";
 const VIDEO_2_URL = "https://github.com/kalaanakonda/Video-morpho/raw/refs/heads/main/aa22.webm";
 
+// 33 Symmetric points for a clean network visualization
+const CIRCLES = [
+  // Center Column (5)
+  { x: 500, y: 100, delay: 0 }, { x: 500, y: 200, delay: 100 }, { x: 500, y: 300, delay: 200 }, { x: 500, y: 400, delay: 300 }, { x: 500, y: 500, delay: 400 },
+  // Column 1 (10)
+  { x: 420, y: 120, delay: 150 }, { x: 580, y: 120, delay: 150 },
+  { x: 420, y: 220, delay: 250 }, { x: 580, y: 220, delay: 250 },
+  { x: 420, y: 320, delay: 350 }, { x: 580, y: 320, delay: 350 },
+  { x: 420, y: 420, delay: 450 }, { x: 580, y: 420, delay: 450 },
+  { x: 420, y: 520, delay: 550 }, { x: 580, y: 520, delay: 550 },
+  // Column 2 (8)
+  { x: 340, y: 160, delay: 300 }, { x: 660, y: 160, delay: 300 },
+  { x: 340, y: 260, delay: 400 }, { x: 660, y: 260, delay: 400 },
+  { x: 340, y: 360, delay: 500 }, { x: 660, y: 360, delay: 500 },
+  { x: 340, y: 460, delay: 600 }, { x: 660, y: 460, delay: 600 },
+  // Column 3 (6)
+  { x: 260, y: 210, delay: 450 }, { x: 740, y: 210, delay: 450 },
+  { x: 260, y: 310, delay: 550 }, { x: 740, y: 310, delay: 550 },
+  { x: 260, y: 410, delay: 650 }, { x: 740, y: 410, delay: 650 },
+  // Column 4 (4)
+  { x: 180, y: 270, delay: 600 }, { x: 820, y: 270, delay: 600 },
+  { x: 180, y: 370, delay: 700 }, { x: 820, y: 370, delay: 700 }
+];
+
 export function VideoHero() {
   const [hasScrolled, setHasScrolled] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
@@ -78,11 +102,10 @@ export function VideoHero() {
               hasScrolled ? "opacity-100" : "opacity-0"
             )}
           />
-          {/* Very subtle overlay to ensure text readability without blurring video */}
           <div className="absolute inset-0 bg-black/[0.01] pointer-events-none"></div>
         </div>
 
-        {/* Content Section */}
+        {/* Content Section - Slides up on scroll */}
         <div className={cn(
           "relative z-10 text-center max-w-3xl flex flex-col items-center transition-all duration-1000 ease-out",
           hasScrolled ? "-translate-y-48 opacity-0 scale-95" : "translate-y-0 opacity-100 scale-100"
@@ -104,47 +127,29 @@ export function VideoHero() {
           </div>
         </div>
 
-        {/* Network Visualization (Curly lines + Red circle logos) */}
+        {/* Network Visualization (33 Symmetric Red Circles) - Moved Higher Up */}
         <div className={cn(
-          "absolute inset-0 z-20 flex items-end justify-center pointer-events-none transition-all duration-1500 ease-in-out pb-10",
-          showNetwork ? "opacity-100 translate-y-0" : "opacity-0 translate-y-20"
+          "absolute inset-0 z-20 flex items-center justify-center pointer-events-none transition-all duration-1500 ease-in-out",
+          showNetwork ? "opacity-100 translate-y-[-10%]" : "opacity-0 translate-y-20"
         )}>
-          <svg className="w-full h-[60vh] max-w-5xl overflow-visible" viewBox="0 0 1000 600" preserveAspectRatio="xMidYMax meet">
-            {/* Fanning Curly Lines */}
-            <g className="stroke-black/[0.05] fill-none stroke-[1]">
-              <path d="M500 600 C 450 450, 150 400, 100 200" className={cn("transition-all duration-1000 delay-100", showNetwork ? "stroke-dashoffset-0" : "stroke-dashoffset-1000")} style={{ strokeDasharray: 1000 }} />
-              <path d="M500 600 C 480 400, 300 350, 250 150" className={cn("transition-all duration-1000 delay-200", showNetwork ? "stroke-dashoffset-0" : "stroke-dashoffset-1000")} style={{ strokeDasharray: 1000 }} />
-              <path d="M500 600 L 500 100" className={cn("transition-all duration-1000 delay-300", showNetwork ? "stroke-dashoffset-0" : "stroke-dashoffset-1000")} style={{ strokeDasharray: 1000 }} />
-              <path d="M500 600 C 520 400, 700 350, 750 150" className={cn("transition-all duration-1000 delay-200", showNetwork ? "stroke-dashoffset-0" : "stroke-dashoffset-1000")} style={{ strokeDasharray: 1000 }} />
-              <path d="M500 600 C 550 450, 850 400, 900 200" className={cn("transition-all duration-1000 delay-100", showNetwork ? "stroke-dashoffset-0" : "stroke-dashoffset-1000")} style={{ strokeDasharray: 1000 }} />
-            </g>
-
-            {/* Red Circles (Acting as Logos) */}
-            <g className="fill-red-500 drop-shadow-sm transition-all duration-1000 ease-out">
-              {/* Line 1 Circles */}
-              <circle cx="100" cy="200" r="10" className={cn("transition-opacity delay-700", showNetwork ? "opacity-60" : "opacity-0")} />
-              <circle cx="210" cy="380" r="8" className={cn("transition-opacity delay-500", showNetwork ? "opacity-40" : "opacity-0")} />
-              <circle cx="340" cy="500" r="12" className={cn("transition-opacity delay-300", showNetwork ? "opacity-30" : "opacity-0")} />
-
-              {/* Line 2 Circles */}
-              <circle cx="250" cy="150" r="10" className={cn("transition-opacity delay-800", showNetwork ? "opacity-60" : "opacity-0")} />
-              <circle cx="330" cy="320" r="9" className={cn("transition-opacity delay-600", showNetwork ? "opacity-50" : "opacity-0")} />
-              <circle cx="410" cy="480" r="7" className={cn("transition-opacity delay-400", showNetwork ? "opacity-30" : "opacity-0")} />
-
-              {/* Center Line Circles */}
-              <circle cx="500" cy="100" r="12" className={cn("transition-opacity delay-900", showNetwork ? "opacity-70" : "opacity-0")} />
-              <circle cx="500" cy="250" r="10" className={cn("transition-opacity delay-700", showNetwork ? "opacity-50" : "opacity-0")} />
-              <circle cx="500" cy="450" r="8" className={cn("transition-opacity delay-500", showNetwork ? "opacity-40" : "opacity-0")} />
-
-              {/* Line 4 Circles */}
-              <circle cx="750" cy="150" r="10" className={cn("transition-opacity delay-800", showNetwork ? "opacity-60" : "opacity-0")} />
-              <circle cx="670" cy="320" r="9" className={cn("transition-opacity delay-600", showNetwork ? "opacity-50" : "opacity-0")} />
-              <circle cx="590" cy="480" r="7" className={cn("transition-opacity delay-400", showNetwork ? "opacity-30" : "opacity-0")} />
-
-              {/* Line 5 Circles */}
-              <circle cx="900" cy="200" r="10" className={cn("transition-opacity delay-700", showNetwork ? "opacity-60" : "opacity-0")} />
-              <circle cx="790" cy="380" r="8" className={cn("transition-opacity delay-500", showNetwork ? "opacity-40" : "opacity-0")} />
-              <circle cx="660" cy="500" r="12" className={cn("transition-opacity delay-300", showNetwork ? "opacity-30" : "opacity-0")} />
+          <svg className="w-full h-[70vh] max-w-5xl overflow-visible" viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid meet">
+            <g className="fill-red-500 transition-all duration-1000 ease-out">
+              {CIRCLES.map((circle, index) => (
+                <circle 
+                  key={index}
+                  cx={circle.x} 
+                  cy={circle.y} 
+                  r="9" 
+                  className={cn(
+                    "transition-all duration-700 ease-out",
+                    showNetwork ? "opacity-100 scale-100" : "opacity-0 scale-0"
+                  )}
+                  style={{ 
+                    transitionDelay: `${circle.delay + 300}ms`,
+                    filter: 'drop-shadow(0 0 4px rgba(239, 68, 68, 0.3))'
+                  }} 
+                />
+              ))}
             </g>
           </svg>
         </div>
