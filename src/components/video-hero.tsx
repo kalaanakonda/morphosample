@@ -32,8 +32,8 @@ const LOGOS = [
 const RAW_POINTS = [
   // Row 1 (4 items)
   { x: 320, y: 150, row: 0 }, { x: 440, y: 150, row: 0 }, { x: 560, y: 150, row: 0 }, { x: 680, y: 150, row: 0 },
-  // Row 2 (5 items)
-  { x: 260, y: 250, row: 1 }, { x: 380, y: 250, row: 1 }, { x: 500, y: 250, row: 1 }, { x: 620, y: 250, row: 1 }, { x: 740, y: 250, row: 1 },
+  // Row 2 (4 items - removed the 5th logo as requested)
+  { x: 260, y: 250, row: 1 }, { x: 380, y: 250, row: 1 }, { x: 500, y: 250, row: 1 }, { x: 620, y: 250, row: 1 },
   // Row 3 (6 items)
   { x: 200, y: 350, row: 2 }, { x: 320, y: 350, row: 2 }, { x: 440, y: 350, row: 2 }, { x: 560, y: 350, row: 2 }, { x: 680, y: 350, row: 2 }, { x: 800, y: 350, row: 2 },
   // Row 4 (4 items)
@@ -113,6 +113,7 @@ export function VideoHero() {
           />
         </div>
 
+        {/* Initial Hero Text */}
         <div className={cn(
           "relative z-10 text-center max-w-2xl flex flex-col items-center transition-all duration-700 ease-out pointer-events-none",
           hasScrolled ? "-translate-y-48 opacity-0 scale-95" : "translate-y-0 opacity-100 scale-100"
@@ -132,6 +133,19 @@ export function VideoHero() {
               Talk to us
             </button>
           </div>
+        </div>
+
+        {/* New Reveal Text: Powered by Morpho */}
+        <div className={cn(
+          "absolute inset-0 z-30 flex flex-col items-center justify-center pointer-events-none transition-all duration-1000 ease-out px-6 text-center",
+          hasScrolled ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+        )}>
+          <h2 className="text-xl md:text-3xl font-bold text-black tracking-tight leading-[1.1] mb-3">
+            Powered by Morpho
+          </h2>
+          <p className="text-[11px] md:text-[12px] text-black/40 max-w-sm mb-4 leading-relaxed font-medium">
+            Enterprises that connect with Morpho to power any lending or borrowing use case at scale
+          </p>
         </div>
 
         <div className={cn(
