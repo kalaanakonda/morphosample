@@ -7,6 +7,7 @@ import { cn } from '@/lib/utils';
 const VIDEO_1_URL = "https://github.com/kalaanakonda/Video-morpho/raw/refs/heads/main/aa11.webm";
 const VIDEO_2_URL = "https://github.com/kalaanakonda/Video-morpho/raw/refs/heads/main/aa22.webm";
 
+// The specific 10 logos provided
 const LOGOS = [
   "https://cryptologos.cc/logos/thumbs/bitget-token-new.png?v=040",
   "https://cryptologos.cc/logos/thumbs/chainlink.png?v=040",
@@ -14,42 +15,52 @@ const LOGOS = [
   "https://cryptologos.cc/logos/thumbs/pendle.png?v=040",
   "https://avatars.githubusercontent.com/u/32179889?s=200&v=4",
   "https://cdn.worldvectorlogo.com/logos/farcaster.svg",
-  "https://play-lh.googleusercontent.com/x3Sles_n9G2I2xnvm4pE6JVMWPCq3Hbbkyq2uLZ-k2XxTrlUXej1FrCAHxMVQHwzXg=w240-h480-rw",
+  "https://pbs.twimg.com/profile_images/1643941027898613760/gyhYEOCE_400x400.jpg", // Updated Safe Logo
   "https://upload.wikimedia.org/wikipedia/commons/2/21/Polygon_Icon.svg",
   "https://pbs.twimg.com/profile_images/1672323719176318987/Qv7h4j1s_400x400.jpg",
   "https://assets.coingecko.com/coins/images/7310/large/cro_token_logo.png"
 ];
 
-// 33 Symmetric points with a wider spread
-const CIRCLES = [
+// 33 Symmetric points
+const CENTER_X = 500;
+const CENTER_Y = 325;
+
+const RAW_POINTS = [
   // Center Column (5)
-  { x: 500, y: 50, delay: 0 }, { x: 500, y: 175, delay: 100 }, { x: 500, y: 300, delay: 200 }, { x: 500, y: 425, delay: 300 }, { x: 500, y: 550, delay: 400 },
+  { x: 500, y: 50 }, { x: 500, y: 175 }, { x: 500, y: 300 }, { x: 500, y: 425 }, { x: 500, y: 550 },
   
-  // Column 1 (10) - Spread outward
-  { x: 380, y: 80, delay: 150 }, { x: 620, y: 80, delay: 150 },
-  { x: 380, y: 205, delay: 250 }, { x: 620, y: 205, delay: 250 },
-  { x: 380, y: 330, delay: 350 }, { x: 620, y: 330, delay: 350 },
-  { x: 380, y: 455, delay: 450 }, { x: 620, y: 455, delay: 450 },
-  { x: 380, y: 580, delay: 550 }, { x: 620, y: 580, delay: 550 },
+  // Column 1 (10)
+  { x: 380, y: 80 }, { x: 620, y: 80 },
+  { x: 380, y: 205 }, { x: 620, y: 205 },
+  { x: 380, y: 330 }, { x: 620, y: 330 },
+  { x: 380, y: 455 }, { x: 620, y: 455 },
+  { x: 380, y: 580 }, { x: 620, y: 580 },
   
   // Column 2 (8)
-  { x: 260, y: 130, delay: 300 }, { x: 740, y: 130, delay: 300 },
-  { x: 260, y: 255, delay: 400 }, { x: 740, y: 255, delay: 400 },
-  { x: 260, y: 380, delay: 500 }, { x: 740, y: 380, delay: 500 },
-  { x: 260, y: 505, delay: 600 }, { x: 740, y: 505, delay: 600 },
+  { x: 260, y: 130 }, { x: 740, y: 130 },
+  { x: 260, y: 255 }, { x: 740, y: 255 },
+  { x: 260, y: 380 }, { x: 740, y: 380 },
+  { x: 260, y: 505 }, { x: 740, y: 505 },
   
   // Column 3 (6)
-  { x: 140, y: 180, delay: 450 }, { x: 860, y: 180, delay: 450 },
-  { x: 140, y: 305, delay: 550 }, { x: 860, y: 305, delay: 550 },
-  { x: 140, y: 430, delay: 650 }, { x: 860, y: 430, delay: 650 },
+  { x: 140, y: 180 }, { x: 860, y: 180 },
+  { x: 140, y: 305 }, { x: 860, y: 305 },
+  { x: 140, y: 430 }, { x: 860, y: 430 },
   
   // Column 4 (4)
-  { x: 20, y: 240, delay: 600 }, { x: 980, y: 240, delay: 600 },
-  { x: 20, y: 365, delay: 700 }, { x: 980, y: 365, delay: 700 }
-].map((circle, i) => ({
-  ...circle,
-  logoUrl: LOGOS[i % LOGOS.length]
-}));
+  { x: 20, y: 240 }, { x: 980, y: 240 },
+  { x: 20, y: 365 }, { x: 980, y: 365 }
+];
+
+const CIRCLES = RAW_POINTS.map((point, i) => {
+  // Calculate distance from center for wave animation delay
+  const dist = Math.sqrt(Math.pow(point.x - CENTER_X, 2) + Math.pow(point.y - CENTER_Y, 2));
+  return {
+    ...point,
+    logoUrl: LOGOS[i % LOGOS.length],
+    delay: dist * 1.5 // Multiplier controls the "speed" of the wave
+  };
+});
 
 export function VideoHero() {
   const [hasScrolled, setHasScrolled] = useState(false);
@@ -70,7 +81,8 @@ export function VideoHero() {
             video2Ref.current.currentTime = 0;
             video2Ref.current.play().catch(() => {});
           }
-          setTimeout(() => setShowNetwork(true), 1200);
+          // Reveal the network visualization slightly after the transformation video starts
+          setTimeout(() => setShowNetwork(true), 800);
         }
       } else {
         if (hasScrolled) {
@@ -90,10 +102,10 @@ export function VideoHero() {
   }, [hasScrolled]);
 
   return (
-    <div className="relative h-[200vh] bg-background">
+    <div className="relative h-[200vh] bg-[#F9F9F9]">
       <section className="sticky top-0 w-full h-screen flex flex-col items-center justify-start pt-32 px-6 overflow-hidden">
-        {/* Background Videos */}
-        <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+        {/* Background Videos - Entirely behind the UI */}
+        <div className="absolute inset-0 z-0 pointer-events-none">
           <video
             ref={video1Ref}
             src={VIDEO_1_URL}
@@ -121,92 +133,90 @@ export function VideoHero() {
 
         {/* Hero Content */}
         <div className={cn(
-          "relative z-10 text-center max-w-3xl flex flex-col items-center transition-all duration-1000 ease-out pointer-events-none",
-          hasScrolled ? "-translate-y-48 opacity-0 scale-95" : "translate-y-0 opacity-100 scale-100"
+          "relative z-10 text-center max-w-2xl flex flex-col items-center transition-all duration-1000 cubic-bezier(0.16, 1, 0.3, 1) pointer-events-none",
+          hasScrolled ? "-translate-y-64 opacity-0 scale-90" : "translate-y-0 opacity-100 scale-100"
         )}>
-          <h1 className="text-4xl md:text-5xl font-bold text-black tracking-tight leading-[1.1] mb-6">
+          <h1 className="text-4xl md:text-5xl font-bold text-black tracking-tight leading-[1.05] mb-6">
             Connect to the universal <br className="hidden md:block" /> lending network.
           </h1>
-          <p className="text-[14px] md:text-[15px] text-black/60 max-w-md mb-8 leading-relaxed font-normal">
+          <p className="text-[14px] md:text-[15px] text-black/50 max-w-sm mb-8 leading-relaxed font-medium">
             Access global liquidity at the best possible terms powered by open infrastructure that serves, not extracts.
           </p>
           
           <div className="flex gap-4 pointer-events-auto">
-            <button className="bg-black text-white px-7 py-2.5 rounded-full font-semibold hover:bg-black/80 transition-all text-[12px] shadow-sm">
+            <button className="bg-black text-white px-7 py-2.5 rounded-full font-semibold hover:bg-black/80 transition-all text-[12px]">
               Launch App
             </button>
-            <button className="bg-white/90 backdrop-blur-md text-black border border-black/[0.05] px-7 py-2.5 rounded-full font-semibold hover:bg-white transition-all text-[12px] shadow-sm">
+            <button className="bg-white/90 backdrop-blur-md text-black border border-black/[0.05] px-7 py-2.5 rounded-full font-semibold hover:bg-white transition-all text-[12px]">
               Talk to us
             </button>
           </div>
         </div>
 
-        {/* Network Visualization */}
+        {/* Network Visualization - Elevated position */}
         <div className={cn(
           "absolute inset-0 z-20 flex items-center justify-center pointer-events-none transition-all duration-1000 ease-in-out",
-          showNetwork ? "opacity-100 translate-y-[-10%]" : "opacity-0 translate-y-20"
+          showNetwork ? "opacity-100 translate-y-[-15%]" : "opacity-0 translate-y-20"
         )}>
           <svg 
             className="w-full h-[75vh] max-w-6xl overflow-visible" 
             viewBox="0 0 1000 650" 
             preserveAspectRatio="xMidYMid meet"
           >
-            <defs>
-              {CIRCLES.map((circle, index) => (
-                <clipPath key={`clip-${index}`} id={`clip-${index}`}>
-                  <circle cx={circle.x} cy={circle.y} r="20" />
-                </clipPath>
-              ))}
-            </defs>
             <g>
               {CIRCLES.map((circle, index) => (
                 <g 
                   key={index}
                   className={cn(
-                    "transition-all duration-700 ease-out hover:scale-110 cursor-pointer pointer-events-auto origin-center transform-gpu",
-                    showNetwork ? "opacity-100 scale-100" : "opacity-0 scale-0"
+                    "transition-all duration-1000 pointer-events-auto origin-center transform-gpu",
+                    showNetwork 
+                      ? "opacity-100 scale-100 animate-in fade-in zoom-in" 
+                      : "opacity-0 scale-0"
                   )}
                   style={{ 
                     transitionDelay: showNetwork ? `${circle.delay}ms` : '0ms',
-                    transformOrigin: `${circle.x}px ${circle.y}px`
+                    transformOrigin: `${circle.x}px ${circle.y}px`,
+                    // Custom cubic-bezier for a "bouncy" wave reveal
+                    transitionTimingFunction: 'cubic-bezier(0.34, 1.56, 0.64, 1)'
                   }}
                 >
-                  {/* Outer circle container */}
-                  <circle 
-                    cx={circle.x} 
-                    cy={circle.y} 
-                    r="22" 
-                    fill="white"
-                    className="shadow-sm"
-                  />
-                  {/* Logo Image */}
-                  <image 
-                    href={circle.logoUrl}
-                    x={circle.x - 16}
-                    y={circle.y - 16}
-                    height="32"
-                    width="32"
-                    className="rounded-full"
-                    preserveAspectRatio="xMidYMid slice"
-                  />
-                  {/* Decorative faint ring */}
-                  <circle 
-                    cx={circle.x} 
-                    cy={circle.y} 
-                    r="22" 
-                    fill="none"
-                    stroke="black"
-                    strokeOpacity="0.05"
-                    strokeWidth="1"
-                  />
+                  <g className="hover:scale-110 transition-transform duration-300 cursor-pointer">
+                    {/* Outer circle container */}
+                    <circle 
+                      cx={circle.x} 
+                      cy={circle.y} 
+                      r="26" 
+                      fill="white"
+                      className="drop-shadow-sm"
+                    />
+                    {/* Logo Image */}
+                    <image 
+                      href={circle.logoUrl}
+                      x={circle.x - 18}
+                      y={circle.y - 18}
+                      height="36"
+                      width="36"
+                      className="rounded-full"
+                    />
+                    {/* Subtle boundary ring */}
+                    <circle 
+                      cx={circle.x} 
+                      cy={circle.y} 
+                      r="26" 
+                      fill="none"
+                      stroke="black"
+                      strokeOpacity="0.04"
+                      strokeWidth="1"
+                    />
+                  </g>
                 </g>
               ))}
             </g>
           </svg>
         </div>
 
-        {/* Subtle Bottom Fade */}
-        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background to-transparent pointer-events-none z-10"></div>
+        {/* Bottom Fade */}
+        <div className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-[#F9F9F9] via-[#F9F9F9]/80 to-transparent pointer-events-none z-10"></div>
       </section>
     </div>
   );
