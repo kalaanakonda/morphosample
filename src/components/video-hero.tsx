@@ -111,9 +111,9 @@ export function VideoHero() {
           />
         </div>
 
-        {/* Network Stats - Reveal Animation */}
+        {/* Network Stats - Individual Reveal */}
         <div className={cn(
-          "absolute bottom-12 left-12 z-30 flex flex-col gap-6 transition-all duration-1000 ease-out pointer-events-none",
+          "absolute bottom-12 left-12 z-30 flex flex-col gap-6 transition-all duration-1000 delay-100 ease-out pointer-events-none",
           isMounted ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-10",
           hasScrolled && "opacity-0 -translate-x-10"
         )}>
@@ -127,9 +127,9 @@ export function VideoHero() {
           </div>
         </div>
 
-        {/* Scroll Hint - Reveal Animation */}
+        {/* Scroll Hint - Individual Reveal */}
         <div className={cn(
-          "absolute bottom-12 right-12 z-30 flex items-center gap-4 transition-all duration-1000 ease-out pointer-events-none",
+          "absolute bottom-12 right-12 z-30 flex items-center gap-4 transition-all duration-1000 delay-100 ease-out pointer-events-none",
           isMounted ? "opacity-100 translate-x-0" : "opacity-0 translate-x-10",
           hasScrolled && "opacity-0 translate-x-10"
         )}>
@@ -140,69 +140,78 @@ export function VideoHero() {
           </div>
         </div>
 
-        <div className={cn(
-          "relative z-10 text-center max-w-4xl flex flex-col items-center transition-all duration-1000 ease-[cubic-bezier(0.23,1,0.32,1)] mt-12",
-          isMounted ? "translate-y-0 opacity-100 scale-100" : "translate-y-12 opacity-0 scale-95",
-          hasScrolled && "-translate-y-64 opacity-0 scale-90"
-        )}>
-          <div className="relative w-full flex flex-col items-center mb-4">
-            {/* Viewport-Wide Grid Background */}
-            <div 
-              className="absolute left-1/2 -translate-x-1/2 w-screen -top-32 grid pointer-events-none z-[-1] overflow-hidden transition-opacity duration-1000 delay-300"
-              style={{ 
-                gridTemplateColumns: 'repeat(40, minmax(0, 1fr))',
-                maskImage: 'radial-gradient(circle at center, black 0%, transparent 80%), linear-gradient(to bottom, transparent 0%, black 15%, black 65%, transparent 100%)',
-                WebkitMaskImage: 'radial-gradient(circle at center, black 0%, transparent 80%), linear-gradient(to bottom, transparent 0%, black 15%, black 65%, transparent 100%)',
-                opacity: isMounted ? 1 : 0
-              }}
-            >
-              {Array.from({ length: 480 }).map((_, i) => {
-                const col = i % 40;
-                const row = Math.floor(i / 40);
-                const joltCol = activeJolt ? activeJolt.index % 40 : -100;
-                const joltRow = activeJolt ? Math.floor(activeJolt.index / 40) : -100;
-                
-                const distance = Math.sqrt(Math.pow(col - joltCol, 2) + Math.pow(row - joltRow, 2));
-                const maxRadius = 5.0; 
-                const isJolting = activeJolt && distance < maxRadius;
-                const isDirectlyUnder = distance === 0;
+        <div className="relative z-10 text-center max-w-4xl flex flex-col items-center mt-12">
+          {/* Viewport-Wide Grid Background */}
+          <div 
+            className="absolute left-1/2 -translate-x-1/2 w-screen -top-32 grid pointer-events-none z-[-1] overflow-hidden transition-opacity duration-1000 delay-300"
+            style={{ 
+              gridTemplateColumns: 'repeat(40, minmax(0, 1fr))',
+              maskImage: 'radial-gradient(circle at center, black 0%, transparent 80%), linear-gradient(to bottom, transparent 0%, black 15%, black 65%, transparent 100%)',
+              WebkitMaskImage: 'radial-gradient(circle at center, black 0%, transparent 80%), linear-gradient(to bottom, transparent 0%, black 15%, black 65%, transparent 100%)',
+              opacity: isMounted ? 1 : 0
+            }}
+          >
+            {Array.from({ length: 480 }).map((_, i) => {
+              const col = i % 40;
+              const row = Math.floor(i / 40);
+              const joltCol = activeJolt ? activeJolt.index % 40 : -100;
+              const joltRow = activeJolt ? Math.floor(activeJolt.index / 40) : -100;
+              
+              const distance = Math.sqrt(Math.pow(col - joltCol, 2) + Math.pow(row - joltRow, 2));
+              const maxRadius = 5.0; 
+              const isJolting = activeJolt && distance < maxRadius;
+              const isDirectlyUnder = distance === 0;
 
-                return (
-                  <div 
-                    key={i}
-                    onMouseEnter={() => handleCellHover(i)}
-                    className={cn(
-                      "border-[0.5px] border-primary/[0.012] aspect-square transition-all duration-75 pointer-events-auto",
-                      "hover:bg-primary/[0.015] hover:shadow-[inset_0_0_12px_rgba(21,24,26,0.03)]",
-                      isJolting && !isDirectlyUnder && "animate-jolt"
-                    )}
-                    style={isJolting && !isDirectlyUnder ? { 
-                      animationDelay: `${distance * 40}ms`,
-                      opacity: Math.max(0.05, 0.6 - (distance / maxRadius)) 
-                    } : {}}
-                  />
-                );
-              })}
-            </div>
+              return (
+                <div 
+                  key={i}
+                  onMouseEnter={() => handleCellHover(i)}
+                  className={cn(
+                    "border-[0.5px] border-primary/[0.012] aspect-square transition-all duration-75 pointer-events-auto",
+                    "hover:bg-primary/[0.015] hover:shadow-[inset_0_0_12px_rgba(21,24,26,0.03)]",
+                    isJolting && !isDirectlyUnder && "animate-jolt"
+                  )}
+                  style={isJolting && !isDirectlyUnder ? { 
+                    animationDelay: `${distance * 40}ms`,
+                    opacity: Math.max(0.05, 0.6 - (distance / maxRadius)) 
+                  } : {}}
+                />
+              );
+            })}
+          </div>
 
-            <h1 className="text-3xl md:text-5xl font-bold text-primary tracking-tighter leading-[1.1] mb-6">
+          <div className="flex flex-col items-center w-full">
+            {/* Heading - Individual Reveal */}
+            <h1 className={cn(
+              "text-3xl md:text-5xl font-bold text-primary tracking-tighter leading-[1.1] mb-6 transition-all duration-1000 ease-[cubic-bezier(0.23,1,0.32,1)] delay-300",
+              isMounted ? "translate-y-0 opacity-100 scale-100" : "translate-y-12 opacity-0 scale-95",
+              hasScrolled && "-translate-y-64 opacity-0 scale-90"
+            )}>
               Connect to the universal <br className="hidden md:block" /> lending network.
             </h1>
-            <p className="text-sm md:text-base text-primary/60 max-w-lg mb-10 leading-relaxed font-medium">
+            
+            {/* Description - Individual Reveal */}
+            <p className={cn(
+              "text-sm md:text-base text-primary/60 max-w-lg mb-10 leading-relaxed font-medium transition-all duration-1000 ease-[cubic-bezier(0.23,1,0.32,1)] delay-400",
+              isMounted ? "translate-y-0 opacity-100 scale-100" : "translate-y-8 opacity-0 scale-95",
+              hasScrolled && "-translate-y-48 opacity-0 scale-90"
+            )}>
               Access global liquidity at the best possible terms powered by open infrastructure.
             </p>
-          </div>
-          
-          <div className={cn(
-            "flex gap-3 pointer-events-auto transition-all duration-1000 delay-500",
-            isMounted ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
-          )}>
-            <button className="bg-[#2973FF] text-white px-8 py-3 rounded-none font-bold hover:opacity-90 transition-all text-xs shadow-md animate-shine">
-              Launch app
-            </button>
-            <button className="bg-white/90 backdrop-blur-md text-primary border border-primary/[0.05] px-8 py-3 rounded-none font-bold hover:bg-white transition-all text-xs shadow-sm">
-              Talk to us
-            </button>
+
+            {/* CTA Section - Individual Reveal */}
+            <div className={cn(
+              "flex gap-3 pointer-events-auto transition-all duration-1000 ease-[cubic-bezier(0.23,1,0.32,1)] delay-500",
+              isMounted ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0",
+              hasScrolled && "-translate-y-32 opacity-0 scale-90"
+            )}>
+              <button className="bg-[#2973FF] text-white px-8 py-3 rounded-none font-bold hover:opacity-90 transition-all text-xs shadow-md animate-shine">
+                Launch app
+              </button>
+              <button className="bg-white/90 backdrop-blur-md text-primary border border-primary/[0.05] px-8 py-3 rounded-none font-bold hover:bg-white transition-all text-xs shadow-sm">
+                Talk to us
+              </button>
+            </div>
           </div>
         </div>
 
