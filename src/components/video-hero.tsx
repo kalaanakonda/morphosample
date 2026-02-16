@@ -150,7 +150,7 @@ export function VideoHero() {
               {Array.from({ length: 480 }).map((_, i) => (
                 <div 
                   key={i} 
-                  className="border-[0.5px] border-primary/[0.05] aspect-square hover:bg-primary/[0.05] transition-all duration-75 pointer-events-auto hover:shadow-[inset_0_0_15px_rgba(41,115,255,0.08)]"
+                  className="border-[0.5px] border-primary/[0.02] aspect-square hover:bg-primary/[0.02] transition-all duration-75 pointer-events-auto hover:shadow-[inset_0_0_15px_rgba(41,115,255,0.06)]"
                 />
               ))}
             </div>
