@@ -24,7 +24,7 @@ const LOGOS = [
   "https://play-lh.googleusercontent.com/94WeEFfCBINrvpKxGB4YjR6-yau-aCx4PZVivlDDFbdPOajiwJ-E7ew3gC9WfsYiHmfvwFRfQATzPOBKzJGQIA=w240-h480-rw",
   "https://play-lh.googleusercontent.com/jrC7NQ6QGyEXLhzT5IkDNoCpB9Unj8Men9NibldAW1mKHPH6vaouBLOk6mNkFjAt7vlG",
   "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR2ai9aTxuvIhVwDAFnPv0fETRIN2llX-9QgQ&s",
-  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRH6IP0y4AqjwJt64nQi8oIE34XkyEBGmI8Xg&s",
+  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR2ai9aTxuvIhVwDAFnPv0fETRIN2llX-9QgQ&s",
   "https://cdn.morpho.org/v2/assets/images/steakhouse.svg",
   "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDvbfIPn8QRKmiczb0RgL2FAOeMt29sbLV-w&s"
 ];
@@ -33,7 +33,7 @@ const RAW_POINTS = [
   // Row 1 - 10 points
   { x: 140, y: 120 }, { x: 220, y: 120 }, { x: 300, y: 120 }, { x: 380, y: 120 }, { x: 460, y: 120 }, 
   { x: 540, y: 120 }, { x: 620, y: 120 }, { x: 700, y: 120 }, { x: 780, y: 120 }, { x: 860, y: 120 },
-  // Row 2 - 9 points (staggered)
+  // Row 2 - 9 points
   { x: 180, y: 200 }, { x: 260, y: 200 }, { x: 340, y: 200 }, { x: 420, y: 200 }, { x: 500, y: 200 }, 
   { x: 580, y: 200 }, { x: 660, y: 200 }, { x: 740, y: 200 }, { x: 820, y: 200 }
 ];
@@ -92,15 +92,15 @@ export function VideoHero() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [hasScrolled]);
 
-  const parallaxX = (mousePos.x - 0.5) * 30;
-  const parallaxY = (mousePos.y - 0.5) * 30;
+  const parallaxX = (mousePos.x - 0.5) * 20;
+  const parallaxY = (mousePos.y - 0.5) * 20;
 
   return (
-    <div className="relative h-[200vh] bg-[#F9F9F9]">
+    <div className="relative h-[200vh] bg-background">
       <section className="sticky top-0 w-full h-screen flex flex-col items-center justify-start pt-32 px-6 overflow-hidden">
         <div 
           className="absolute inset-0 z-0 pointer-events-none transition-transform duration-700 ease-out grayscale"
-          style={{ transform: `translate(${parallaxX}px, ${parallaxY}px) scale(1.2)` }}
+          style={{ transform: `translate(${parallaxX}px, ${parallaxY}px) scale(1.3)` }}
         >
           <video
             ref={video1Ref}
@@ -127,30 +127,30 @@ export function VideoHero() {
           />
         </div>
 
-        {/* Network Stats - Bottom Left */}
+        {/* Network Stats */}
         <div className={cn(
-          "absolute bottom-12 left-8 md:left-12 z-30 flex flex-col gap-6 transition-all duration-700 ease-out pointer-events-none",
+          "absolute bottom-12 left-12 z-30 flex flex-col gap-6 transition-all duration-700 ease-out pointer-events-none",
           hasScrolled ? "opacity-0 -translate-x-10" : "opacity-100 translate-x-0"
         )}>
           <div>
-            <p className="text-[10px] font-bold text-primary/30 mb-1 tracking-tight">Deposits</p>
-            <p className="text-lg md:text-xl font-medium text-primary/15 tracking-tighter">$9,112,320,603</p>
+            <p className="text-[10px] font-bold text-primary/15 mb-1 tracking-tight">Deposits</p>
+            <p className="text-xl font-medium text-primary/05 tracking-tighter">$9,112,320,603</p>
           </div>
           <div>
-            <p className="text-[10px] font-bold text-primary/30 mb-1 tracking-tight">Loans</p>
-            <p className="text-lg md:text-xl font-medium text-primary/15 tracking-tighter">$3,291,165,751</p>
+            <p className="text-[10px] font-bold text-primary/15 mb-1 tracking-tight">Loans</p>
+            <p className="text-xl font-medium text-primary/05 tracking-tighter">$3,291,165,751</p>
           </div>
         </div>
 
-        {/* Scroll Hint - Bottom Right */}
+        {/* Scroll Hint */}
         <div className={cn(
-          "absolute bottom-12 right-8 md:right-12 z-30 flex items-center gap-4 transition-all duration-700 ease-out pointer-events-none",
+          "absolute bottom-12 right-12 z-30 flex items-center gap-4 transition-all duration-700 ease-out pointer-events-none",
           hasScrolled ? "opacity-0 translate-x-10" : "opacity-100 translate-x-0"
         )}>
-          <span className="text-[10px] font-bold text-primary/30 tracking-tight">Scroll to explore</span>
+          <span className="text-[10px] font-bold text-primary/15 tracking-tight">Scroll to explore</span>
           <div className="flex flex-col items-center">
-            <div className="w-px h-8 bg-primary/10" />
-            <ChevronDown className="w-3 h-3 text-primary/30 -mt-1" />
+            <div className="w-px h-8 bg-primary/05" />
+            <ChevronDown className="w-3 h-3 text-primary/15 -mt-1" />
           </div>
         </div>
 
@@ -166,10 +166,10 @@ export function VideoHero() {
           </p>
           
           <div className="flex gap-3 pointer-events-auto">
-            <button className="bg-[#2973FF] text-white px-8 py-3 rounded-md font-bold hover:opacity-90 transition-all text-xs shadow-md animate-shine">
+            <button className="bg-[#2973FF] text-white px-8 py-3 rounded-none font-bold hover:opacity-90 transition-all text-xs shadow-md animate-shine">
               Launch app
             </button>
-            <button className="bg-white/90 backdrop-blur-md text-primary border border-primary/[0.05] px-8 py-3 rounded-md font-bold hover:bg-white transition-all text-xs shadow-sm">
+            <button className="bg-white/90 backdrop-blur-md text-primary border border-primary/[0.05] px-8 py-3 rounded-none font-bold hover:bg-white transition-all text-xs shadow-sm">
               Talk to us
             </button>
           </div>
@@ -180,7 +180,6 @@ export function VideoHero() {
           showSection ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
         )}>
           <div className="flex flex-col items-center w-full max-w-3xl">
-            {/* Logos Grid */}
             <div className="w-full h-[22vh] overflow-visible mb-0">
               <svg 
                 className="w-full h-full overflow-visible" 
@@ -196,17 +195,8 @@ export function VideoHero() {
                 </defs>
                 <g>
                   {CIRCLES.map((circle, index) => (
-                    <g 
-                      key={index}
-                      className="transition-all duration-700 ease-out"
-                    >
-                      <circle 
-                        cx={circle.x} 
-                        cy={circle.y} 
-                        r="26" 
-                        fill="white"
-                        className="drop-shadow-sm"
-                      />
+                    <g key={index} className="transition-all duration-700 ease-out">
+                      <circle cx={circle.x} cy={circle.y} r="26" fill="white" className="drop-shadow-sm" />
                       <image 
                         href={circle.logoUrl}
                         x={circle.x - 17}
@@ -215,22 +205,13 @@ export function VideoHero() {
                         width="34"
                         clipPath={`url(#clip-${index})`}
                       />
-                      <circle 
-                        cx={circle.x} 
-                        cy={circle.y} 
-                        r="26" 
-                        fill="none"
-                        stroke="#15181A"
-                        strokeOpacity="0.04"
-                        strokeWidth="1"
-                      />
+                      <circle cx={circle.x} cy={circle.y} r="26" fill="none" stroke="#15181A" strokeOpacity="0.04" strokeWidth="1" />
                     </g>
                   ))}
                 </g>
               </svg>
             </div>
 
-            {/* Powered by Morpho Section - Positioned slightly higher */}
             <div className="flex flex-col items-center text-center mt-24">
               <h2 className="text-xl md:text-2xl font-bold text-primary tracking-tight leading-[1.1] mb-3">
                 Powered by Morpho
@@ -242,7 +223,7 @@ export function VideoHero() {
           </div>
         </div>
 
-        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#F9F9F9] to-transparent pointer-events-none z-10"></div>
+        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background to-transparent pointer-events-none z-10"></div>
       </section>
     </div>
   );
