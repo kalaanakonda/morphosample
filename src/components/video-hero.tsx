@@ -189,7 +189,7 @@ export function VideoHero() {
                 <defs>
                   {CIRCLES.map((_, i) => (
                     <clipPath key={`clip-${i}`} id={`clip-${i}`}>
-                      <circle cx={CIRCLES[i].x} cy={CIRCLES[i].y} r="22" />
+                      <circle cx={CIRCLES[i].x} cy={CIRCLES[i].y} r="26" />
                     </clipPath>
                   ))}
                 </defs>
@@ -202,22 +202,22 @@ export function VideoHero() {
                       <circle 
                         cx={circle.x} 
                         cy={circle.y} 
-                        r="22" 
+                        r="26" 
                         fill="white"
                         className="drop-shadow-sm"
                       />
                       <image 
                         href={circle.logoUrl}
-                        x={circle.x - 14}
-                        y={circle.y - 14}
-                        height="28"
-                        width="28"
+                        x={circle.x - 17}
+                        y={circle.y - 17}
+                        height="34"
+                        width="34"
                         clipPath={`url(#clip-${index})`}
                       />
                       <circle 
                         cx={circle.x} 
                         cy={circle.y} 
-                        r="22" 
+                        r="26" 
                         fill="none"
                         stroke="black"
                         strokeOpacity="0.04"
