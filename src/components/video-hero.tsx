@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useEffect, useRef, useState } from 'react';
@@ -7,7 +6,6 @@ import { cn } from '@/lib/utils';
 const VIDEO_1_URL = "https://github.com/kalaanakonda/Video-morpho/raw/refs/heads/main/aa11.webm";
 const VIDEO_2_URL = "https://github.com/kalaanakonda/Video-morpho/raw/refs/heads/main/aa22.webm";
 
-// The specific 10 logos provided
 const LOGOS = [
   "https://cryptologos.cc/logos/thumbs/bitget-token-new.png?v=040",
   "https://cryptologos.cc/logos/thumbs/chainlink.png?v=040",
@@ -15,52 +13,28 @@ const LOGOS = [
   "https://cryptologos.cc/logos/thumbs/pendle.png?v=040",
   "https://avatars.githubusercontent.com/u/32179889?s=200&v=4",
   "https://cdn.worldvectorlogo.com/logos/farcaster.svg",
-  "https://pbs.twimg.com/profile_images/1643941027898613760/gyhYEOCE_400x400.jpg", // Updated Safe Logo
+  "https://pbs.twimg.com/profile_images/1643941027898613760/gyhYEOCE_400x400.jpg",
   "https://upload.wikimedia.org/wikipedia/commons/2/21/Polygon_Icon.svg",
   "https://pbs.twimg.com/profile_images/1672323719176318987/Qv7h4j1s_400x400.jpg",
   "https://assets.coingecko.com/coins/images/7310/large/cro_token_logo.png"
 ];
 
-// 33 Symmetric points
-const CENTER_X = 500;
-const CENTER_Y = 325;
-
+// Symmetric layout for 10 items: 3-4-3 grid
 const RAW_POINTS = [
-  // Center Column (5)
-  { x: 500, y: 50 }, { x: 500, y: 175 }, { x: 500, y: 300 }, { x: 500, y: 425 }, { x: 500, y: 550 },
-  
-  // Column 1 (10)
-  { x: 380, y: 80 }, { x: 620, y: 80 },
-  { x: 380, y: 205 }, { x: 620, y: 205 },
-  { x: 380, y: 330 }, { x: 620, y: 330 },
-  { x: 380, y: 455 }, { x: 620, y: 455 },
-  { x: 380, y: 580 }, { x: 620, y: 580 },
-  
-  // Column 2 (8)
-  { x: 260, y: 130 }, { x: 740, y: 130 },
-  { x: 260, y: 255 }, { x: 740, y: 255 },
-  { x: 260, y: 380 }, { x: 740, y: 380 },
-  { x: 260, y: 505 }, { x: 740, y: 505 },
-  
-  // Column 3 (6)
-  { x: 140, y: 180 }, { x: 860, y: 180 },
-  { x: 140, y: 305 }, { x: 860, y: 305 },
-  { x: 140, y: 430 }, { x: 860, y: 430 },
-  
-  // Column 4 (4)
-  { x: 20, y: 240 }, { x: 980, y: 240 },
-  { x: 20, y: 365 }, { x: 980, y: 365 }
+  // Row 1 (3 items)
+  { x: 350, y: 150, row: 0 }, { x: 500, y: 150, row: 0 }, { x: 650, y: 150, row: 0 },
+  // Row 2 (4 items)
+  { x: 275, y: 300, row: 1 }, { x: 425, y: 300, row: 1 }, { x: 575, y: 300, row: 1 }, { x: 725, y: 300, row: 1 },
+  // Row 3 (3 items)
+  { x: 350, y: 450, row: 2 }, { x: 500, y: 450, row: 2 }, { x: 650, y: 450, row: 2 }
 ];
 
-const CIRCLES = RAW_POINTS.map((point, i) => {
-  // Calculate distance from center for wave animation delay
-  const dist = Math.sqrt(Math.pow(point.x - CENTER_X, 2) + Math.pow(point.y - CENTER_Y, 2));
-  return {
-    ...point,
-    logoUrl: LOGOS[i % LOGOS.length],
-    delay: dist * 1.5 // Multiplier controls the "speed" of the wave
-  };
-});
+const CIRCLES = RAW_POINTS.map((point, i) => ({
+  ...point,
+  logoUrl: LOGOS[i],
+  revealDelay: point.row * 200, // Stagger by row for line-by-line effect
+  idleDelay: (point.row * 0.5) + (i * 0.1) // Stagger for the standing wave
+}));
 
 export function VideoHero() {
   const [hasScrolled, setHasScrolled] = useState(false);
@@ -81,7 +55,7 @@ export function VideoHero() {
             video2Ref.current.currentTime = 0;
             video2Ref.current.play().catch(() => {});
           }
-          // Reveal the network visualization slightly after the transformation video starts
+          // Reveal the network visualization line by line
           setTimeout(() => setShowNetwork(true), 800);
         }
       } else {
@@ -104,7 +78,7 @@ export function VideoHero() {
   return (
     <div className="relative h-[200vh] bg-[#F9F9F9]">
       <section className="sticky top-0 w-full h-screen flex flex-col items-center justify-start pt-32 px-6 overflow-hidden">
-        {/* Background Videos - Entirely behind the UI */}
+        {/* Background Videos */}
         <div className="absolute inset-0 z-0 pointer-events-none">
           <video
             ref={video1Ref}
@@ -153,10 +127,10 @@ export function VideoHero() {
           </div>
         </div>
 
-        {/* Network Visualization - Elevated position */}
+        {/* Network Visualization */}
         <div className={cn(
           "absolute inset-0 z-20 flex items-center justify-center pointer-events-none transition-all duration-1000 ease-in-out",
-          showNetwork ? "opacity-100 translate-y-[-15%]" : "opacity-0 translate-y-20"
+          showNetwork ? "opacity-100 translate-y-[-10%]" : "opacity-0 translate-y-20"
         )}>
           <svg 
             className="w-full h-[75vh] max-w-6xl overflow-visible" 
@@ -168,46 +142,54 @@ export function VideoHero() {
                 <g 
                   key={index}
                   className={cn(
-                    "transition-all duration-1000 pointer-events-auto origin-center transform-gpu",
+                    "transition-all duration-700 pointer-events-auto origin-center transform-gpu",
                     showNetwork 
-                      ? "opacity-100 scale-100 animate-in fade-in zoom-in" 
+                      ? "opacity-100 scale-100" 
                       : "opacity-0 scale-0"
                   )}
                   style={{ 
-                    transitionDelay: showNetwork ? `${circle.delay}ms` : '0ms',
+                    transitionDelay: showNetwork ? `${circle.revealDelay}ms` : '0ms',
                     transformOrigin: `${circle.x}px ${circle.y}px`,
-                    // Custom cubic-bezier for a "bouncy" wave reveal
-                    transitionTimingFunction: 'cubic-bezier(0.34, 1.56, 0.64, 1)'
                   }}
                 >
-                  <g className="hover:scale-110 transition-transform duration-300 cursor-pointer">
-                    {/* Outer circle container */}
-                    <circle 
-                      cx={circle.x} 
-                      cy={circle.y} 
-                      r="26" 
-                      fill="white"
-                      className="drop-shadow-sm"
-                    />
-                    {/* Logo Image */}
-                    <image 
-                      href={circle.logoUrl}
-                      x={circle.x - 18}
-                      y={circle.y - 18}
-                      height="36"
-                      width="36"
-                      className="rounded-full"
-                    />
-                    {/* Subtle boundary ring */}
-                    <circle 
-                      cx={circle.x} 
-                      cy={circle.y} 
-                      r="26" 
-                      fill="none"
-                      stroke="black"
-                      strokeOpacity="0.04"
-                      strokeWidth="1"
-                    />
+                  <g 
+                    className={cn(
+                      "transition-transform duration-300 cursor-pointer",
+                      showNetwork && "animate-idle-wave"
+                    )}
+                    style={{
+                      animationDelay: `${circle.idleDelay}s`
+                    }}
+                  >
+                    <g className="hover:scale-110 transition-transform duration-200">
+                      {/* Outer circle container */}
+                      <circle 
+                        cx={circle.x} 
+                        cy={circle.y} 
+                        r="32" 
+                        fill="white"
+                        className="drop-shadow-sm"
+                      />
+                      {/* Logo Image */}
+                      <image 
+                        href={circle.logoUrl}
+                        x={circle.x - 22}
+                        y={circle.y - 22}
+                        height="44"
+                        width="44"
+                        className="rounded-full"
+                      />
+                      {/* Subtle boundary ring */}
+                      <circle 
+                        cx={circle.x} 
+                        cy={circle.y} 
+                        r="32" 
+                        fill="none"
+                        stroke="black"
+                        strokeOpacity="0.04"
+                        strokeWidth="1"
+                      />
+                    </g>
                   </g>
                 </g>
               ))}
