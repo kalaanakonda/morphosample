@@ -30,25 +30,29 @@ const LOGOS = [
 ];
 
 const RAW_POINTS = [
-  // Row 1 (4 items)
-  { x: 320, y: 150, row: 0 }, { x: 440, y: 150, row: 0 }, { x: 560, y: 150, row: 0 }, { x: 680, y: 150, row: 0 },
-  // Row 2 (4 items - removed the 5th logo as requested)
-  { x: 260, y: 250, row: 1 }, { x: 380, y: 250, row: 1 }, { x: 500, y: 250, row: 1 }, { x: 620, y: 250, row: 1 },
-  // Row 3 (6 items)
-  { x: 200, y: 350, row: 2 }, { x: 320, y: 350, row: 2 }, { x: 440, y: 350, row: 2 }, { x: 560, y: 350, row: 2 }, { x: 680, y: 350, row: 2 }, { x: 800, y: 350, row: 2 },
-  // Row 4 (4 items)
-  { x: 320, y: 450, row: 3 }, { x: 440, y: 450, row: 3 }, { x: 560, y: 450, row: 3 }, { x: 680, y: 450, row: 3 }
+  // Row 1 (4 items) - Higher up
+  { x: 320, y: 100, row: 0 }, { x: 440, y: 100, row: 0 }, { x: 560, y: 100, row: 0 }, { x: 680, y: 100, row: 0 },
+  // Row 2 (4 items) - Above center
+  { x: 260, y: 190, row: 1 }, { x: 380, y: 190, row: 1 }, { x: 500, y: 190, row: 1 }, { x: 620, y: 190, row: 1 },
+  // Row 3 (6 items) - Below center (Avoiding y=325 area)
+  { x: 200, y: 460, row: 2 }, { x: 320, y: 460, row: 2 }, { x: 440, y: 460, row: 2 }, { x: 560, y: 460, row: 2 }, { x: 680, y: 460, row: 2 }, { x: 800, y: 460, row: 2 },
+  // Row 4 (4 items) - Further down
+  { x: 320, y: 550, row: 3 }, { x: 440, y: 550, row: 3 }, { x: 560, y: 550, row: 3 }, { x: 680, y: 550, row: 3 }
 ];
 
 const CIRCLES = RAW_POINTS.map((point, i) => ({
   ...point,
   logoUrl: LOGOS[i % LOGOS.length],
-  revealDelay: point.row * 80, 
+  revealDelay: point.row * 80,
+  // Random scattering trajectory
+  scatterX: (Math.random() - 0.5) * 600,
+  scatterY: -800 - (Math.random() * 500),
 }));
 
 export function VideoHero() {
   const [hasScrolled, setHasScrolled] = useState(false);
   const [showNetwork, setShowNetwork] = useState(false);
+  const [isScattering, setIsScattering] = useState(false);
   
   const video1Ref = useRef<HTMLVideoElement>(null);
   const video2Ref = useRef<HTMLVideoElement>(null);
@@ -56,9 +60,11 @@ export function VideoHero() {
   useEffect(() => {
     const handleScroll = () => {
       const scrollY = window.scrollY;
-      const threshold = 50; 
+      const revealThreshold = 50; 
+      const scatterThreshold = 500; // Start scattering when scrolling deep
 
-      if (scrollY > threshold) {
+      // Phase 1 -> 2: Reveal
+      if (scrollY > revealThreshold) {
         if (!hasScrolled) {
           setHasScrolled(true);
           if (video2Ref.current) {
@@ -76,6 +82,13 @@ export function VideoHero() {
           }
         }
       }
+
+      // Phase 2 -> 3: Scatter
+      if (scrollY > scatterThreshold) {
+        setIsScattering(true);
+      } else {
+        setIsScattering(false);
+      }
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
@@ -85,7 +98,7 @@ export function VideoHero() {
   }, [hasScrolled]);
 
   return (
-    <div className="relative h-[200vh] bg-[#F9F9F9]">
+    <div className="relative h-[250vh] bg-[#F9F9F9]">
       <section className="sticky top-0 w-full h-screen flex flex-col items-center justify-start pt-32 px-6 overflow-hidden">
         <div className="absolute inset-0 z-0 pointer-events-none">
           <video
@@ -135,10 +148,10 @@ export function VideoHero() {
           </div>
         </div>
 
-        {/* New Reveal Text: Powered by Morpho */}
+        {/* Powered by Morpho Text - Stays in center */}
         <div className={cn(
           "absolute inset-0 z-30 flex flex-col items-center justify-center pointer-events-none transition-all duration-1000 ease-out px-6 text-center",
-          hasScrolled ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+          hasScrolled && !isScattering ? "opacity-100 translate-y-[-5%]" : "opacity-0 translate-y-8"
         )}>
           <h2 className="text-xl md:text-3xl font-bold text-black tracking-tight leading-[1.1] mb-3">
             Powered by Morpho
@@ -148,9 +161,10 @@ export function VideoHero() {
           </p>
         </div>
 
+        {/* Network Circles */}
         <div className={cn(
           "absolute inset-0 z-20 flex items-center justify-center pointer-events-none transition-all duration-1000 ease-out",
-          showNetwork ? "opacity-100 translate-y-[-10%]" : "opacity-0 translate-y-8"
+          showNetwork ? "opacity-100" : "opacity-0 translate-y-8"
         )}>
           <svg 
             className="w-full h-[70vh] max-w-5xl overflow-visible" 
@@ -169,13 +183,18 @@ export function VideoHero() {
                 <g 
                   key={index}
                   className={cn(
-                    "transition-all duration-500 transform-gpu",
+                    "transition-all duration-700 transform-gpu",
                     showNetwork 
                       ? "opacity-100 scale-100 translate-y-0" 
                       : "opacity-0 scale-90 translate-y-2"
                   )}
                   style={{ 
-                    transitionDelay: showNetwork ? `${circle.revealDelay}ms` : '0ms',
+                    transitionDelay: showNetwork && !isScattering ? `${circle.revealDelay}ms` : '0ms',
+                    transform: isScattering 
+                      ? `translate(${circle.scatterX}px, ${circle.scatterY}px) scale(0.3)` 
+                      : undefined,
+                    opacity: isScattering ? 0 : undefined,
+                    transitionDuration: isScattering ? '1200ms' : '700ms',
                     transformOrigin: `${circle.x}px ${circle.y}px`,
                   }}
                 >
