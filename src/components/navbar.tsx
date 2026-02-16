@@ -21,7 +21,7 @@ export function Navbar() {
       isScrolled ? "-translate-y-full opacity-0" : "translate-y-0 opacity-100"
     )}>
       <div className="flex items-center gap-8">
-        <div className="flex items-center gap-2 cursor-pointer h-6">
+        <div className="flex items-center gap-2 cursor-pointer h-9">
           <img 
             src="https://panteracapital.com/wp-content/uploads/2024/02/Morpho_Banner.png" 
             alt="Morpho" 
