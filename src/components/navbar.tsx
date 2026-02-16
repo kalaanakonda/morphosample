@@ -21,10 +21,12 @@ export function Navbar() {
       isScrolled ? "-translate-y-full opacity-0" : "translate-y-0 opacity-100"
     )}>
       <div className="flex items-center gap-8">
-        <div className="flex items-center gap-2 cursor-pointer">
-          <span className="text-base font-bold tracking-tighter text-primary">
-            Morpho
-          </span>
+        <div className="flex items-center gap-2 cursor-pointer h-6">
+          <img 
+            src="https://panteracapital.com/wp-content/uploads/2024/02/Morpho_Banner.png" 
+            alt="Morpho" 
+            className="h-full w-auto object-contain brightness-0 grayscale"
+          />
         </div>
         
         <div className="hidden lg:flex items-center gap-6">
@@ -44,7 +46,7 @@ export function Navbar() {
         <button className="hidden sm:block text-xs font-medium text-primary/50 hover:text-primary transition-colors px-3 py-1.5">
           Talk to us
         </button>
-        <button className="bg-accent hover:opacity-90 text-accent-foreground px-5 py-2 rounded-full text-xs font-semibold transition-all shadow-sm">
+        <button className="bg-[#2973FF] hover:opacity-90 text-white px-5 py-2 rounded-full text-xs font-semibold transition-all shadow-sm animate-shine">
           Launch app
         </button>
       </div>

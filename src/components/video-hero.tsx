@@ -98,7 +98,7 @@ export function VideoHero() {
     <div className="relative h-[200vh] bg-[#F9F9F9]">
       <section className="sticky top-0 w-full h-screen flex flex-col items-center justify-start pt-32 px-6 overflow-hidden">
         <div 
-          className="absolute inset-0 z-0 pointer-events-none transition-transform duration-700 ease-out"
+          className="absolute inset-0 z-0 pointer-events-none transition-transform duration-700 ease-out grayscale"
           style={{ transform: `translate(${parallaxX}px, ${parallaxY}px) scale(1.1)` }}
         >
           <video
@@ -162,7 +162,7 @@ export function VideoHero() {
           </p>
           
           <div className="flex gap-3 pointer-events-auto">
-            <button className="bg-[#2973FF] text-white px-8 py-3 rounded-full font-bold hover:opacity-90 transition-all text-xs shadow-md">
+            <button className="bg-[#2973FF] text-white px-8 py-3 rounded-full font-bold hover:opacity-90 transition-all text-xs shadow-md animate-shine">
               Launch app
             </button>
             <button className="bg-white/90 backdrop-blur-md text-primary border border-primary/[0.05] px-8 py-3 rounded-full font-bold hover:bg-white transition-all text-xs shadow-sm">

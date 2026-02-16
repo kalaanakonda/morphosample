@@ -48,19 +48,39 @@
   }
 }
 
+@layer utilities {
+  .animate-shine {
+    position: relative;
+    overflow: hidden;
+  }
+  .animate-shine::after {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -100%;
+    width: 60%;
+    height: 200%;
+    background: linear-gradient(
+      to right,
+      transparent,
+      rgba(255, 255, 255, 0.3),
+      transparent
+    );
+    transform: rotate(30deg);
+    animation: shine 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  }
+}
+
+@keyframes shine {
+  0% { left: -150%; }
+  30% { left: 150%; }
+  100% { left: 150%; }
+}
+
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
 .no-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
-}
-
-@keyframes idle-scale-shift {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.08); }
-}
-
-.animate-idle-wave {
-  animation: idle-scale-shift 3s ease-in-out infinite;
 }
