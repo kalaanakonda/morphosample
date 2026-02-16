@@ -16,22 +16,33 @@ const LOGOS = [
   "https://pbs.twimg.com/profile_images/1643941027898613760/gyhYEOCE_400x400.jpg",
   "https://upload.wikimedia.org/wikipedia/commons/2/21/Polygon_Icon.svg",
   "https://pbs.twimg.com/profile_images/1672323719176318987/Qv7h4j1s_400x400.jpg",
-  "https://assets.coingecko.com/coins/images/7310/large/cro_token_logo.png"
+  "https://assets.coingecko.com/coins/images/7310/large/cro_token_logo.png",
+  "https://cryptologos.cc/logos/lido-dao-ldo-logo.png",
+  "https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/coinbase-logo-icon.png",
+  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR-IVIyim1hmDBpx97RslB9FvyUNKHk_liy2A&s",
+  "https://play-lh.googleusercontent.com/94WeEFfCBINrvpKxGB4YkR6-yau-aCx4PZVivlDDFbdPOajiwJ-E7ew3gC9WfsYiHmfvwFRfQATzPOBKzJGQIA=w240-h480-rw",
+  "https://play-lh.googleusercontent.com/jrC7NQ6QGyEXLhzT5IkDNoCpB9Unj8Men9NibldAW1mKHPH6vaouBLOk6mNkFjAt7vlG",
+  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR2ai9aTxuvIhVwDAFnPv0fETRIN2llX-9QgQ&s",
+  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRH6IP0y4AqjwJt64nQi8oIE34XkyEBGmI8Xg&s",
+  "https://cdn.morpho.org/v2/assets/images/steakhouse.svg",
+  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDvbfIPn8QRKmiczb0RgL2FAOeMt29sbLV-w&s"
 ];
 
-// Symmetric layout for exactly 10 unique items: 3-4-3 grid
+// Symmetric layout for exactly 19 unique items: 4-5-6-4 grid
 const RAW_POINTS = [
-  // Row 1 (3 items)
-  { x: 350, y: 150, row: 0 }, { x: 500, y: 150, row: 0 }, { x: 650, y: 150, row: 0 },
-  // Row 2 (4 items)
-  { x: 275, y: 300, row: 1 }, { x: 425, y: 300, row: 1 }, { x: 575, y: 300, row: 1 }, { x: 725, y: 300, row: 1 },
-  // Row 3 (3 items)
-  { x: 350, y: 450, row: 2 }, { x: 500, y: 450, row: 2 }, { x: 650, y: 450, row: 2 }
+  // Row 1 (4 items)
+  { x: 300, y: 120, row: 0 }, { x: 433, y: 120, row: 0 }, { x: 566, y: 120, row: 0 }, { x: 700, y: 120, row: 0 },
+  // Row 2 (5 items)
+  { x: 250, y: 240, row: 1 }, { x: 375, y: 240, row: 1 }, { x: 500, y: 240, row: 1 }, { x: 625, y: 240, row: 1 }, { x: 750, y: 240, row: 1 },
+  // Row 3 (6 items)
+  { x: 200, y: 360, row: 2 }, { x: 320, y: 360, row: 2 }, { x: 440, y: 360, row: 2 }, { x: 560, y: 360, row: 2 }, { x: 680, y: 360, row: 2 }, { x: 800, y: 360, row: 2 },
+  // Row 4 (4 items)
+  { x: 300, y: 480, row: 3 }, { x: 433, y: 480, row: 3 }, { x: 566, y: 480, row: 3 }, { x: 700, y: 480, row: 3 }
 ];
 
 const CIRCLES = RAW_POINTS.map((point, i) => ({
   ...point,
-  logoUrl: LOGOS[i],
+  logoUrl: LOGOS[i % LOGOS.length],
   revealDelay: point.row * 100, 
 }));
 
@@ -76,7 +87,7 @@ export function VideoHero() {
   return (
     <div className="relative h-[200vh] bg-[#F9F9F9]">
       <section className="sticky top-0 w-full h-screen flex flex-col items-center justify-start pt-32 px-6 overflow-hidden">
-        {/* Background Videos - Filters Removed */}
+        {/* Background Videos */}
         <div className="absolute inset-0 z-0 pointer-events-none">
           <video
             ref={video1Ref}
@@ -131,7 +142,7 @@ export function VideoHero() {
           showNetwork ? "opacity-100 translate-y-[-15%]" : "opacity-0 translate-y-10"
         )}>
           <svg 
-            className="w-full h-[65vh] max-w-5xl overflow-visible" 
+            className="w-full h-[75vh] max-w-6xl overflow-visible" 
             viewBox="0 0 1000 650" 
             preserveAspectRatio="xMidYMid meet"
           >
@@ -154,22 +165,22 @@ export function VideoHero() {
                     <circle 
                       cx={circle.x} 
                       cy={circle.y} 
-                      r="38" 
+                      r="42" 
                       fill="white"
                       className="drop-shadow-sm"
                     />
                     <image 
                       href={circle.logoUrl}
-                      x={circle.x - 28}
-                      y={circle.y - 28}
-                      height="56"
-                      width="56"
+                      x={circle.x - 30}
+                      y={circle.y - 30}
+                      height="60"
+                      width="60"
                       className="rounded-full"
                     />
                     <circle 
                       cx={circle.x} 
                       cy={circle.y} 
-                      r="38" 
+                      r="42" 
                       fill="none"
                       stroke="black"
                       strokeOpacity="0.05"
