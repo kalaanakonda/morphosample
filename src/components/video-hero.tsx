@@ -4,8 +4,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { cn } from '@/lib/utils';
 
-const VIDEO_1_URL = "https://github.com/kalaanakonda/Video-morpho/raw/refs/heads/main/aa11.webm";
-const VIDEO_2_URL = "https://github.com/kalaanakonda/Video-morpho/raw/refs/heads/main/aa22.webm";
+const VIDEO_1_URL = "https://github.com/kalaanakonda/Video-morpho/raw/refs/heads/main/aa11_1.webm";
+const VIDEO_2_URL = "https://github.com/kalaanakonda/Video-morpho/raw/refs/heads/main/aa11_2.webm";
 
 const LOGOS = [
   "https://cryptologos.cc/logos/thumbs/bitget-token-new.png?v=040",
@@ -92,7 +92,6 @@ export function VideoHero() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [hasScrolled]);
 
-  // Higher reactivity for mouse movement as requested
   const parallaxX = (mousePos.x - 0.5) * 160;
   const parallaxY = (mousePos.y - 0.5) * 160;
 
@@ -128,7 +127,6 @@ export function VideoHero() {
           />
         </div>
 
-        {/* Network Stats - Bottom Left (Subtle opacity as requested) */}
         <div className={cn(
           "absolute bottom-12 left-8 md:left-12 z-30 flex flex-col gap-6 transition-all duration-700 ease-out pointer-events-none",
           hasScrolled ? "opacity-0 -translate-x-10" : "opacity-[0.15] translate-x-0"
@@ -143,7 +141,6 @@ export function VideoHero() {
           </div>
         </div>
 
-        {/* Scroll to Explore - Bottom Right (Subtle opacity as requested) */}
         <div className={cn(
           "absolute bottom-12 right-8 md:right-12 z-30 flex items-center gap-4 transition-all duration-700 ease-out pointer-events-none",
           hasScrolled ? "opacity-0 translate-x-10" : "opacity-[0.15] translate-x-0"
@@ -173,13 +170,11 @@ export function VideoHero() {
           </div>
         </div>
 
-        {/* Powered by Morpho Section - Positioned High */}
         <div className={cn(
           "absolute inset-x-0 top-[4%] z-30 flex flex-col items-center pointer-events-none transition-all duration-1000 ease-out px-6",
           showSection ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
         )}>
           <div className="flex flex-col items-center w-full max-w-3xl">
-            {/* Logos Component - High position preserved */}
             <div className="w-full h-[22vh] overflow-visible mb-0">
               <svg 
                 className="w-full h-full overflow-visible" 
@@ -229,7 +224,6 @@ export function VideoHero() {
               </svg>
             </div>
 
-            {/* Heading Component - Moved slightly up closer to logos as requested */}
             <div className="flex flex-col items-center text-center mt-6 md:mt-8">
               <h2 className="text-xl md:text-2xl font-bold text-black tracking-tight leading-[1.1] mb-3">
                 Powered by Morpho
