@@ -20,7 +20,7 @@ const LOGOS = [
   "https://cryptologos.cc/logos/lido-dao-ldo-logo.png",
   "https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/coinbase-logo-icon.png",
   "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR-IVIyim1hmDBpx97RslB9FvyUNKHk_liy2A&s",
-  "https://play-lh.googleusercontent.com/94WeEFfCBINrvpKxGB4YkR6-yau-aCx4PZVivlDDFbdPOajiwJ-E7ew3gC9WfsYiHmfvwFRfQATzPOBKzJGQIA=w240-h480-rw",
+  "https://play-lh.googleusercontent.com/94WeEFfCBINrvpKxGB4YjR6-yau-aCx4PZVivlDDFbdPOajiwJ-E7ew3gC9WfsYiHmfvwFRfQATzPOBKzJGQIA=w240-h480-rw",
   "https://play-lh.googleusercontent.com/jrC7NQ6QGyEXLhzT5IkDNoCpB9Unj8Men9NibldAW1mKHPH6vaouBLOk6mNkFjAt7vlG"
 ];
 
@@ -85,16 +85,16 @@ export function VideoHero() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [hasScrolled]);
 
-  const parallaxX = (mousePos.x - 0.5) * 5;
-  const parallaxY = (mousePos.y - 0.5) * 5;
+  const parallaxX = (mousePos.x - 0.5) * 8;
+  const parallaxY = (mousePos.y - 0.5) * 8;
 
   return (
     <div className="relative h-[220vh] bg-[#F9F9F9]">
       <section className="sticky top-0 w-full h-screen flex flex-col items-center justify-start pt-32 px-6 overflow-hidden">
         {/* Background Videos with subtle parallax */}
         <div 
-          className="absolute inset-0 z-0 pointer-events-none transition-transform duration-500 ease-out"
-          style={{ transform: `translate(${parallaxX}px, ${parallaxY}px) scale(1.02)` }}
+          className="absolute inset-0 z-0 pointer-events-none transition-transform duration-700 ease-out"
+          style={{ transform: `translate(${parallaxX}px, ${parallaxY}px) scale(1.03)` }}
         >
           <video
             ref={video1Ref}
@@ -126,18 +126,18 @@ export function VideoHero() {
           "relative z-10 text-center max-w-4xl flex flex-col items-center transition-all duration-1000 ease-in-out pointer-events-none",
           hasScrolled ? "-translate-y-64 opacity-0 scale-95" : "translate-y-0 opacity-100 scale-100"
         )}>
-          <h1 className="text-lg md:text-xl font-bold text-black tracking-tighter leading-[1.1] mb-5">
+          <h1 className="text-2xl md:text-3xl font-bold text-black tracking-tighter leading-[1.1] mb-5">
             Connect to the universal <br className="hidden md:block" /> lending network.
           </h1>
-          <p className="text-[10px] md:text-xs text-black/60 max-w-lg mb-8 leading-relaxed font-medium">
+          <p className="text-xs md:text-sm text-black/60 max-w-lg mb-8 leading-relaxed font-medium">
             Access global liquidity at the best possible terms powered by open infrastructure.
           </p>
           
           <div className="flex gap-3 pointer-events-auto">
-            <button className="bg-black text-white px-5 py-2 rounded-full font-bold hover:bg-black/90 transition-all text-[9px] uppercase tracking-widest shadow-md">
+            <button className="bg-black text-white px-6 py-2.5 rounded-full font-bold hover:bg-black/90 transition-all text-[10px] uppercase tracking-widest shadow-md">
               Launch App
             </button>
-            <button className="bg-white/90 backdrop-blur-md text-black border border-black/[0.05] px-5 py-2 rounded-full font-bold hover:bg-white transition-all text-[9px] uppercase tracking-widest shadow-sm">
+            <button className="bg-white/90 backdrop-blur-md text-black border border-black/[0.05] px-6 py-2.5 rounded-full font-bold hover:bg-white transition-all text-[10px] uppercase tracking-widest shadow-sm">
               Talk to us
             </button>
           </div>
@@ -145,12 +145,12 @@ export function VideoHero() {
 
         {/* Powered by Morpho Section - Unified and Higher */}
         <div className={cn(
-          "absolute inset-x-0 top-1/2 -translate-y-[45%] z-30 flex flex-col items-center pointer-events-none transition-all duration-1000 ease-out px-6",
-          showSection ? "opacity-100 translate-y-[-55%]" : "opacity-0 translate-y-[-40%]"
+          "absolute inset-x-0 top-[42%] -translate-y-1/2 z-30 flex flex-col items-center pointer-events-none transition-all duration-1000 ease-out px-6",
+          showSection ? "opacity-100 translate-y-[-60%]" : "opacity-0 translate-y-[-30%]"
         )}>
           <div className="flex flex-col items-center w-full max-w-2xl">
-            {/* Logos - Closer to heading */}
-            <div className="w-full h-[18vh] overflow-visible mb-[-2rem]">
+            {/* Logos - Positioned above heading */}
+            <div className="w-full h-[18vh] overflow-visible mb-[-1rem]">
               <svg 
                 className="w-full h-full overflow-visible" 
                 viewBox="0 0 1000 300" 
@@ -170,7 +170,7 @@ export function VideoHero() {
                       className="transition-all duration-700 ease-out"
                       style={{ 
                         opacity: showSection ? 1 : 0,
-                        transform: showSection ? 'translate(0, 0)' : 'translate(0, 10px)'
+                        transitionDelay: `${index * 40}ms`
                       }}
                     >
                       <circle 
@@ -203,12 +203,12 @@ export function VideoHero() {
               </svg>
             </div>
 
-            {/* Heading and Body Text */}
+            {/* Heading and Body Text - Center aligned and bolder */}
             <div className="flex flex-col items-center text-center">
-              <h2 className="text-xs md:text-sm font-bold text-black tracking-tight leading-[1.1] mb-1">
+              <h2 className="text-sm md:text-base font-bold text-black tracking-tight leading-[1.1] mb-2 uppercase">
                 Powered by Morpho
               </h2>
-              <p className="text-[8px] text-black/40 max-w-[280px] leading-relaxed font-semibold uppercase tracking-[0.15em]">
+              <p className="text-[10px] md:text-[11px] text-black/40 max-w-[320px] leading-relaxed font-semibold uppercase tracking-[0.2em]">
                 Enterprises that connect with Morpho to power lending or borrowing at scale
               </p>
             </div>
