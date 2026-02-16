@@ -158,11 +158,11 @@ export function VideoHero() {
           showSection ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
         )}>
           <div className="flex flex-col items-center w-full max-w-3xl">
-            <div className="w-full max-w-2xl overflow-visible mb-0 min-h-[22vh] flex items-center justify-center">
+            <div className="w-full max-w-lg overflow-visible mb-0 min-h-[18vh] flex items-center justify-center">
               {animationData && (
                 <Lottie 
                   animationData={animationData} 
-                  loop={true} 
+                  loop={false} 
                   className="w-full h-full"
                 />
               )}
