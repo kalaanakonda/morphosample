@@ -10,7 +10,7 @@ export default function Home() {
       <section className="relative z-10 py-24 px-6 md:px-12 max-w-7xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
           <div>
-            <h2 className="text-2xl md:text-3xl font-black mb-6 font-headline tracking-tight uppercase">
+            <h2 className="text-xl md:text-2xl font-black mb-6 font-headline tracking-tight uppercase">
               Designed for <br /><span className="text-accent">Precision</span>
             </h2>
             <p className="text-muted-foreground text-sm leading-relaxed mb-8">
@@ -48,7 +48,7 @@ export default function Home() {
       </section>
 
       <footer className="py-12 px-6 border-t border-white/5 text-center">
-        <p className="text-xs text-muted-foreground">
+        <p className="text-[10px] text-muted-foreground">
           © {new Date().getFullYear()} ScrollPlay Interactive. All rights reserved.
         </p>
       </footer>
