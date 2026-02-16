@@ -34,17 +34,16 @@ const RAW_POINTS = [
 ];
 
 const CIRCLES = RAW_POINTS.map((point, i) => {
-  // Symmetrical horizontal scatter direction
   const xDir = point.x < 500 ? -1 : 1;
   const spreadFactor = Math.abs(500 - point.x) / 250;
   
   return {
     ...point,
     logoUrl: LOGOS[i % LOGOS.length],
-    revealDelay: i * 80, // Staggered reveal
-    exitDelay: (RAW_POINTS.length - i) * 60, // Staggered exit
-    scatterSpeedY: 0.8 + Math.random() * 0.4,
-    scatterSpeedX: xDir * (0.5 + spreadFactor),
+    revealDelay: i * 40, // Reduced delay for a simpler, faster reveal
+    exitDelay: (RAW_POINTS.length - i) * 30,
+    scatterSpeedY: 0.6 + Math.random() * 0.3,
+    scatterSpeedX: xDir * (0.4 + spreadFactor),
   };
 });
 
@@ -82,10 +81,9 @@ export function VideoHero() {
             video2Ref.current.currentTime = 0;
             video2Ref.current.play().catch(() => {});
           }
-          // Logos reveal first
-          setTimeout(() => setShowNetwork(true), 300);
-          // Text reveals slightly later
-          setTimeout(() => setShowText(true), 1000);
+          // Logos and text reveal together with a slight offset for a "simple" upward motion
+          setTimeout(() => setShowNetwork(true), 200);
+          setTimeout(() => setShowText(true), 400);
         }
       } else {
         if (hasScrolled) {
@@ -110,8 +108,8 @@ export function VideoHero() {
   const scatterProgress = Math.max(0, scrollY - scatterStart);
   
   // Parallax calculation
-  const parallaxX = (mousePos.x - 0.5) * 20;
-  const parallaxY = (mousePos.y - 0.5) * 20;
+  const parallaxX = (mousePos.x - 0.5) * 15;
+  const parallaxY = (mousePos.y - 0.5) * 15;
 
   return (
     <div className="relative h-[250vh] bg-[#F9F9F9]">
@@ -151,7 +149,7 @@ export function VideoHero() {
           "relative z-10 text-center max-w-4xl flex flex-col items-center transition-all duration-1000 ease-in-out pointer-events-none",
           hasScrolled ? "-translate-y-64 opacity-0 scale-90" : "translate-y-0 opacity-100 scale-100"
         )}>
-          <h1 className="text-4xl md:text-7xl font-bold text-black tracking-tighter leading-[1.01] mb-8">
+          <h1 className="text-3xl md:text-6xl font-bold text-black tracking-tighter leading-[1.01] mb-8">
             Connect to the universal <br className="hidden md:block" /> lending network.
           </h1>
           <p className="text-base md:text-lg text-black/60 max-w-lg mb-12 leading-relaxed font-medium">
@@ -168,12 +166,12 @@ export function VideoHero() {
           </div>
         </div>
 
-        {/* Powered by Morpho Section - Positioned lower than logos */}
+        {/* Powered by Morpho Section */}
         <div className={cn(
           "absolute inset-0 z-30 flex flex-col items-center justify-center pointer-events-none transition-all duration-1000 cubic-bezier(0.23, 1, 0.32, 1) px-6 text-center",
-          showText ? "opacity-100 translate-y-12" : "opacity-0 translate-y-20"
+          showText ? "opacity-100 translate-y-12" : "opacity-0 translate-y-32"
         )}>
-          <h2 className="text-4xl md:text-6xl font-bold text-black tracking-tight leading-[1.1] mb-5">
+          <h2 className="text-3xl md:text-5xl font-bold text-black tracking-tight leading-[1.1] mb-5">
             Powered by Morpho
           </h2>
           <p className="text-sm md:text-base text-black/40 max-w-lg leading-relaxed font-medium">
@@ -181,7 +179,7 @@ export function VideoHero() {
           </p>
         </div>
 
-        {/* Network Circles - 2 Rows, Above Text */}
+        {/* Network Circles */}
         <div className={cn(
           "absolute inset-0 z-20 flex items-center justify-center pointer-events-none transition-all duration-1000",
           showNetwork ? "opacity-100" : "opacity-0 translate-y-12"
@@ -207,7 +205,7 @@ export function VideoHero() {
                 return (
                   <g 
                     key={index}
-                    className="transition-all duration-[1500ms] cubic-bezier(0.23, 1, 0.32, 1) transform-gpu"
+                    className="transition-all duration-[1200ms] cubic-bezier(0.23, 1, 0.32, 1) transform-gpu"
                     style={{ 
                       opacity: showNetwork ? opacity : 0,
                       transitionDelay: isScattering 
