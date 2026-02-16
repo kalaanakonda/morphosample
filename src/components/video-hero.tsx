@@ -25,11 +25,10 @@ const LOGOS = [
   "https://play-lh.googleusercontent.com/jrC7NQ6QGyEXLhzT5IkDNoCpB9Unj8Men9NibldAW1mKHPH6vaouBLOk6mNkFjAt7vlG"
 ];
 
-// Re-calculated points for larger logos (radius 22)
 const RAW_POINTS = [
-  // Row 1 - 6 logos
+  // Row 1
   { x: 280, y: 120 }, { x: 370, y: 120 }, { x: 460, y: 120 }, { x: 550, y: 120 }, { x: 640, y: 120 }, { x: 730, y: 120 },
-  // Row 2 - 5 logos
+  // Row 2
   { x: 325, y: 200 }, { x: 415, y: 200 }, { x: 505, y: 200 }, { x: 595, y: 200 }, { x: 685, y: 200 }
 ];
 
@@ -60,7 +59,7 @@ export function VideoHero() {
   useEffect(() => {
     const handleScroll = () => {
       const currentScroll = window.scrollY;
-      const revealThreshold = 60; 
+      const revealThreshold = 40; 
 
       if (currentScroll > revealThreshold) {
         if (!hasScrolled) {
@@ -87,17 +86,15 @@ export function VideoHero() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [hasScrolled]);
 
-  // Increased reactivity multiplier
-  const parallaxX = (mousePos.x - 0.5) * 15;
-  const parallaxY = (mousePos.y - 0.5) * 15;
+  const parallaxX = (mousePos.x - 0.5) * 35;
+  const parallaxY = (mousePos.y - 0.5) * 35;
 
   return (
     <div className="relative h-[200vh] bg-[#F9F9F9]">
       <section className="sticky top-0 w-full h-screen flex flex-col items-center justify-start pt-32 px-6 overflow-hidden">
-        {/* Background Videos with parallax */}
         <div 
-          className="absolute inset-0 z-0 pointer-events-none transition-transform duration-500 ease-out"
-          style={{ transform: `translate(${parallaxX}px, ${parallaxY}px) scale(1.05)` }}
+          className="absolute inset-0 z-0 pointer-events-none transition-transform duration-700 ease-out"
+          style={{ transform: `translate(${parallaxX}px, ${parallaxY}px) scale(1.1)` }}
         >
           <video
             ref={video1Ref}
@@ -124,10 +121,9 @@ export function VideoHero() {
           />
         </div>
 
-        {/* Main Hero Content */}
         <div className={cn(
           "relative z-10 text-center max-w-4xl flex flex-col items-center transition-all duration-1000 ease-in-out pointer-events-none",
-          hasScrolled ? "-translate-y-48 opacity-0 scale-95" : "translate-y-0 opacity-100 scale-100"
+          hasScrolled ? "-translate-y-64 opacity-0 scale-90" : "translate-y-0 opacity-100 scale-100"
         )}>
           <h1 className="text-3xl md:text-5xl font-bold text-black tracking-tighter leading-[1.1] mb-6">
             Connect to the universal <br className="hidden md:block" /> lending network.
@@ -137,23 +133,21 @@ export function VideoHero() {
           </p>
           
           <div className="flex gap-3 pointer-events-auto">
-            <button className="bg-black text-white px-8 py-3 rounded-full font-bold hover:bg-black/90 transition-all text-xs tracking-wide shadow-md">
-              Launch App
+            <button className="bg-black text-white px-8 py-3 rounded-full font-bold hover:bg-black/90 transition-all text-xs shadow-md">
+              Launch app
             </button>
-            <button className="bg-white/90 backdrop-blur-md text-black border border-black/[0.05] px-8 py-3 rounded-full font-bold hover:bg-white transition-all text-xs tracking-wide shadow-sm">
+            <button className="bg-white/90 backdrop-blur-md text-black border border-black/[0.05] px-8 py-3 rounded-full font-bold hover:bg-white transition-all text-xs shadow-sm">
               Talk to us
             </button>
           </div>
         </div>
 
-        {/* Powered by Morpho Section - Centered and higher */}
         <div className={cn(
-          "absolute inset-x-0 top-[30%] -translate-y-1/2 z-30 flex flex-col items-center pointer-events-none transition-all duration-1000 ease-out px-6",
+          "absolute inset-x-0 top-[22%] -translate-y-1/2 z-30 flex flex-col items-center pointer-events-none transition-all duration-1000 ease-out px-6",
           showSection ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
         )}>
           <div className="flex flex-col items-center w-full max-w-3xl">
-            {/* Logos Grid */}
-            <div className="w-full h-[22vh] overflow-visible mb-2">
+            <div className="w-full h-[25vh] overflow-visible mb-1">
               <svg 
                 className="w-full h-full overflow-visible" 
                 viewBox="0 0 1000 300" 
@@ -162,7 +156,7 @@ export function VideoHero() {
                 <defs>
                   {CIRCLES.map((_, i) => (
                     <clipPath key={`clip-${i}`} id={`clip-${i}`}>
-                      <circle cx={CIRCLES[i].x} cy={CIRCLES[i].y} r="22" />
+                      <circle cx={CIRCLES[i].x} cy={CIRCLES[i].y} r="24" />
                     </clipPath>
                   ))}
                 </defs>
@@ -173,31 +167,31 @@ export function VideoHero() {
                       className="transition-all duration-700 ease-out"
                       style={{ 
                         opacity: showSection ? 1 : 0,
-                        transitionDelay: `${index * 30}ms`
+                        transitionDelay: `${index * 40}ms`
                       }}
                     >
                       <circle 
                         cx={circle.x} 
                         cy={circle.y} 
-                        r="22" 
+                        r="24" 
                         fill="white"
                         className="drop-shadow-sm"
                       />
                       <image 
                         href={circle.logoUrl}
-                        x={circle.x - 15}
-                        y={circle.y - 15}
-                        height="30"
-                        width="30"
+                        x={circle.x - 16}
+                        y={circle.y - 16}
+                        height="32"
+                        width="32"
                         clipPath={`url(#clip-${index})`}
                       />
                       <circle 
                         cx={circle.x} 
                         cy={circle.y} 
-                        r="22" 
+                        r="24" 
                         fill="none"
                         stroke="black"
-                        strokeOpacity="0.03"
+                        strokeOpacity="0.04"
                         strokeWidth="1"
                       />
                     </g>
@@ -206,19 +200,17 @@ export function VideoHero() {
               </svg>
             </div>
 
-            {/* Content Unit */}
-            <div className="flex flex-col items-center text-center">
-              <h2 className="text-lg md:text-xl font-bold text-black tracking-tight leading-[1.1] mb-3">
+            <div className="flex flex-col items-center text-center mt-[-20px]">
+              <h2 className="text-xl md:text-2xl font-bold text-black tracking-tight leading-[1.1] mb-3">
                 Powered by Morpho
               </h2>
-              <p className="text-xs md:text-sm text-black/40 max-w-[400px] leading-relaxed font-semibold tracking-wide">
+              <p className="text-xs md:text-sm text-black/50 max-w-[400px] leading-relaxed font-semibold">
                 Enterprises that connect with Morpho to power lending or borrowing at scale
               </p>
             </div>
           </div>
         </div>
 
-        {/* Bottom Fade */}
         <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#F9F9F9] to-transparent pointer-events-none z-10"></div>
       </section>
     </div>

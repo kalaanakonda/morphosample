@@ -46,7 +46,7 @@ export function Navbar() {
           Talk to us
         </button>
         <button className="bg-black hover:bg-black/80 text-white px-5 py-2 rounded-full text-xs font-semibold transition-all shadow-sm">
-          Launch App
+          Launch app
         </button>
       </div>
     </nav>
