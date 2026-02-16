@@ -1,4 +1,3 @@
-
 import { VideoHero } from '@/components/video-hero';
 import { Navbar } from '@/components/navbar';
 
@@ -11,7 +10,7 @@ export default function Home() {
       <section className="relative z-10 py-24 px-6 md:px-12 max-w-7xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
           <div>
-            <h2 className="text-2xl md:text-3xl font-black mb-6 font-headline tracking-tight">
+            <h2 className="text-2xl md:text-3xl font-black mb-6 font-headline tracking-tight text-primary">
               Designed for <br /><span className="text-accent">precision</span>
             </h2>
             <p className="text-muted-foreground text-sm md:text-base leading-relaxed mb-8">
@@ -20,10 +19,10 @@ export default function Home() {
               immersive digital environments that respond to user presence.
             </p>
             <div className="flex gap-4">
-              <button className="bg-primary hover:bg-primary/80 text-white px-6 py-2.5 rounded-full text-xs font-bold transition-all border border-white/5">
+              <button className="bg-primary hover:opacity-90 text-primary-foreground px-6 py-2.5 rounded-full text-xs font-bold transition-all">
                 Learn more
               </button>
-              <button className="bg-accent hover:bg-accent/90 text-accent-foreground px-6 py-2.5 rounded-full text-xs font-bold transition-all shadow-lg">
+              <button className="bg-accent hover:opacity-90 text-accent-foreground px-6 py-2.5 rounded-full text-xs font-bold transition-all shadow-lg">
                 View gallery
               </button>
             </div>
@@ -48,7 +47,7 @@ export default function Home() {
         </div>
       </section>
 
-      <footer className="py-12 px-6 border-t border-white/5 text-center">
+      <footer className="py-12 px-6 border-t border-primary/5 text-center">
         <p className="text-[10px] text-muted-foreground">
           © {new Date().getFullYear()} Morpho lending network. All rights reserved.
         </p>

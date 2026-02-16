@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useEffect, useRef, useState } from 'react';
@@ -92,15 +91,15 @@ export function VideoHero() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [hasScrolled]);
 
-  const parallaxX = (mousePos.x - 0.5) * 160;
-  const parallaxY = (mousePos.y - 0.5) * 160;
+  const parallaxX = (mousePos.x - 0.5) * 60;
+  const parallaxY = (mousePos.y - 0.5) * 60;
 
   return (
     <div className="relative h-[200vh] bg-[#F9F9F9]">
       <section className="sticky top-0 w-full h-screen flex flex-col items-center justify-start pt-32 px-6 overflow-hidden">
         <div 
           className="absolute inset-0 z-0 pointer-events-none transition-transform duration-700 ease-out"
-          style={{ transform: `translate(${parallaxX}px, ${parallaxY}px) scale(1.2)` }}
+          style={{ transform: `translate(${parallaxX}px, ${parallaxY}px) scale(1.1)` }}
         >
           <video
             ref={video1Ref}
@@ -132,12 +131,12 @@ export function VideoHero() {
           hasScrolled ? "opacity-0 -translate-x-10" : "opacity-[0.15] translate-x-0"
         )}>
           <div>
-            <p className="text-[10px] font-bold text-black mb-1 tracking-tight">Deposits</p>
-            <p className="text-lg md:text-xl font-medium text-black tracking-tighter">$9,112,320,603</p>
+            <p className="text-[10px] font-bold text-primary mb-1 tracking-tight">Deposits</p>
+            <p className="text-lg md:text-xl font-medium text-primary tracking-tighter">$9,112,320,603</p>
           </div>
           <div>
-            <p className="text-[10px] font-bold text-black mb-1 tracking-tight">Loans</p>
-            <p className="text-lg md:text-xl font-medium text-black tracking-tighter">$3,291,165,751</p>
+            <p className="text-[10px] font-bold text-primary mb-1 tracking-tight">Loans</p>
+            <p className="text-lg md:text-xl font-medium text-primary tracking-tighter">$3,291,165,751</p>
           </div>
         </div>
 
@@ -145,26 +144,26 @@ export function VideoHero() {
           "absolute bottom-12 right-8 md:right-12 z-30 flex items-center gap-4 transition-all duration-700 ease-out pointer-events-none",
           hasScrolled ? "opacity-0 translate-x-10" : "opacity-[0.15] translate-x-0"
         )}>
-          <span className="text-[10px] font-bold text-black tracking-tight">Scroll to explore</span>
-          <div className="w-px h-8 bg-black/5" />
+          <span className="text-[10px] font-bold text-primary tracking-tight">Scroll to explore</span>
+          <div className="w-px h-8 bg-primary/5" />
         </div>
 
         <div className={cn(
           "relative z-10 text-center max-w-4xl flex flex-col items-center transition-all duration-1000 ease-in-out pointer-events-none mt-12",
           hasScrolled ? "-translate-y-64 opacity-0 scale-90" : "translate-y-0 opacity-100 scale-100"
         )}>
-          <h1 className="text-3xl md:text-5xl font-bold text-black tracking-tighter leading-[1.1] mb-6">
+          <h1 className="text-3xl md:text-5xl font-bold text-primary tracking-tighter leading-[1.1] mb-6">
             Connect to the universal <br className="hidden md:block" /> lending network.
           </h1>
-          <p className="text-sm md:text-base text-black/60 max-w-lg mb-10 leading-relaxed font-medium">
+          <p className="text-sm md:text-base text-primary/60 max-w-lg mb-10 leading-relaxed font-medium">
             Access global liquidity at the best possible terms powered by open infrastructure.
           </p>
           
           <div className="flex gap-3 pointer-events-auto">
-            <button className="bg-black text-white px-8 py-3 rounded-full font-bold hover:bg-black/90 transition-all text-xs shadow-md">
+            <button className="bg-accent text-accent-foreground px-8 py-3 rounded-full font-bold hover:opacity-90 transition-all text-xs shadow-md">
               Launch app
             </button>
-            <button className="bg-white/90 backdrop-blur-md text-black border border-black/[0.05] px-8 py-3 rounded-full font-bold hover:bg-white transition-all text-xs shadow-sm">
+            <button className="bg-white/90 backdrop-blur-md text-primary border border-primary/[0.05] px-8 py-3 rounded-full font-bold hover:bg-white transition-all text-xs shadow-sm">
               Talk to us
             </button>
           </div>
@@ -214,7 +213,7 @@ export function VideoHero() {
                         cy={circle.y} 
                         r="26" 
                         fill="none"
-                        stroke="black"
+                        stroke="#15181A"
                         strokeOpacity="0.04"
                         strokeWidth="1"
                       />
@@ -224,11 +223,11 @@ export function VideoHero() {
               </svg>
             </div>
 
-            <div className="flex flex-col items-center text-center mt-6 md:mt-8">
-              <h2 className="text-xl md:text-2xl font-bold text-black tracking-tight leading-[1.1] mb-3">
+            <div className="flex flex-col items-center text-center mt-24">
+              <h2 className="text-xl md:text-2xl font-bold text-primary tracking-tight leading-[1.1] mb-3">
                 Powered by Morpho
               </h2>
-              <p className="text-xs md:text-sm text-black/50 max-w-[400px] leading-relaxed font-semibold">
+              <p className="text-xs md:text-sm text-primary/50 max-w-[400px] leading-relaxed font-semibold">
                 Enterprises that connect with Morpho to power lending or borrowing at scale
               </p>
             </div>
