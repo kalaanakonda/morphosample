@@ -22,7 +22,11 @@ const LOGOS = [
   "https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/coinbase-logo-icon.png",
   "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR-IVIyim1hmDBpx97RslB9FvyUNKHk_liy2A&s",
   "https://play-lh.googleusercontent.com/94WeEFfCBINrvpKxGB4YjR6-yau-aCx4PZVivlDDFbdPOajiwJ-E7ew3gC9WfsYiHmfvwFRfQATzPOBKzJGQIA=w240-h480-rw",
-  "https://play-lh.googleusercontent.com/jrC7NQ6QGyEXLhzT5IkDNoCpB9Unj8Men9NibldAW1mKHPH6vaouBLOk6mNkFjAt7vlG"
+  "https://play-lh.googleusercontent.com/jrC7NQ6QGyEXLhzT5IkDNoCpB9Unj8Men9NibldAW1mKHPH6vaouBLOk6mNkFjAt7vlG",
+  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR2ai9aTxuvIhVwDAFnPv0fETRIN2llX-9QgQ&s",
+  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRH6IP0y4AqjwJt64nQi8oIE34XkyEBGmI8Xg&s",
+  "https://cdn.morpho.org/v2/assets/images/steakhouse.svg",
+  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDvbfIPn8QRKmiczb0RgL2FAOeMt29sbLV-w&s"
 ];
 
 const RAW_POINTS = [
@@ -125,12 +129,12 @@ export function VideoHero() {
           hasScrolled ? "opacity-0 -translate-x-10" : "opacity-100 translate-x-0"
         )}>
           <div>
-            <p className="text-[10px] font-bold text-black/40 mb-1 uppercase tracking-widest">Deposits</p>
-            <p className="text-xl md:text-2xl font-bold text-black tracking-tighter">$9,112,320,603</p>
+            <p className="text-[10px] font-bold text-black/20 mb-1 tracking-widest">Deposits</p>
+            <p className="text-lg md:text-xl font-medium text-black/40 tracking-tighter">$9,112,320,603</p>
           </div>
           <div>
-            <p className="text-[10px] font-bold text-black/40 mb-1 uppercase tracking-widest">Loans</p>
-            <p className="text-xl md:text-2xl font-bold text-black tracking-tighter">$3,291,165,751</p>
+            <p className="text-[10px] font-bold text-black/20 mb-1 tracking-widest">Loans</p>
+            <p className="text-lg md:text-xl font-medium text-black/40 tracking-tighter">$3,291,165,751</p>
           </div>
         </div>
 
@@ -139,8 +143,8 @@ export function VideoHero() {
           "absolute bottom-12 right-8 md:right-12 z-30 flex items-center gap-4 transition-all duration-700 ease-out pointer-events-none",
           hasScrolled ? "opacity-0 translate-x-10" : "opacity-100 translate-x-0"
         )}>
-          <span className="text-[10px] font-bold text-black/40 uppercase tracking-widest">Scroll to explore</span>
-          <div className="w-px h-8 bg-black/10" />
+          <span className="text-[10px] font-bold text-black/20 tracking-widest">Scroll to explore</span>
+          <div className="w-px h-8 bg-black/5" />
         </div>
 
         <div className={cn(
@@ -164,11 +168,13 @@ export function VideoHero() {
           </div>
         </div>
 
+        {/* Powered by Morpho Section - Positioned High */}
         <div className={cn(
           "absolute inset-x-0 top-[4%] z-30 flex flex-col items-center pointer-events-none transition-all duration-1000 ease-out px-6",
           showSection ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
         )}>
           <div className="flex flex-col items-center w-full max-w-3xl">
+            {/* Logos Component */}
             <div className="w-full h-[22vh] overflow-visible mb-0">
               <svg 
                 className="w-full h-full overflow-visible" 
@@ -218,6 +224,7 @@ export function VideoHero() {
               </svg>
             </div>
 
+            {/* Heading Component - Positioned Closer to Logos */}
             <div className="flex flex-col items-center text-center mt-[-35px]">
               <h2 className="text-xl md:text-2xl font-bold text-black tracking-tight leading-[1.1] mb-3">
                 Powered by Morpho
