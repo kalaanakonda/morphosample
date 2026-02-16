@@ -73,13 +73,10 @@ export function VideoHero() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [hasScrolled]);
 
-  // Force blue tint via grayscale + sepia + hue-rotate
-  const videoFilterClass = "filter grayscale-[100%] sepia-[100%] hue-rotate-[190deg] saturate-[6] brightness-[0.75] contrast-[1.1]";
-
   return (
     <div className="relative h-[200vh] bg-[#F9F9F9]">
       <section className="sticky top-0 w-full h-screen flex flex-col items-center justify-start pt-32 px-6 overflow-hidden">
-        {/* Background Videos with Blue Hue Shift */}
+        {/* Background Videos - Filters Removed */}
         <div className="absolute inset-0 z-0 pointer-events-none">
           <video
             ref={video1Ref}
@@ -90,7 +87,6 @@ export function VideoHero() {
             playsInline
             className={cn(
               "absolute inset-0 w-full h-full object-cover transition-opacity duration-1000",
-              videoFilterClass,
               hasScrolled ? "opacity-0" : "opacity-100"
             )}
           />
@@ -102,13 +98,12 @@ export function VideoHero() {
             playsInline
             className={cn(
               "absolute inset-0 w-full h-full object-cover transition-opacity duration-1000",
-              videoFilterClass,
               hasScrolled ? "opacity-100" : "opacity-0"
             )}
           />
         </div>
 
-        {/* Hero Content - Reduced sizes for ultra-minimal feel */}
+        {/* Hero Content */}
         <div className={cn(
           "relative z-10 text-center max-w-2xl flex flex-col items-center transition-all duration-700 ease-out pointer-events-none",
           hasScrolled ? "-translate-y-48 opacity-0 scale-95" : "translate-y-0 opacity-100 scale-100"
