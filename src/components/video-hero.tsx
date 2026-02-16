@@ -25,11 +25,8 @@ const LOGOS = [
   "https://play-lh.googleusercontent.com/jrC7NQ6QGyEXLhzT5IkDNoCpB9Unj8Men9NibldAW1mKHPH6vaouBLOk6mNkFjAt7vlG"
 ];
 
-// Re-arranged for two clean rows
 const RAW_POINTS = [
-  // Row 1
   { x: 300, y: 120 }, { x: 380, y: 120 }, { x: 460, y: 120 }, { x: 540, y: 120 }, { x: 620, y: 120 }, { x: 700, y: 120 },
-  // Row 2
   { x: 340, y: 200 }, { x: 420, y: 200 }, { x: 500, y: 200 }, { x: 580, y: 200 }, { x: 660, y: 200 }
 ];
 
@@ -87,15 +84,15 @@ export function VideoHero() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [hasScrolled]);
 
-  const parallaxX = (mousePos.x - 0.5) * 80;
-  const parallaxY = (mousePos.y - 0.5) * 80;
+  const parallaxX = (mousePos.x - 0.5) * 120;
+  const parallaxY = (mousePos.y - 0.5) * 120;
 
   return (
     <div className="relative h-[200vh] bg-[#F9F9F9]">
       <section className="sticky top-0 w-full h-screen flex flex-col items-center justify-start pt-32 px-6 overflow-hidden">
         <div 
           className="absolute inset-0 z-0 pointer-events-none transition-transform duration-700 ease-out"
-          style={{ transform: `translate(${parallaxX}px, ${parallaxY}px) scale(1.15)` }}
+          style={{ transform: `translate(${parallaxX}px, ${parallaxY}px) scale(1.2)` }}
         >
           <video
             ref={video1Ref}
@@ -122,8 +119,32 @@ export function VideoHero() {
           />
         </div>
 
+        {/* Network Stats - Bottom Left */}
         <div className={cn(
-          "relative z-10 text-center max-w-4xl flex flex-col items-center transition-all duration-1000 ease-in-out pointer-events-none",
+          "absolute bottom-12 left-8 md:left-12 z-30 flex flex-col gap-6 transition-all duration-700 ease-out pointer-events-none",
+          hasScrolled ? "opacity-0 -translate-x-10" : "opacity-100 translate-x-0"
+        )}>
+          <div>
+            <p className="text-[10px] font-bold text-black/40 mb-1 uppercase tracking-widest">Deposits</p>
+            <p className="text-xl md:text-2xl font-bold text-black tracking-tighter">$9,112,320,603</p>
+          </div>
+          <div>
+            <p className="text-[10px] font-bold text-black/40 mb-1 uppercase tracking-widest">Loans</p>
+            <p className="text-xl md:text-2xl font-bold text-black tracking-tighter">$3,291,165,751</p>
+          </div>
+        </div>
+
+        {/* Scroll to Explore - Bottom Right */}
+        <div className={cn(
+          "absolute bottom-12 right-8 md:right-12 z-30 flex items-center gap-4 transition-all duration-700 ease-out pointer-events-none",
+          hasScrolled ? "opacity-0 translate-x-10" : "opacity-100 translate-x-0"
+        )}>
+          <span className="text-[10px] font-bold text-black/40 uppercase tracking-widest">Scroll to explore</span>
+          <div className="w-px h-8 bg-black/10" />
+        </div>
+
+        <div className={cn(
+          "relative z-10 text-center max-w-4xl flex flex-col items-center transition-all duration-1000 ease-in-out pointer-events-none mt-12",
           hasScrolled ? "-translate-y-64 opacity-0 scale-90" : "translate-y-0 opacity-100 scale-100"
         )}>
           <h1 className="text-3xl md:text-5xl font-bold text-black tracking-tighter leading-[1.1] mb-6">
@@ -143,13 +164,12 @@ export function VideoHero() {
           </div>
         </div>
 
-        {/* Moved significantly higher to top-[10%] */}
         <div className={cn(
-          "absolute inset-x-0 top-[10%] -translate-y-1/2 z-30 flex flex-col items-center pointer-events-none transition-all duration-1000 ease-out px-6",
+          "absolute inset-x-0 top-[4%] z-30 flex flex-col items-center pointer-events-none transition-all duration-1000 ease-out px-6",
           showSection ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
         )}>
           <div className="flex flex-col items-center w-full max-w-3xl">
-            <div className="w-full h-[25vh] overflow-visible mb-1">
+            <div className="w-full h-[22vh] overflow-visible mb-0">
               <svg 
                 className="w-full h-full overflow-visible" 
                 viewBox="0 0 1000 300" 
@@ -198,7 +218,7 @@ export function VideoHero() {
               </svg>
             </div>
 
-            <div className="flex flex-col items-center text-center mt-[-30px]">
+            <div className="flex flex-col items-center text-center mt-[-35px]">
               <h2 className="text-xl md:text-2xl font-bold text-black tracking-tight leading-[1.1] mb-3">
                 Powered by Morpho
               </h2>
