@@ -32,7 +32,7 @@ const RAW_POINTS = [
 const CIRCLES = RAW_POINTS.map((point, i) => ({
   ...point,
   logoUrl: LOGOS[i],
-  revealDelay: point.row * 100, // Reduced stagger for a faster, cleaner feel
+  revealDelay: point.row * 100, 
 }));
 
 export function VideoHero() {
@@ -54,7 +54,6 @@ export function VideoHero() {
             video2Ref.current.currentTime = 0;
             video2Ref.current.play().catch(() => {});
           }
-          // Simple delay before showing logos
           setTimeout(() => setShowNetwork(true), 600);
         }
       } else {
@@ -77,7 +76,7 @@ export function VideoHero() {
   return (
     <div className="relative h-[200vh] bg-[#F9F9F9]">
       <section className="sticky top-0 w-full h-screen flex flex-col items-center justify-start pt-24 px-6 overflow-hidden">
-        {/* Background Videos - Entirely behind content */}
+        {/* Background Videos with Blue Hue Shift and Increased Saturation */}
         <div className="absolute inset-0 z-0 pointer-events-none">
           <video
             ref={video1Ref}
@@ -88,6 +87,7 @@ export function VideoHero() {
             playsInline
             className={cn(
               "absolute inset-0 w-full h-full object-cover transition-opacity duration-1000",
+              "filter hue-rotate-[190deg] saturate-[1.8]",
               hasScrolled ? "opacity-0" : "opacity-100"
             )}
           />
@@ -99,12 +99,13 @@ export function VideoHero() {
             playsInline
             className={cn(
               "absolute inset-0 w-full h-full object-cover transition-opacity duration-1000",
+              "filter hue-rotate-[190deg] saturate-[1.8]",
               hasScrolled ? "opacity-100" : "opacity-0"
             )}
           />
         </div>
 
-        {/* Hero Content - Higher position, smaller typography */}
+        {/* Hero Content */}
         <div className={cn(
           "relative z-10 text-center max-w-2xl flex flex-col items-center transition-all duration-700 ease-out pointer-events-none",
           hasScrolled ? "-translate-y-48 opacity-0 scale-95" : "translate-y-0 opacity-100 scale-100"
@@ -126,7 +127,7 @@ export function VideoHero() {
           </div>
         </div>
 
-        {/* Network Visualization - Positioned higher */}
+        {/* Network Visualization */}
         <div className={cn(
           "absolute inset-0 z-20 flex items-center justify-center pointer-events-none transition-all duration-1000 ease-out",
           showNetwork ? "opacity-100 translate-y-[-15%]" : "opacity-0 translate-y-10"
@@ -152,7 +153,6 @@ export function VideoHero() {
                   }}
                 >
                   <g className="hover:scale-105 transition-transform duration-300 cursor-pointer">
-                    {/* Outer circle container */}
                     <circle 
                       cx={circle.x} 
                       cy={circle.y} 
@@ -160,7 +160,6 @@ export function VideoHero() {
                       fill="white"
                       className="drop-shadow-sm"
                     />
-                    {/* Logo Image */}
                     <image 
                       href={circle.logoUrl}
                       x={circle.x - 24}
@@ -169,7 +168,6 @@ export function VideoHero() {
                       width="48"
                       className="rounded-full"
                     />
-                    {/* Subtle boundary ring */}
                     <circle 
                       cx={circle.x} 
                       cy={circle.y} 
