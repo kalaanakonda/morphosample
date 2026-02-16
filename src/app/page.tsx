@@ -12,7 +12,7 @@ export default function Home() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
           <div>
             <h2 className="text-2xl md:text-3xl font-black mb-6 font-headline tracking-tight">
-              Designed for <br /><span className="text-accent">Precision</span>
+              Designed for <br /><span className="text-accent">precision</span>
             </h2>
             <p className="text-muted-foreground text-sm md:text-base leading-relaxed mb-8">
               ScrollPlay offers a unique interaction model where every gesture matters. 
