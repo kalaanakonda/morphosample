@@ -158,19 +158,23 @@ export function VideoHero() {
                 const joltRow = activeJolt ? Math.floor(activeJolt.index / 40) : -100;
                 
                 const distance = Math.sqrt(Math.pow(col - joltCol, 2) + Math.pow(row - joltRow, 2));
-                // Smaller radius (2.2) and hover-based trigger logic
-                const isJolting = activeJolt && distance < 2.2;
+                const maxRadius = 5.0; // Increased radius for signal travel
+                const isJolting = activeJolt && distance < maxRadius;
+                const isDirectlyUnder = distance === 0;
 
                 return (
                   <div 
                     key={i}
                     onMouseEnter={() => handleCellHover(i)}
                     className={cn(
-                      "border-[0.5px] border-primary/[0.015] aspect-square transition-all duration-75 pointer-events-auto",
-                      "hover:bg-primary/[0.015] hover:shadow-[inset_0_0_12px_rgba(41,115,255,0.04)]",
-                      isJolting && "animate-jolt"
+                      "border-[0.5px] border-primary/[0.012] aspect-square transition-all duration-75 pointer-events-auto",
+                      "hover:bg-primary/[0.015] hover:shadow-[inset_0_0_12px_rgba(21,24,26,0.03)]",
+                      isJolting && !isDirectlyUnder && "animate-jolt"
                     )}
-                    style={isJolting ? { animationDelay: `${distance * 30}ms` } : {}}
+                    style={isJolting && !isDirectlyUnder ? { 
+                      animationDelay: `${distance * 40}ms`,
+                      opacity: Math.max(0.1, 1 - (distance / maxRadius)) // Fade signal outwards
+                    } : {}}
                   />
                 );
               })}
