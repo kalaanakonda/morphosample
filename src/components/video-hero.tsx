@@ -87,9 +87,8 @@ export function VideoHero() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [hasScrolled]);
 
-  // Increased parallax reactivity
-  const parallaxX = (mousePos.x - 0.5) * 50;
-  const parallaxY = (mousePos.y - 0.5) * 50;
+  const parallaxX = (mousePos.x - 0.5) * 80;
+  const parallaxY = (mousePos.y - 0.5) * 80;
 
   return (
     <div className="relative h-[200vh] bg-[#F9F9F9]">
@@ -144,9 +143,9 @@ export function VideoHero() {
           </div>
         </div>
 
-        {/* This entire component is now much higher at top-[15%] */}
+        {/* Moved significantly higher to top-[10%] */}
         <div className={cn(
-          "absolute inset-x-0 top-[15%] -translate-y-1/2 z-30 flex flex-col items-center pointer-events-none transition-all duration-1000 ease-out px-6",
+          "absolute inset-x-0 top-[10%] -translate-y-1/2 z-30 flex flex-col items-center pointer-events-none transition-all duration-1000 ease-out px-6",
           showSection ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
         )}>
           <div className="flex flex-col items-center w-full max-w-3xl">
